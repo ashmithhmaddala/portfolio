@@ -49,35 +49,35 @@ const INFO = {
 				"A responsive personal portfolio built with HTML, CSS, and JavaScript, customized from an open-source template to showcase my projects, resume, and contact info.",
 			logo: "https://cdn.jsdelivr.net/npm/programming-languages-logos/src/html/html.png",
 			linkText: "View Project",
-			link: "https://github.com/ashmithhmaddala/responsive-portfolio-website-Ashmith",
+			link: "https://github.com/ashmithhmaddala/portfolio",
 		},
 	
-		{
-			title: "ML Model for Diabetes Prediction",
-			description:
-				"A supervised learning project using logistic regression and decision trees to predict diabetes risk based on patient health data. Built with Scikit-learn and Pandas.",
-			logo: "https://cdn.jsdelivr.net/npm/programming-languages-logos/src/python/python.png",
-			linkText: "View Project",
-			link: "https://github.com/ashmithhmaddala/Diabetes-Prediction-ML",
-		},
+		// {
+		// 	title: "ML Model for Diabetes Prediction",
+		// 	description:
+		// 		"A supervised learning project using logistic regression and decision trees to predict diabetes risk based on patient health data. Built with Scikit-learn and Pandas.",
+		// 	logo: "https://cdn.jsdelivr.net/npm/programming-languages-logos/src/python/python.png",
+		// 	linkText: "View Project",
+		// 	link: "https://github.com/ashmithhmaddala/Diabetes-Prediction-ML",
+		// },
 	
 		{
-			title: "Student Management System (MERN Stack)",
+			title: "Learnsmart Engineer",
 			description:
-				"Full-stack web application to manage student records, attendance, and academic data. Built using MongoDB, Express.js, React, and Node.js.",
+				"LearnSmart is an AI-powered web app that analyzes student learning patterns and recommends personalized skill improvements based on past performance.",
 			logo: "https://cdn.jsdelivr.net/npm/programming-languages-logos/src/javascript/javascript.png",
 			linkText: "View Project",
-			link: "https://github.com/ashmithhmaddala/Student-Management-System",
+			link: "https://github.com/ashmithhmaddala/learnsmart-engineer",
 		},
 	
-		{
-			title: "Weather App (API Integration)",
-			description:
-				"A JavaScript-based weather app that fetches real-time data using the OpenWeatherMap API and displays it with dynamic UI components.",
-			logo: "https://cdn.jsdelivr.net/npm/programming-languages-logos/src/javascript/javascript.png",
-			linkText: "View Project",
-			link: "https://github.com/ashmithhmaddala/Weather-App",
-		},
+		// {
+		// 	title: "Weather App (API Integration)",
+		// 	description:
+		// 		"A JavaScript-based weather app that fetches real-time data using the OpenWeatherMap API and displays it with dynamic UI components.",
+		// 	logo: "https://cdn.jsdelivr.net/npm/programming-languages-logos/src/javascript/javascript.png",
+		// 	linkText: "View Project",
+		// 	link: "https://github.com/ashmithhmaddala/Weather-App",
+		// },
 	],
 };
 
