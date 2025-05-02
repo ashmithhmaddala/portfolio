@@ -37,10 +37,10 @@ const INFO = {
 		{
 			title: "Crime Rate Prediction System",
 			description:
-				"Web app that predicts regional crime patterns using K-means clustering and visualizes them on interactive maps. Designed for law enforcement and urban planners.",
+				"This project is a machine learning-powered dashboard for predicting and analyzing theft crimes in Bengaluru using real-world-inspired datasets. It includes model training, interactive analytics, and a Streamlit web app with an interactive map.",
 			logo: "https://cdn.jsdelivr.net/npm/programming-languages-logos/src/python/python.png",
 			linkText: "View Project",
-			link: "https://github.com/ashmithhmaddala/Crime-Rate-Prediction-System",
+			link: "https://github.com/ashmithhmaddala/crime-rate-prediction",
 		},
 	
 		{
