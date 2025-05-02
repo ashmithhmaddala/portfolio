@@ -52,14 +52,14 @@ const INFO = {
 			link: "https://github.com/ashmithhmaddala/portfolio",
 		},
 	
-		// {
-		// 	title: "ML Model for Diabetes Prediction",
-		// 	description:
-		// 		"A supervised learning project using logistic regression and decision trees to predict diabetes risk based on patient health data. Built with Scikit-learn and Pandas.",
-		// 	logo: "https://cdn.jsdelivr.net/npm/programming-languages-logos/src/python/python.png",
-		// 	linkText: "View Project",
-		// 	link: "https://github.com/ashmithhmaddala/Diabetes-Prediction-ML",
-		// },
+		{
+			title: "Job Board Engineer",
+			description:
+				"A Flask web application to track job postings from top companies in India (Bangalore, Hyderabad, Mumbai) with user authentication, admin dashboard, and job management.",
+			logo: "https://cdn.jsdelivr.net/npm/programming-languages-logos/src/python/python.png",
+			linkText: "View Project",
+			link: "https://github.com/ashmithhmaddala/job-board-app",
+		},
 	
 		{
 			title: "Learnsmart Engineer",
