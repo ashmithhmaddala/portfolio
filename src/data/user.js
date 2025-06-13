@@ -42,7 +42,7 @@ const INFO = {
 			linkText: "View Project",
 			link: "https://github.com/ashmithhmaddala/crime-rate-prediction",
 		},
-	
+
 		{
 			title: "Portfolio Website",
 			description:
@@ -51,7 +51,7 @@ const INFO = {
 			linkText: "View Project",
 			link: "https://github.com/ashmithhmaddala/portfolio",
 		},
-	
+
 		{
 			title: "Job Board Engineer",
 			description:
@@ -60,7 +60,7 @@ const INFO = {
 			linkText: "View Project",
 			link: "https://github.com/ashmithhmaddala/job-board-app",
 		},
-	
+
 		{
 			title: "Learnsmart Engineer",
 			description:
@@ -69,7 +69,16 @@ const INFO = {
 			linkText: "View Project",
 			link: "https://github.com/ashmithhmaddala/learnsmart-engineer",
 		},
-	
+
+		{
+			title: "Python Chess Engine",
+			description:
+				"A Python-based chess engine implementing the Universal Chess Interface (UCI) protocol, featuring a basic minimax search algorithm and modular design. Built for learning and experimentation, it can play legal chess games against GUIs like Cute Chess or other engines.",
+			logo: "https://cdn.jsdelivr.net/npm/programming-languages-logos/src/python/python.png",
+			linkText: "View Project",
+			link: "https://github.com/ashmithhmaddala/python-chess-engine",
+		},
+
 		// {
 		// 	title: "Weather App (API Integration)",
 		// 	description:
