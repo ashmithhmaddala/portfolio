@@ -1,0 +1,48 @@
+@import "../../../data/styles.css";
+
+.project-filter-container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-bottom: 30px;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.filter-button {
+	padding: 14px 32px;
+	background-color: transparent;
+	color: var(--secondary-color);
+	border: 2px solid var(--tertiary-color);
+	border-radius: 6px;
+	font-size: 15px;
+	font-family: var(--primary-font);
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	letter-spacing: 0.3px;
+}
+
+.filter-button:hover {
+	color: var(--primary-color);
+	border-color: var(--primary-color);
+	transform: translateY(-2px);
+}
+
+.filter-button.active {
+	background-color: var(--primary-color);
+	color: var(--background-color);
+	border-color: var(--primary-color);
+}
+
+@media (max-width: 1024px) {
+	.project-filter-container {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.filter-button {
+		padding: 7px 16px;
+		font-size: 13px;
+	}
+}
