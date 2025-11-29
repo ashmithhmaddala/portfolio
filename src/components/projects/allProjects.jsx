@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import Project from "./project";
 import ProjectFilter from "./projectFilter";
+import useGitHubRepos from "../../hooks/useGitHubRepos";
 
 import INFO from "../../data/user";
 
@@ -9,8 +10,11 @@ import "./styles/allProjects.css";
 
 const AllProjects = () => {
 	const [activeFilter, setActiveFilter] = useState("All");
+	
+	// Fetch GitHub repos with fallback to manual projects
+	const { projects, loading, error } = useGitHubRepos(INFO.projects);
 
-	const filteredProjects = INFO.projects.filter((project) => {
+	const filteredProjects = projects.filter((project) => {
 		if (activeFilter === "All") return true;
 		return project.tags && project.tags.includes(activeFilter);
 	});
@@ -23,21 +27,37 @@ const AllProjects = () => {
 					Things I've built and worked on
 				</div>
 			</div>
-			<ProjectFilter
-				activeFilter={activeFilter}
-				onFilterChange={setActiveFilter}
-			/>
-			{filteredProjects.map((project, index) => (
-				<div className="all-projects-project" key={index}>
-					<Project
-						logo={project.logo}
-						title={project.title}
-						description={project.description}
-						linkText={project.linkText}
-						link={project.link}
-					/>
+			
+			{error && (
+				<div className="projects-error">
+					<p>⚠️ Unable to load projects from GitHub. Showing cached projects.</p>
 				</div>
-			))}
+			)}
+			
+			{loading ? (
+				<div className="projects-loading">
+					<div className="loading-spinner"></div>
+					<p>Loading projects from GitHub...</p>
+				</div>
+			) : (
+				<>
+					<ProjectFilter
+						activeFilter={activeFilter}
+						onFilterChange={setActiveFilter}
+					/>
+					{filteredProjects.map((project, index) => (
+						<div className="all-projects-project" key={index}>
+							<Project
+								logo={project.logo}
+								title={project.title}
+								description={project.description}
+								linkText={project.linkText}
+								link={project.link}
+							/>
+						</div>
+					))}
+				</>
+			)}
 		</div>
 	);
 };
