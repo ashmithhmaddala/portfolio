@@ -99,6 +99,8 @@
     search: "search <query>\nSearch across commands, projects, and topics in the terminal.",
     history: "history\nShow the latest commands entered in this session.",
     sudo: "sudo hire ashmith\nStart the interactive contact flow. Generic sudo just complains politely.",
+    ping: "ping [host]\nPing ashmith, ashmith.sec, or any pretend host you want to test.",
+    nmap: "nmap [host]\nScan Ashmith's fake attack surface with an optional host argument.",
     ssh: "ssh <host>\nFake SSH into Ashmith's corner of the internet. Public shell access is not included.",
     traceroute: "traceroute <host>\nTrace a route through caffeine, Wi-Fi, and curiosity.",
   };
@@ -151,8 +153,8 @@
   uptime        How long this site's been live
   uname         System info
   neofetch      System fetch
-  ping          Ping ashmith
-  nmap          Scan open ports
+  ping [host]   Ping ashmith
+  nmap [host]   Scan open ports
   vontier       Current internship snapshot
   bangalore     City status
   barca         Football allegiance check
@@ -551,27 +553,9 @@ The Subtle Art of Not Giving a F*ck
                      <span class="t-accent">CPU:</span> Curiosity @ ∞ GHz
                      <span class="t-accent">Memory:</span> Lots of coffee`,
 
-    ping: () =>
-      `<span class="t-green">PING ashmith.sec (127.0.0.1) 56 bytes of data.</span>
-64 bytes from ashmith.sec: icmp_seq=1 ttl=64 time=0.042 ms
-64 bytes from ashmith.sec: icmp_seq=2 ttl=64 time=0.038 ms
-64 bytes from ashmith.sec: icmp_seq=3 ttl=64 time=0.041 ms
+    ping: () => renderPing("ashmith.sec"),
 
---- ashmith.sec ping statistics ---
-3 packets transmitted, 3 received, <span class="t-accent">0% packet loss</span>`,
-
-    nmap: () =>
-      `<span class="t-green">Starting Nmap 7.94 ( https://nmap.org )</span>
-Nmap scan report for ashmith.sec (127.0.0.1)
-
-PORT      STATE    SERVICE
-<span class="t-accent">22/tcp</span>    open     ssh (for collabs)
-<span class="t-accent">80/tcp</span>    open     http (this portfolio)
-<span class="t-accent">443/tcp</span>   open     https (GitHub Pages)
-<span class="t-accent">8080/tcp</span>  open     side-projects
-<span class="t-accent">9001/tcp</span>  filtered coffee-intake
-
-<span class="t-muted">Nmap done: 1 IP address (1 host up) scanned in 0.42s</span>`,
+    nmap: () => renderNmap("ashmith.sec"),
 
     "cat flag.txt": () =>
       `<span class="t-accent">🚩 FLAG{y0u_f0und_th3_s3cr3t_fl4g}</span>
@@ -777,6 +761,46 @@ style.css   terminal.js   work.html   writing.html`,
     return `<span class="t-green">$ traceroute ${escapeHtml(target)}</span>\n\n 1  router.home               3.2 ms\n 2  bangalore.backbone        8.1 ms\n 3  caffeine-gateway         12.4 ms\n 4  curiosity.exchange       18.8 ms\n 5  ${escapeHtml(target)}             23.1 ms\n\n<span class="t-muted">Trace complete.</span>`;
   }
 
+  function normalizeHost(target, fallback) {
+    if (!target) {
+      return fallback;
+    }
+
+    if (target === "ashmith") {
+      return fallback;
+    }
+
+    return target;
+  }
+
+  function renderPing(target) {
+    const host = normalizeHost(target, "ashmith.sec");
+
+    return `<span class="t-green">PING ${escapeHtml(host)} (127.0.0.1) 56 bytes of data.</span>
+64 bytes from ${escapeHtml(host)}: icmp_seq=1 ttl=64 time=0.042 ms
+64 bytes from ${escapeHtml(host)}: icmp_seq=2 ttl=64 time=0.038 ms
+64 bytes from ${escapeHtml(host)}: icmp_seq=3 ttl=64 time=0.041 ms
+
+--- ${escapeHtml(host)} ping statistics ---
+3 packets transmitted, 3 received, <span class="t-accent">0% packet loss</span>`;
+  }
+
+  function renderNmap(target) {
+    const host = normalizeHost(target, "ashmith.sec");
+
+    return `<span class="t-green">Starting Nmap 7.94 ( https://nmap.org )</span>
+Nmap scan report for ${escapeHtml(host)} (127.0.0.1)
+
+PORT      STATE    SERVICE
+<span class="t-accent">22/tcp</span>    open     ssh (for collabs)
+<span class="t-accent">80/tcp</span>    open     http (this portfolio)
+<span class="t-accent">443/tcp</span>   open     https (GitHub Pages)
+<span class="t-accent">8080/tcp</span>  open     side-projects
+<span class="t-accent">9001/tcp</span>  filtered coffee-intake
+
+<span class="t-muted">Nmap done: 1 IP address (1 host up) scanned in 0.42s</span>`;
+  }
+
   function resolveCommand(trimmed) {
     const handler = COMMANDS[trimmed];
 
@@ -802,6 +826,14 @@ style.css   terminal.js   work.html   writing.html`,
 
     if (trimmed.startsWith("echo ")) {
       return escapeHtml(trimmed.slice(5));
+    }
+
+    if (trimmed.startsWith("ping ")) {
+      return renderPing(trimmed.slice(5).trim());
+    }
+
+    if (trimmed.startsWith("nmap ")) {
+      return renderNmap(trimmed.slice(5).trim());
     }
 
     if (trimmed.startsWith("ssh ")) {
