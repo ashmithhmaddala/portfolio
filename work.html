@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work | Portfolio by Ashmith Maddala</title>
+  <meta name="description" content="Open-source tools and experiments I've shipped — security tools, ML dashboards, web apps, and more.">
+  <meta name="theme-color" content="#09090b">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="scanline-overlay" aria-hidden="true"></div>
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <div class="page-content">
+    <!-- Nav -->
+    <div class="nav-container">
+      <nav class="navbar">
+        <div class="nav-brand"><a href="index.html">AM</a></div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="index.html">Home</a></li>
+          <li class="nav-item"><a href="about.html">About</a></li>
+          <li class="nav-item active"><a href="work.html">Work</a></li>
+          <li class="nav-item"><a href="writing.html">Writing</a></li>
+          <li class="nav-item"><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="projects-container">
+
+        <div class="reveal">
+          <h1 class="projects-heading">Work</h1>
+          <p class="projects-intro">Things I've built — security tools, ML experiments, web apps. Mostly open-source, mostly Python.</p>
+        </div>
+
+        <!-- Filter -->
+        <div class="project-filter reveal">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="Security">Security</button>
+          <button class="filter-btn" data-filter="ML">ML</button>
+          <button class="filter-btn" data-filter="Web">Web</button>
+          <button class="filter-btn" data-filter="Python">Python</button>
+        </div>
+
+        <!-- Projects -->
+        <div class="work-list">
+
+          <a href="https://github.com/ashmithhmaddala/cli-packet-analyzer" target="_blank" rel="noreferrer" class="work-entry reveal" data-tags="Security,Python">
+            <div class="work-entry-main">
+              <h2 class="work-entry-title">CLI Packet Analyzer</h2>
+              <p class="work-entry-desc">Command-line packet analyzer for Kali Linux. Captures live network traffic, analyzes PCAP files, extracts protocol info — Ethernet, ARP, IPv4, TCP, UDP, ICMP, DNS, HTTP.</p>
+            </div>
+            <div class="work-entry-aside">
+              <span class="work-entry-tag">Security</span>
+              <span class="work-entry-tag">Python</span>
+            </div>
+          </a>
+
+          <a href="https://github.com/ashmithhmaddala/crime-rate-prediction" target="_blank" rel="noreferrer" class="work-entry reveal" data-tags="ML,Python">
+            <div class="work-entry-main">
+              <h2 class="work-entry-title">Crime Rate Prediction</h2>
+              <p class="work-entry-desc">ML-powered dashboard for predicting theft crimes in Bengaluru. Model training, interactive analytics, Streamlit app with map visualization.</p>
+            </div>
+            <div class="work-entry-aside">
+              <span class="work-entry-tag">ML</span>
+              <span class="work-entry-tag">Python</span>
+            </div>
+          </a>
+
+          <a href="https://github.com/ashmithhmaddala/portfolio" target="_blank" rel="noreferrer" class="work-entry reveal" data-tags="Web">
+            <div class="work-entry-main">
+              <h2 class="work-entry-title">Portfolio</h2>
+              <p class="work-entry-desc">This site. Vanilla HTML/CSS/JS, particle canvas, interactive terminal, multi-page layout. No frameworks.</p>
+            </div>
+            <div class="work-entry-aside">
+              <span class="work-entry-tag">Web</span>
+            </div>
+          </a>
+
+          <a href="https://github.com/ashmithhmaddala/job-board-app" target="_blank" rel="noreferrer" class="work-entry reveal" data-tags="Web,Python">
+            <div class="work-entry-main">
+              <h2 class="work-entry-title">Job Board Engineer</h2>
+              <p class="work-entry-desc">Flask web app to track job postings from companies in India. User auth, admin dashboard, job management.</p>
+            </div>
+            <div class="work-entry-aside">
+              <span class="work-entry-tag">Web</span>
+              <span class="work-entry-tag">Python</span>
+            </div>
+          </a>
+
+          <a href="https://github.com/ashmithhmaddala/learnsmart-engineer" target="_blank" rel="noreferrer" class="work-entry reveal" data-tags="ML,Web">
+            <div class="work-entry-main">
+              <h2 class="work-entry-title">Learnsmart Engineer</h2>
+              <p class="work-entry-desc">AI-powered app that analyzes student learning patterns and recommends personalized skill improvements.</p>
+            </div>
+            <div class="work-entry-aside">
+              <span class="work-entry-tag">ML</span>
+              <span class="work-entry-tag">Web</span>
+            </div>
+          </a>
+
+          <a href="https://github.com/ashmithhmaddala/python-chess-engine" target="_blank" rel="noreferrer" class="work-entry reveal" data-tags="Python">
+            <div class="work-entry-main">
+              <h2 class="work-entry-title">Chess Engine</h2>
+              <p class="work-entry-desc">Python chess engine with UCI protocol. Minimax search, modular design. Built for learning.</p>
+            </div>
+            <div class="work-entry-aside">
+              <span class="work-entry-tag">Python</span>
+            </div>
+          </a>
+
+          <a href="https://github.com/ashmithhmaddala/ai-vulnerability-scanner" target="_blank" rel="noreferrer" class="work-entry reveal" data-tags="Security,ML,Python">
+            <div class="work-entry-main">
+              <h2 class="work-entry-title">AI Vulnerability Scanner</h2>
+              <p class="work-entry-desc">AI-powered security tool that scans codebases for vulnerabilities, security flaws, and potential exploits using machine learning and pattern recognition.</p>
+            </div>
+            <div class="work-entry-aside">
+              <span class="work-entry-tag">Security</span>
+              <span class="work-entry-tag">ML</span>
+              <span class="work-entry-tag">Python</span>
+            </div>
+          </a>
+
+          <a href="https://github.com/ashmithhmaddala/Red-vs-Blue-CTF-Platform" target="_blank" rel="noreferrer" class="work-entry reveal" data-tags="Security,Web">
+            <div class="work-entry-main">
+              <h2 class="work-entry-title">Red vs Blue CTF Platform</h2>
+              <p class="work-entry-desc">Capture The Flag platform for cybersecurity training. Red team vs blue team competitions with real-world security challenges and scenarios.</p>
+            </div>
+            <div class="work-entry-aside">
+              <span class="work-entry-tag">Security</span>
+              <span class="work-entry-tag">Web</span>
+            </div>
+          </a>
+
+          <a href="https://github.com/ashmithhmaddala/CivicPulse" target="_blank" rel="noreferrer" class="work-entry reveal" data-tags="Web">
+            <div class="work-entry-main">
+              <h2 class="work-entry-title">CivicPulse</h2>
+              <p class="work-entry-desc">Civic engagement platform connecting citizens with local government initiatives. Real-time updates and community interaction tools.</p>
+            </div>
+            <div class="work-entry-aside">
+              <span class="work-entry-tag">Web</span>
+            </div>
+          </a>
+
+          <a href="https://github.com/ashmithhmaddala/chef-game" target="_blank" rel="noreferrer" class="work-entry reveal" data-tags="Web">
+            <div class="work-entry-main">
+              <h2 class="work-entry-title">Chef Game</h2>
+              <p class="work-entry-desc">Interactive cooking game built with JavaScript. Prepare dishes under time pressure with dynamic gameplay mechanics.</p>
+            </div>
+            <div class="work-entry-aside">
+              <span class="work-entry-tag">Web</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="page-footer">
+        <footer class="footer">
+          <ul class="footer-nav">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="work.html">Projects</a></li>
+            <li><a href="writing.html">Writing</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+          <div class="footer-socials">
+            <a href="https://github.com/ashmithhmaddala" target="_blank" rel="noreferrer" class="footer-social-link" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+            <a href="https://www.linkedin.com/in/ashmith-maddala/" target="_blank" rel="noreferrer" class="footer-social-link" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+            <a href="https://x.com/axmxtxh" target="_blank" rel="noreferrer" class="footer-social-link" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
+          </div>
+          <div class="footer-credits">&copy; 2026 Ashmith Maddala</div>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

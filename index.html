@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio by Ashmith Maddala</title>
+  <meta name="description" content="I am a Product Security Intern at Vontier specializing in vulnerability assessment, threat modeling, and building secure systems.">
+  <meta name="keywords" content="Ashmith, Product Security, Cybersecurity, AppSec, Threat Modeling">
+  <meta name="theme-color" content="#09090b">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Intro overlay -->
+  <div id="intro" class="intro" aria-hidden="true">
+    <span id="intro-word" class="intro-word">Hello</span>
+  </div>
+
+  <div class="scanline-overlay" aria-hidden="true"></div>
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <div class="page-content">
+    <!-- Nav -->
+    <div class="nav-container">
+      <nav class="navbar">
+        <div class="nav-brand"><a href="index.html">AM</a></div>
+        <ul class="nav-list">
+          <li class="nav-item active"><a href="index.html">Home</a></li>
+          <li class="nav-item"><a href="about.html">About</a></li>
+          <li class="nav-item"><a href="work.html">Work</a></li>
+          <li class="nav-item"><a href="writing.html">Writing</a></li>
+          <li class="nav-item"><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="homepage-container">
+
+        <!-- Hero -->
+        <section class="hero">
+          <div class="hero-text">
+            <h1 class="hero-name">Ashmith<br>Maddala</h1>
+            <p class="hero-desc">I'm a security engineer doing product security at <a href="https://www.vontier.com" target="_blank" rel="noreferrer" class="inline-link">Vontier</a> — AppSec reviews, threat modeling, secure SDLC. Outside of that, I build tools and break things to understand how to protect them.</p>
+            <div class="hero-links">
+              <a href="https://github.com/ashmithhmaddala" target="_blank" rel="noreferrer">GitHub</a>
+              <a href="https://www.linkedin.com/in/ashmith-maddala/" target="_blank" rel="noreferrer">LinkedIn</a>
+              <a href="https://x.com/axmxtxh" target="_blank" rel="noreferrer">Twitter</a>
+              <a href="https://www.instagram.com/ashmith.xd/" target="_blank" rel="noreferrer">Instagram</a>
+              <a href="resume.pdf" target="_blank" rel="noreferrer">Resume</a>
+            </div>
+          </div>
+          <img src="public/homepage.jpg" alt="Ashmith Maddala" class="hero-photo">
+        </section>
+
+        <!-- Experience -->
+        <section class="home-experience reveal">
+          <div class="home-exp">
+            <img src="public/Vontier_logo.svg.png" alt="Vontier" class="home-exp-logo">
+            <div class="home-exp-info">
+              <span class="home-exp-role">Product Security Intern</span>
+              <span class="home-exp-where">Vontier &middot; Jul 2025 – Present</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Skills -->
+        <section class="home-skills reveal">
+          <div class="home-skill-tags">
+            <span>AppSec</span>
+            <span>Threat Modeling</span>
+            <span>Secure SDLC</span>
+            <span>Burp Suite</span>
+            <span>Nmap</span>
+            <span>Wireshark</span>
+            <span>Python</span>
+            <span>Bash</span>
+            <span>Docker</span>
+            <span>Linux</span>
+          </div>
+        </section>
+
+        <!-- Projects -->
+        <section class="home-projects-section reveal">
+          <div class="home-projects">
+            <a href="https://github.com/ashmithhmaddala/cli-packet-analyzer" target="_blank" rel="noreferrer" class="hp-project">
+              <span class="hp-project-name">CLI Packet Analyzer</span>
+              <span class="hp-project-sub">Network traffic capture & protocol analysis for Kali Linux</span>
+            </a>
+            <a href="https://github.com/ashmithhmaddala/crime-rate-prediction" target="_blank" rel="noreferrer" class="hp-project">
+              <span class="hp-project-name">Crime Rate Prediction</span>
+              <span class="hp-project-sub">ML dashboard for theft crime analytics in Bengaluru</span>
+            </a>
+            <a href="https://github.com/ashmithhmaddala/ai-vulnerability-scanner" target="_blank" rel="noreferrer" class="hp-project">
+              <span class="hp-project-name">AI Vulnerability Scanner</span>
+              <span class="hp-project-sub">ML-powered codebase scanner for security flaws</span>
+            </a>
+            <a href="https://github.com/ashmithhmaddala/Red-vs-Blue-CTF-Platform" target="_blank" rel="noreferrer" class="hp-project">
+              <span class="hp-project-name">Red vs Blue CTF</span>
+              <span class="hp-project-sub">Capture the flag platform for security training</span>
+            </a>
+            <a href="https://github.com/ashmithhmaddala/job-board-app" target="_blank" rel="noreferrer" class="hp-project">
+              <span class="hp-project-name">Job Board Engineer</span>
+              <span class="hp-project-sub">Flask app with auth, admin dashboard, and job tracking</span>
+            </a>
+          </div>
+          <a href="work.html" class="see-all">All projects &rarr;</a>
+        </section>
+
+        <!-- Terminal -->
+        <section class="terminal-section reveal" id="terminal">
+          <div class="terminal-window">
+            <div class="terminal-titlebar">
+              <div class="terminal-buttons">
+                <span class="terminal-btn close"></span>
+                <span class="terminal-btn minimize"></span>
+                <span class="terminal-btn maximize"></span>
+              </div>
+              <span class="terminal-title">ashmith@sec:~</span>
+              <span class="terminal-titlebar-spacer"></span>
+            </div>
+            <div class="terminal-body" id="terminal-body">
+              <div id="terminal-output"></div>
+              <div class="terminal-input-line">
+                <span class="terminal-prompt">visitor@ashmith.sec:~$&nbsp;</span>
+                <input type="text" id="terminal-input" class="terminal-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Terminal input">
+              </div>
+            </div>
+            <p class="terminal-mobile-hint">tap to type</p>
+          </div>
+        </section>
+
+        <!-- Writing -->
+        <section class="home-writing-section reveal">
+          <div class="home-writing-list">
+            <a href="article-1.html" class="hw-item">
+              <span class="hw-date">Nov 2025</span>
+              <span class="hw-title">Beyond the terminal: how I stay balanced outside of cybersecurity</span>
+            </a>
+            <a href="article-2.html" class="hw-item">
+              <span class="hw-date">May 2025</span>
+              <span class="hw-title">How my technical career changed the way I solve everyday problems</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <div class="page-footer">
+          <footer class="footer">
+            <ul class="footer-nav">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="work.html">Projects</a></li>
+              <li><a href="writing.html">Writing</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="footer-socials">
+              <a href="https://github.com/ashmithhmaddala" target="_blank" rel="noreferrer" class="footer-social-link" aria-label="GitHub">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              </a>
+              <a href="https://www.linkedin.com/in/ashmith-maddala/" target="_blank" rel="noreferrer" class="footer-social-link" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              </a>
+              <a href="https://x.com/axmxtxh" target="_blank" rel="noreferrer" class="footer-social-link" aria-label="Twitter">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+              </a>
+            </div>
+            <div class="footer-credits">&copy; 2026 Ashmith Maddala</div>
+          </footer>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="terminal.js"></script>
+  <script src="script.js"></script>
+  <script src="intro.js"></script>
+</body>
+</html>
