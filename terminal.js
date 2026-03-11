@@ -6,6 +6,102 @@
   if (!output || !input) return;
 
   const PROMPT = "visitor@ashmith.sec:~$ ";
+  const RESUME_PATH = "public/resume.pdf";
+  const PROFILE_LINKS = {
+    github: "https://github.com/ashmithhmaddala",
+    linkedin: "https://www.linkedin.com/in/ashmith-maddala/",
+    twitter: "https://x.com/axmxtxh",
+    instagram: "https://www.instagram.com/ashmith.xd/",
+    writing: "writing.html",
+    work: "work.html",
+    contact: "contact.html",
+  };
+  const PROJECTS = [
+    {
+      slug: "cli-packet-analyzer",
+      title: "CLI Packet Analyzer",
+      description: "Network traffic analysis tool (Python)",
+      focus: "packet inspection, CLI workflows, parsing raw traffic",
+    },
+    {
+      slug: "crime-rate-prediction",
+      title: "Crime Rate Prediction",
+      description: "ML dashboard for Bengaluru theft data",
+      focus: "data storytelling, prediction, civic datasets",
+    },
+    {
+      slug: "ai-vulnerability-scanner",
+      title: "AI Vulnerability Scanner",
+      description: "ML-powered codebase security scanner",
+      focus: "static analysis ideas, security automation, experimentation",
+    },
+    {
+      slug: "red-vs-blue-ctf",
+      title: "Red vs Blue CTF",
+      description: "CTF platform for security training",
+      focus: "hands-on learning, offense/defense scenarios",
+    },
+    {
+      slug: "portfolio",
+      title: "Portfolio",
+      description: "This website (HTML/CSS/JS)",
+      focus: "design, storytelling, terminal interactions",
+    },
+    {
+      slug: "job-board-app",
+      title: "Job Board App",
+      description: "Flask job tracker for Indian cities",
+      focus: "backend workflows, useful product thinking",
+    },
+    {
+      slug: "learnsmart-engineer",
+      title: "LearnSmart Engineer",
+      description: "AI-powered learning recommendations",
+      focus: "recommendation flows, practical AI use",
+    },
+    {
+      slug: "python-chess-engine",
+      title: "Python Chess Engine",
+      description: "UCI chess engine with minimax search",
+      focus: "search algorithms, evaluation logic, performance",
+    },
+    {
+      slug: "civicpulse",
+      title: "CivicPulse",
+      description: "Civic engagement platform",
+      focus: "community problems, product design, impact",
+    },
+    {
+      slug: "chef-game",
+      title: "Chef Game",
+      description: "Interactive cooking game (JS)",
+      focus: "frontend interactivity, playful interfaces",
+    },
+  ];
+  const OPEN_TARGETS = {
+    home: { href: "index.html", label: "Home", description: "Landing page and hero section." },
+    about: { href: "about.html", label: "About", description: "Experience, skills, and background." },
+    work: { href: "work.html", label: "Work", description: "Projects and experiments." },
+    writing: { href: "writing.html", label: "Writing", description: "Articles and thoughts." },
+    contact: { href: "contact.html", label: "Contact", description: "Ways to reach out." },
+    github: { href: PROFILE_LINKS.github, label: "GitHub", description: "Repos, experiments, and code.", external: true },
+    linkedin: { href: PROFILE_LINKS.linkedin, label: "LinkedIn", description: "Career history and current role.", external: true },
+    twitter: { href: PROFILE_LINKS.twitter, label: "Twitter", description: "Smaller thoughts and links.", external: true },
+    instagram: { href: PROFILE_LINKS.instagram, label: "Instagram", description: "Life outside work.", external: true },
+    resume: { href: RESUME_PATH, label: "Resume", description: "PDF download.", external: true, download: true },
+    "article-1": { href: "article-1.html", label: "Article 1", description: "Balance outside cybersecurity." },
+    "article-2": { href: "article-2.html", label: "Article 2", description: "How tech changed everyday problem-solving." },
+  };
+  const MAN_PAGES = {
+    help: "help\nList built-in commands and discover what the terminal can do.",
+    open: "open <target>\nOpen pages or profiles like 'open github', 'open work', or 'open resume'.",
+    cat: "cat <target>\nRead a built-in file or inspect a project with 'cat project portfolio'.",
+    search: "search <query>\nSearch across commands, projects, and topics in the terminal.",
+    history: "history\nShow the latest commands entered in this session.",
+    sudo: "sudo hire ashmith\nStart the interactive contact flow. Generic sudo just complains politely.",
+    ssh: "ssh <host>\nFake SSH into Ashmith's corner of the internet. Public shell access is not included.",
+    traceroute: "traceroute <host>\nTrace a route through caffeine, Wi-Fi, and curiosity.",
+  };
 
   const COMMANDS = {
     help: () =>
@@ -20,12 +116,34 @@
   ctf           CTF & community stuff
   contact       Get in touch
   socials       Social links
+  open <target> Open a page or profile
+  cat <target>  Read a file or project note
+  search <term> Search the terminal index
+  github        Open GitHub profile
+  linkedin      Open LinkedIn profile
+  writing       Read latest writing
+  work          Jump to projects page
   resume        Download resume
+  download      Download resume
   stack         Tech stack I use daily
   tools         Security toolkit
   certs         Certifications & learning
   hobbies       Life outside work
   goals         What I'm working toward
+  roadmap       Current focus areas
+  stats         Portfolio snapshot
+  banner        Print terminal banner
+  history       Show recent commands
+  coffee        Brew status
+  weather       Bangalore weather.exe
+  matrix        Enter the matrix
+  top           Show live system-ish stats
+  ps            List running "processes"
+  netstat       Show exposed services
+  ssh <host>    Attempt remote shell access
+  traceroute <host>  Follow packets through the void
+  sudo          Complain about missing privileges
+  hack          Run cinematic hacking mode
   quote         Random security quote
   whoami        Who are you?
   hostname      Where are you?
@@ -35,6 +153,12 @@
   neofetch      System fetch
   ping          Ping ashmith
   nmap          Scan open ports
+  vontier       Current internship snapshot
+  bangalore     City status
+  barca         Football allegiance check
+  books         Current reading shelf
+  food          Favourite food side quest
+  playlist      Coding soundtrack
   cat flag.txt  Find the flag
   rm -rf /      Try it
   exit          Close terminal
@@ -134,10 +258,38 @@ Dream: attend <span class="t-accent">DEF CON</span> someday 🏴‍☠️`,
 <span class="t-accent">Twitter</span>     <a href="https://x.com/axmxtxh" target="_blank" rel="noreferrer" class="t-link">x.com/axmxtxh</a>
 <span class="t-accent">Instagram</span>   <a href="https://www.instagram.com/ashmith.xd/" target="_blank" rel="noreferrer" class="t-link">instagram.com/ashmith.xd</a>`,
 
-    resume: () =>
-      `<span class="t-green">$ open resume.pdf</span>
+    github: () =>
+      `<span class="t-green">$ open ${PROFILE_LINKS.github}</span>
 
-<a href="resume.pdf" target="_blank" rel="noreferrer" class="t-link">↓ Download Resume (PDF)</a>`,
+<a href="${PROFILE_LINKS.github}" target="_blank" rel="noreferrer" class="t-link">github.com/ashmithhmaddala</a>
+<span class="t-muted">Code, side projects, experiments, and half-finished ideas.</span>`,
+
+    linkedin: () =>
+      `<span class="t-green">$ open ${PROFILE_LINKS.linkedin}</span>
+
+<a href="${PROFILE_LINKS.linkedin}" target="_blank" rel="noreferrer" class="t-link">linkedin.com/in/ashmith-maddala</a>
+<span class="t-muted">Career path, internships, and security work.</span>`,
+
+    writing: () =>
+      `<span class="t-green">$ ls ~/writing/</span>
+
+<span class="t-accent">article-1</span>  API security, real-world lessons, staying practical
+<span class="t-accent">article-2</span>  Building a technical career without losing curiosity
+
+<span class="t-muted">Read all → </span><a href="${PROFILE_LINKS.writing}" class="t-link">writing.html</a>`,
+
+    work: () =>
+      `<span class="t-green">$ open ${PROFILE_LINKS.work}</span>
+
+<a href="${PROFILE_LINKS.work}" class="t-link">work.html</a>
+<span class="t-muted">Projects, experiments, and things built for fun or utility.</span>`,
+
+    resume: () =>
+      `<span class="t-green">$ open ${RESUME_PATH}</span>
+
+<a href="${RESUME_PATH}" download target="_blank" rel="noreferrer" class="t-link">↓ Download Resume (PDF)</a>`,
+
+    download: () => COMMANDS.resume(),
 
     stack: () =>
       `<span class="t-green">$ cat ~/.stack</span>
@@ -207,6 +359,150 @@ Dream: attend <span class="t-accent">DEF CON</span> someday 🏴‍☠️`,
   • Move into a full-time AppSec / Red Team role
   • Contribute to open-source security projects
   • Travel more, build a life I'm proud of`,
+
+    roadmap: () =>
+      `<span class="t-green">$ cat roadmap.yaml</span>
+
+<span class="t-accent">now:</span>
+  - sharpen secure code review instincts
+  - build internal security automation that saves teams time
+  - keep shipping cleaner, faster side projects
+
+<span class="t-accent">next:</span>
+  - publish deeper writeups and technical notes
+  - expand threat modelling reps across different product types
+  - get even more dangerous with Python and AppSec tooling
+
+<span class="t-accent">eventually:</span>
+  - strong AppSec engineer / offensive security hybrid
+  - research, talks, and open-source contributions`,
+
+    stats: () =>
+      `<span class="t-green">$ portfolio --stats</span>
+
+<span class="t-accent">Projects shipped</span>    10 featured
+<span class="t-accent">Articles live</span>      2 published
+<span class="t-accent">Core stack</span>         HTML, CSS, JS, Python, Bash
+<span class="t-accent">Focus areas</span>        AppSec, threat modelling, automation
+<span class="t-accent">Current mission</span>    Build, break, learn, repeat`,
+
+    banner: () =>
+      `<span class="t-green">   ___         __          _ __  __   _ __  __</span>
+<span class="t-green">  / _ | ___ __/ /  __ _   (_) /_/ /  (_) /_/ /</span>
+<span class="t-green"> / __ |(_-</span><span class="t-accent">_) _  / /  /  ' \ / / __/ _ \/ / __/ _ \\
+</span><span class="t-green">/_/ |_/___/\_,_/_/_/_/_/_/_/\__/\_,_/_/\__/\___/</span>
+
+<span class="t-accent">Ashmith Maddala</span>  |  Product Security Intern  |  AppSec / Threat Modelling / Builders' mindset`,
+
+    history: () => renderHistory(),
+
+    coffee: () => {
+      const brews = [
+        "Espresso acquired. Threat model loading  ████████░░ 80%",
+        "Cold coffee online. Vulnerability triage speed increased by 12%.",
+        "Brewing... success. Stack traces now look less offensive.",
+        "Caffeine levels nominal. Ready to review code and questionable decisions.",
+      ];
+      return `<span class="t-green">$ brew coffee</span>\n\n<span class="t-accent">${pickRandom(brews)}</span>`;
+    },
+
+    weather: () =>
+      `<span class="t-green">$ curl wttr.in/bangalore</span>
+
+<span class="t-accent">Bangalore forecast:</span> warm, maybe traffic, 70% chance of side-project ideas.
+<span class="t-muted">Advisory:</span> ideal conditions for evening walks and writing better code.`,
+
+    matrix: () => `<span class="t-green">$ ./matrix</span>\n\n${renderMatrix()}`,
+
+    top: () =>
+      `<span class="t-green">$ top</span>
+
+PID   USER      PRI  NI  VIRT   RES   SHR S  %CPU %MEM   TIME+   COMMAND
+1337  ashmith    20   0  4.0g  512m  128m S  37.0  8.1   4:20.69 threat-model
+2048  ashmith    20   0  2.1g  420m   96m S  24.0  6.3   2:11.07 side-projects
+2600  ashmith    20   0  1.2g  256m   64m S  14.0  4.4   1:17.20 writing
+9001  coffee     20   0  256m   64m   16m R   9.0  1.0   0:42.00 caffeine-daemon
+
+<span class="t-muted">Load average:</span> motivated, curious, shipping`,
+
+    ps: () =>
+      `<span class="t-green">$ ps aux</span>
+
+ashmith   101  0.1  secure-sdlc
+ashmith   202  0.2  burp-suite
+ashmith   303  0.4  python side_project.py
+ashmith   404  0.3  writeup-drafts
+ashmith   505  0.5  gym-recovery.service`,
+
+    netstat: () =>
+      `<span class="t-green">$ netstat -tulpn</span>
+
+Proto Local Address      State   Service
+tcp   0.0.0.0:22        LISTEN  collab-shell
+tcp   0.0.0.0:80        LISTEN  portfolio-http
+tcp   0.0.0.0:443       LISTEN  portfolio-https
+tcp   127.0.0.1:5000    LISTEN  flask-sidequests
+tcp   127.0.0.1:8080    LISTEN  experiments
+udp   0.0.0.0:5353      OPEN    curiosity-broadcast`,
+
+    sudo: () =>
+      `<span class="t-muted">sudo: a terminal portfolio is no place for unchecked power.</span>
+<span class="t-muted">Try 'sudo hire ashmith' if you're here for a better reason.</span>`,
+
+    hack: () =>
+      `<span class="t-green">$ hack --cinematic</span>
+
+Initializing green text...
+Bypassing nothing important...
+Enumerating vibes...
+Dropping zero-day charisma payload...
+
+<span class="t-accent">ACCESS GRANTED</span>: to a well-designed static website.`,
+
+    vontier: () =>
+      `<span class="t-green">$ cat /work/vontier.log</span>
+
+<span class="t-accent">Role</span>        Product Security Intern
+<span class="t-accent">Location</span>    Bangalore
+<span class="t-accent">Focus</span>       AppSec reviews, threat modelling, secure SDLC
+<span class="t-accent">Mode</span>        Learn fast, ship useful security improvements`,
+
+    bangalore: () =>
+      `<span class="t-green">$ cityctl status bangalore</span>
+
+<span class="t-accent">Mood</span>        fast, crowded, alive
+<span class="t-accent">Best feature</span> evening walks and endless food options
+<span class="t-accent">Known issue</span> traffic with CVSS 9.8 severity
+<span class="t-accent">Why stay</span>    work, people, momentum`,
+
+    barca: () =>
+      `<span class="t-green">$ grep -i football ~/preferences.conf</span>
+
+club=FC Barcelona
+goat=Messi
+status=unapologetically loyal`,
+
+    books: () =>
+      `<span class="t-green">$ cat ~/books.txt</span>
+
+Atomic Habits
+The Subtle Art of Not Giving a F*ck
+
+<span class="t-muted">Usually looking for books that are practical, grounded, and easy to carry into daily life.</span>`,
+
+    food: () =>
+      `<span class="t-green">$ food --favorites</span>
+
+<span class="t-accent">Top pick</span>     pizza
+<span class="t-accent">Routine</span>      try new cafes and restaurants when life slows down
+<span class="t-accent">Pairing</span>      good conversation or a post-work reset`,
+
+    playlist: () =>
+      `<span class="t-green">$ now-playing</span>
+
+<span class="t-accent">Mode</span>         chill music while building and debugging
+<span class="t-accent">Use case</span>     focus blocks, late-night coding, long walks
+<span class="t-accent">Effect</span>       fewer bad decisions per hour`,
 
     quote: () => {
       const quotes = [
@@ -330,6 +626,215 @@ style.css   terminal.js   work.html   writing.html`,
 
   const history = [];
   let historyIndex = -1;
+
+  function pickRandom(items) {
+    return items[Math.floor(Math.random() * items.length)];
+  }
+
+  function renderHistory() {
+    const recent = history.slice(-10);
+
+    if (!recent.length) {
+      return `<span class="t-muted">No commands in history yet. Type 'help' to start.</span>`;
+    }
+
+    return `<span class="t-green">$ history</span>\n\n${recent
+      .map(function (entry, index) {
+        return `${String(history.length - recent.length + index + 1).padStart(2, " ")}  ${escapeHtml(entry)}`;
+      })
+      .join("\n")}`;
+  }
+
+  function renderMatrix() {
+    const rows = [];
+
+    for (let index = 0; index < 8; index++) {
+      rows.push(`<span class="t-accent">${randomGlyphRow()}</span>`);
+    }
+
+    rows.push(`<span class="t-muted">Wake up, visitor. The payload is usually in plain sight.</span>`);
+    return rows.join("\n");
+  }
+
+  function randomGlyphRow() {
+    const glyphs = "01ABCDEF$#@%&*";
+    let row = "";
+
+    for (let index = 0; index < 36; index++) {
+      row += glyphs[Math.floor(Math.random() * glyphs.length)];
+    }
+
+    return row;
+  }
+
+  function getProjectBySlug(slug) {
+    return PROJECTS.find(function (project) {
+      return project.slug === slug;
+    });
+  }
+
+  function renderProjectCard(project) {
+    return `<span class="t-accent">${project.slug}</span>\n  ${project.description}\n  focus: ${project.focus}`;
+  }
+
+  function renderOpenTarget(target) {
+    const entry = OPEN_TARGETS[target];
+
+    if (!entry) {
+      return `<span class="t-muted">open: unknown target '${escapeHtml(target)}'. Try github, work, writing, about, contact, resume, article-1, or article-2.</span>`;
+    }
+
+    return `<span class="t-green">$ open ${target}</span>\n\n<a href="${entry.href}"${entry.external ? ' target="_blank" rel="noreferrer"' : ""}${entry.download ? " download" : ""} class="t-link">${entry.label}</a>\n<span class="t-muted">${entry.description}</span>`;
+  }
+
+  function renderSearch(query) {
+    const searchable = [
+      { name: "about", type: "command", detail: "Quick intro" },
+      { name: "skills", type: "command", detail: "Technical skills" },
+      { name: "projects", type: "command", detail: "Featured project list" },
+      { name: "research", type: "command", detail: "Security interests" },
+      { name: "vontier", type: "command", detail: "Internship snapshot" },
+      { name: "bangalore", type: "command", detail: "City status" },
+      { name: "barca", type: "command", detail: "Football allegiance" },
+      { name: "books", type: "command", detail: "Reading shelf" },
+      { name: "playlist", type: "command", detail: "Coding soundtrack" },
+      { name: "article-1", type: "article", detail: "Balance outside cybersecurity" },
+      { name: "article-2", type: "article", detail: "Technical career and everyday thinking" },
+    ].concat(PROJECTS.map(function (project) {
+      return {
+        name: project.slug,
+        type: "project",
+        detail: `${project.description} | ${project.focus}`,
+      };
+    }));
+
+    const matches = searchable.filter(function (entry) {
+      return `${entry.name} ${entry.detail}`.toLowerCase().includes(query);
+    });
+
+    if (!matches.length) {
+      return `<span class="t-green">$ search ${escapeHtml(query)}</span>\n\n<span class="t-muted">No matches. Try appsec, project, article, bangalore, github, or threat.</span>`;
+    }
+
+    return `<span class="t-green">$ search ${escapeHtml(query)}</span>\n\n${matches
+      .slice(0, 8)
+      .map(function (entry) {
+        return `<span class="t-accent">${entry.name}</span>  [${entry.type}]\n  ${entry.detail}`;
+      })
+      .join("\n\n")}`;
+  }
+
+  function renderCatTarget(target) {
+    const normalizedTarget = target.replace(/^project\s+/, "");
+    const project = getProjectBySlug(normalizedTarget);
+
+    if (project) {
+      return `<span class="t-green">$ cat ${escapeHtml(target)}</span>\n\n${renderProjectCard(project)}`;
+    }
+
+    if (normalizedTarget === "article-1") {
+      return `<span class="t-green">$ cat ${escapeHtml(target)}</span>\n\n<span class="t-accent">Beyond the terminal: how I stay balanced outside of cybersecurity</span>\nA personal piece on fitness, football, growth, and staying grounded.\n<a href="article-1.html" class="t-link">Read article-1.html</a>`;
+    }
+
+    if (normalizedTarget === "article-2") {
+      return `<span class="t-green">$ cat ${escapeHtml(target)}</span>\n\n<span class="t-accent">How my technical career changed the way I solve everyday problems</span>\nA reflection on how tech reshaped decision-making beyond code.\n<a href="article-2.html" class="t-link">Read article-2.html</a>`;
+    }
+
+    const fileMap = {
+      "about.txt": "about",
+      "skills.json": "skills",
+      "roadmap.yaml": "roadmap",
+      "books.txt": "books",
+      "contact.vcf": "contact",
+      "socials.md": "socials",
+      "goals.md": "goals",
+      "life.txt": "hobbies",
+    };
+    const mappedCommand = fileMap[normalizedTarget];
+
+    if (mappedCommand && COMMANDS[mappedCommand]) {
+      return COMMANDS[mappedCommand]();
+    }
+
+    return `<span class="t-muted">cat: ${escapeHtml(target)}: No such file in this tiny universe. Try 'cat about.txt', 'cat roadmap.yaml', 'cat article-1', or 'cat project portfolio'.</span>`;
+  }
+
+  function renderManual(topic) {
+    const page = MAN_PAGES[topic];
+
+    if (!page) {
+      return `<span class="t-muted">No manual entry for ${escapeHtml(topic)}. Try 'man open', 'man search', or 'man sudo'.</span>`;
+    }
+
+    return `<span class="t-green">$ man ${topic}</span>\n\n${escapeHtml(page).replace(/\n/g, "<br>")}`;
+  }
+
+  function renderSsh(target) {
+    return `<span class="t-green">$ ssh ${escapeHtml(target)}</span>\n\nResolving ${escapeHtml(target)}...\nAuthenticating...\n<span class="t-muted">Permission denied (publickey, curiosity).</span>\n<span class="t-muted">This host exposes ideas, not a shell.</span>`;
+  }
+
+  function renderTraceroute(target) {
+    return `<span class="t-green">$ traceroute ${escapeHtml(target)}</span>\n\n 1  router.home               3.2 ms\n 2  bangalore.backbone        8.1 ms\n 3  caffeine-gateway         12.4 ms\n 4  curiosity.exchange       18.8 ms\n 5  ${escapeHtml(target)}             23.1 ms\n\n<span class="t-muted">Trace complete.</span>`;
+  }
+
+  function resolveCommand(trimmed) {
+    const handler = COMMANDS[trimmed];
+
+    if (handler) {
+      return handler();
+    }
+
+    if (trimmed.startsWith("open ")) {
+      return renderOpenTarget(trimmed.slice(5).trim());
+    }
+
+    if (trimmed.startsWith("search ")) {
+      return renderSearch(trimmed.slice(7).trim());
+    }
+
+    if (trimmed.startsWith("cat ")) {
+      return renderCatTarget(trimmed.slice(4).trim());
+    }
+
+    if (trimmed.startsWith("man ")) {
+      return renderManual(trimmed.slice(4).trim());
+    }
+
+    if (trimmed.startsWith("echo ")) {
+      return escapeHtml(trimmed.slice(5));
+    }
+
+    if (trimmed.startsWith("ssh ")) {
+      return renderSsh(trimmed.slice(4).trim());
+    }
+
+    if (trimmed.startsWith("traceroute ")) {
+      return renderTraceroute(trimmed.slice(11).trim());
+    }
+
+    return null;
+  }
+
+  function printCommandResult(result, trimmed) {
+    if (result === "__CLEAR__") {
+      output.innerHTML = "";
+      return;
+    }
+
+    if (result === "__HIRE_MODE__") {
+      startHireMode();
+      return;
+    }
+
+    if (result) {
+      printLine(`<pre class="terminal-response">${result}</pre>`);
+      return;
+    }
+
+    printLine(
+      `<span class="t-muted">command not found: ${escapeHtml(trimmed)}. Type 'help' for available commands.</span>`
+    );
+  }
 
   /* ── Hire Mode ── */
   let hireMode = null;
@@ -477,21 +982,7 @@ Ashmith will get back to you at <span class="t-accent">${escapeHtml(hireMode.ema
     history.push(cmd);
     historyIndex = history.length;
 
-    const handler = COMMANDS[trimmed];
-    if (handler) {
-      const result = handler();
-      if (result === "__CLEAR__") {
-        output.innerHTML = "";
-      } else if (result === "__HIRE_MODE__") {
-        startHireMode();
-      } else {
-        printLine(`<pre class="terminal-response">${result}</pre>`);
-      }
-    } else {
-      printLine(
-        `<span class="t-muted">command not found: ${escapeHtml(trimmed)}. Type 'help' for available commands.</span>`
-      );
-    }
+    printCommandResult(resolveCommand(trimmed), trimmed);
 
     scrollToBottom();
   }

@@ -7,7 +7,7 @@ Personal portfolio — static site built with vanilla HTML, CSS, and JavaScript.
 ## What's in it
 
 - Intro greeting animation (cycles through languages, slides up)
-- Interactive terminal with 30+ commands, including `sudo hire ashmith` which collects details and emails me via Web3Forms
+- Interactive terminal with 50+ commands, plus argument-based commands like `open github`, `search appsec`, and `cat project portfolio`
 - Particle canvas background
 - Scroll reveal animations
 - Project filter on the work page
