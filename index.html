@@ -42,8 +42,14 @@
         <!-- Hero -->
         <section class="hero">
           <div class="hero-text">
+            <p class="hero-eyebrow">Product Security Intern · Bangalore</p>
             <h1 class="hero-name">Ashmith<br>Maddala</h1>
             <p class="hero-desc">I'm a security engineer doing product security at <a href="https://www.vontier.com" target="_blank" rel="noreferrer" class="inline-link">Vontier</a> — AppSec reviews, threat modeling, secure SDLC. Outside of that, I build tools and break things to understand how to protect them.</p>
+            <div class="hero-actions">
+              <a href="work.html" class="btn-primary">View featured work</a>
+              <a href="#terminal" class="btn-secondary">Open terminal</a>
+              <a href="public/resume.pdf" target="_blank" rel="noreferrer" class="btn-secondary">Resume</a>
+            </div>
             <div class="hero-links">
               <a href="https://github.com/ashmithhmaddala" target="_blank" rel="noreferrer">GitHub</a>
               <a href="https://www.linkedin.com/in/ashmith-maddala/" target="_blank" rel="noreferrer">LinkedIn</a>
@@ -55,19 +61,40 @@
           <img src="public/homepage.jpg" alt="Ashmith Maddala" class="hero-photo">
         </section>
 
-        <!-- Experience -->
-        <section class="home-experience reveal">
-          <div class="home-exp">
-            <img src="public/Vontier_logo.svg.png" alt="Vontier" class="home-exp-logo">
-            <div class="home-exp-info">
-              <span class="home-exp-role">Product Security Intern</span>
-              <span class="home-exp-where">Vontier &middot; Jul 2025 – Present</span>
-            </div>
+        <!-- Current Focus -->
+        <section class="home-focus-section reveal">
+          <div class="section-heading compact">
+            <span class="section-kicker">Current Focus</span>
+            <h2 class="section-title">What I am spending energy on right now</h2>
+          </div>
+          <div class="focus-grid">
+            <article class="focus-card">
+              <div class="focus-card-top">
+                <img src="public/Vontier_logo.svg.png" alt="Vontier" class="home-exp-logo">
+                <div class="home-exp-info">
+                  <span class="home-exp-role">Product Security at Vontier</span>
+                  <span class="home-exp-where">Jul 2025 – Present</span>
+                </div>
+              </div>
+              <p class="focus-copy">Working close to the product lifecycle: appsec reviews, threat modelling, and practical secure SDLC guidance for engineering teams.</p>
+            </article>
+            <article class="focus-card">
+              <span class="focus-label">How I like to build</span>
+              <p class="focus-copy">Security tooling, automation, and small systems that make repeated security work cleaner, faster, and more useful.</p>
+            </article>
+            <article class="focus-card">
+              <span class="focus-label">Outside the terminal</span>
+              <p class="focus-copy">Football, long walks, training, and writing. The non-work part matters because it keeps the work sharper.</p>
+            </article>
           </div>
         </section>
 
         <!-- Skills -->
         <section class="home-skills reveal">
+          <div class="section-heading compact">
+            <span class="section-kicker">Stack</span>
+            <h2 class="section-title">Tools I reach for the most</h2>
+          </div>
           <div class="home-skill-tags">
             <span>AppSec</span>
             <span>Threat Modeling</span>
@@ -82,35 +109,55 @@
           </div>
         </section>
 
-        <!-- Projects -->
+        <!-- Featured Work -->
         <section class="home-projects-section reveal">
-          <div class="home-projects">
-            <a href="https://github.com/ashmithhmaddala/cli-packet-analyzer" target="_blank" rel="noreferrer" class="hp-project">
-              <span class="hp-project-name">CLI Packet Analyzer</span>
-              <span class="hp-project-sub">Network traffic capture & protocol analysis for Kali Linux</span>
+          <div class="section-heading">
+            <span class="section-kicker">Featured Work</span>
+            <h2 class="section-title">Projects with more depth than a repo list</h2>
+            <p class="section-desc">A few pieces that reflect how I think: hands-on security, practical tooling, and systems built to teach me something real.</p>
+          </div>
+          <div class="featured-work-grid">
+            <a href="https://github.com/ashmithhmaddala/cli-packet-analyzer" target="_blank" rel="noreferrer" class="featured-work-card">
+              <div class="featured-work-meta">Security · Python</div>
+              <h3 class="featured-work-title">CLI Packet Analyzer</h3>
+              <p class="featured-work-copy">Built to get closer to raw traffic instead of treating packets like abstract theory. It captures traffic, parses protocols, and turns low-level networking into something inspectable from the command line.</p>
+              <div class="featured-work-detail">
+                <span class="featured-work-label">Why it matters</span>
+                <p>It shows the security mindset I care about most: understand systems deeply enough to reason about what is actually happening on the wire.</p>
+              </div>
+              <span class="featured-work-link">View repository &rarr;</span>
             </a>
-            <a href="https://github.com/ashmithhmaddala/crime-rate-prediction" target="_blank" rel="noreferrer" class="hp-project">
-              <span class="hp-project-name">Crime Rate Prediction</span>
-              <span class="hp-project-sub">ML dashboard for theft crime analytics in Bengaluru</span>
+            <a href="https://github.com/ashmithhmaddala/ai-vulnerability-scanner" target="_blank" rel="noreferrer" class="featured-work-card">
+              <div class="featured-work-meta">Security · ML · Python</div>
+              <h3 class="featured-work-title">AI Vulnerability Scanner</h3>
+              <p class="featured-work-copy">An experiment in blending code analysis and machine-learning-assisted detection to surface risky patterns in a codebase faster.</p>
+              <div class="featured-work-detail">
+                <span class="featured-work-label">Why it matters</span>
+                <p>It sits right at the overlap of my interests: application security, automation, and building tools that help humans make better decisions sooner.</p>
+              </div>
+              <span class="featured-work-link">View repository &rarr;</span>
             </a>
-            <a href="https://github.com/ashmithhmaddala/ai-vulnerability-scanner" target="_blank" rel="noreferrer" class="hp-project">
-              <span class="hp-project-name">AI Vulnerability Scanner</span>
-              <span class="hp-project-sub">ML-powered codebase scanner for security flaws</span>
-            </a>
-            <a href="https://github.com/ashmithhmaddala/Red-vs-Blue-CTF-Platform" target="_blank" rel="noreferrer" class="hp-project">
-              <span class="hp-project-name">Red vs Blue CTF</span>
-              <span class="hp-project-sub">Capture the flag platform for security training</span>
-            </a>
-            <a href="https://github.com/ashmithhmaddala/job-board-app" target="_blank" rel="noreferrer" class="hp-project">
-              <span class="hp-project-name">Job Board Engineer</span>
-              <span class="hp-project-sub">Flask app with auth, admin dashboard, and job tracking</span>
+            <a href="https://github.com/ashmithhmaddala/Red-vs-Blue-CTF-Platform" target="_blank" rel="noreferrer" class="featured-work-card">
+              <div class="featured-work-meta">Security · Web</div>
+              <h3 class="featured-work-title">Red vs Blue CTF Platform</h3>
+              <p class="featured-work-copy">A training environment shaped around attack-and-defend thinking instead of isolated toy exercises. The goal is to make learning feel competitive, structured, and closer to real tradeoffs.</p>
+              <div class="featured-work-detail">
+                <span class="featured-work-label">Why it matters</span>
+                <p>It reflects the part of security I enjoy most: building environments where offense and defense both sharpen your understanding.</p>
+              </div>
+              <span class="featured-work-link">View repository &rarr;</span>
             </a>
           </div>
-          <a href="work.html" class="see-all">All projects &rarr;</a>
+          <a href="work.html" class="see-all">Explore the full project archive &rarr;</a>
         </section>
 
         <!-- Terminal -->
         <section class="terminal-section reveal" id="terminal">
+          <div class="section-heading">
+            <span class="section-kicker">Interactive</span>
+            <h2 class="section-title">A faster way to explore the site</h2>
+            <p class="section-desc">If scrolling feels too static, use the terminal. It is part personality, part navigation layer, and part excuse to make the portfolio more fun to inspect.</p>
+          </div>
           <div class="terminal-window">
             <div class="terminal-titlebar">
               <div class="terminal-buttons">
@@ -134,6 +181,10 @@
 
         <!-- Writing -->
         <section class="home-writing-section reveal">
+          <div class="section-heading compact">
+            <span class="section-kicker">Writing</span>
+            <h2 class="section-title">Notes beyond project shipping</h2>
+          </div>
           <div class="home-writing-list">
             <a href="article-1.html" class="hw-item">
               <span class="hw-date">Nov 2025</span>

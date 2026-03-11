@@ -331,11 +331,32 @@ img {
   height: 12px;
 }
 
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.btn-secondary:hover {
+  color: var(--text);
+  border-color: var(--border-hover);
+  background: rgba(255, 255, 255, 0.02);
+}
+
 /* =========================================
    HOMEPAGE — HERO
    ========================================= */
 .homepage-container {
   padding-top: 7rem;
+  max-width: 980px;
+  margin: 0 auto;
 }
 
 .hero {
@@ -348,6 +369,19 @@ img {
 .hero-text {
   flex: 1;
   min-width: 0;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid rgba(232, 168, 73, 0.22);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .hero-photo {
@@ -379,6 +413,7 @@ img {
   line-height: 1.7;
   color: var(--text-secondary);
   margin-top: 2rem;
+  max-width: 620px;
 }
 
 .inline-link {
@@ -392,8 +427,16 @@ img {
 
 .hero-links {
   display: flex;
+  flex-wrap: wrap;
   gap: 1.5rem;
   margin-top: 1.5rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
 }
 
 .hero-links a {
@@ -423,14 +466,67 @@ img {
   width: 100%;
 }
 
-/* ── Home Experience ── */
-.home-experience {
+.section-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-bottom: 1.75rem;
+}
+
+.section-heading.compact {
+  margin-bottom: 1.25rem;
+}
+
+.section-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.7vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  color: var(--text);
+}
+
+.section-desc {
+  max-width: 640px;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+/* ── Home Focus ── */
+.home-focus-section {
   margin-top: 3rem;
   padding-top: 2rem;
   border-top: 1px solid var(--border);
 }
 
-.home-exp {
+.focus-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.focus-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-height: 190px;
+  padding: 1.25rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.focus-card-top {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -463,6 +559,20 @@ img {
   font-size: 0.8125rem;
   color: var(--text-muted);
   margin-top: 1px;
+}
+
+.focus-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.focus-copy {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
 }
 
 /* ── Home Skills ── */
@@ -500,48 +610,81 @@ img {
   border-top: 1px solid var(--border);
 }
 
-.home-projects {
-  display: flex;
-  flex-direction: column;
-}
-
-.hp-project {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 0.875rem 0;
-  border-bottom: 1px solid var(--border-subtle);
-  transition: border-color 0.15s ease;
+.featured-work-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
 
-.hp-project:first-child {
-  padding-top: 0;
+.featured-work-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-height: 100%;
+  padding: 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at top right, rgba(232, 168, 73, 0.08), transparent 42%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
-.hp-project:hover {
+.featured-work-card:hover {
+  transform: translateY(-4px);
   border-color: var(--border-hover);
+  box-shadow: var(--shadow-md);
 }
 
-.hp-project-name {
+.featured-work-meta {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.featured-work-title {
   font-family: var(--font-display);
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: var(--text);
-  letter-spacing: -0.02em;
-  transition: color 0.15s ease;
-  flex-shrink: 0;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
 }
 
-.hp-project:hover .hp-project-name {
-  color: var(--accent);
+.featured-work-copy {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.75;
 }
 
-.hp-project-sub {
-  font-size: 0.8125rem;
+.featured-work-detail {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.featured-work-label {
+  display: inline-block;
+  margin-bottom: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
   color: var(--text-muted);
-  text-align: right;
-  line-height: 1.4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.featured-work-detail p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.featured-work-link {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
 }
 
 .see-all {
@@ -1433,11 +1576,22 @@ img {
     gap: 1rem;
   }
 
-  .hp-project {
+  .hero-actions {
     flex-direction: column;
-    gap: 0.125rem;
+    align-items: stretch;
   }
 
+  .btn-primary,
+  .btn-secondary {
+    justify-content: center;
+  }
+
+  .focus-grid,
+  .featured-work-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-focus-section,
   .home-projects-section,
   .terminal-section,
   .home-writing-section {
