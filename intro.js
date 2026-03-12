@@ -4,6 +4,17 @@
   var word = document.getElementById("intro-word");
   if (!intro || !word) return;
 
+  var introSeenKey = "portfolioIntroSeen";
+
+  try {
+    if (window.sessionStorage.getItem(introSeenKey) === "true") {
+      intro.remove();
+      return;
+    }
+  } catch (error) {
+    // If sessionStorage is unavailable, fall back to the existing behavior.
+  }
+
   document.body.classList.add("intro-active");
 
   var greetings = [
@@ -43,6 +54,12 @@
   }
 
   function slideUp() {
+    try {
+      window.sessionStorage.setItem(introSeenKey, "true");
+    } catch (error) {
+      // Ignore storage failures and still complete the animation.
+    }
+
     intro.classList.add("done");
     document.body.classList.remove("intro-active");
 
