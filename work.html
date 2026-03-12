@@ -35,8 +35,116 @@
 
         <div class="reveal">
           <h1 class="projects-heading">Work</h1>
-          <p class="projects-intro">Things I've built — security tools, ML experiments, web apps. Mostly open-source, mostly Python.</p>
+          <p class="projects-intro">Projects where I learned by building: security tools, ML experiments, web apps, and systems that forced me to think more carefully about how software behaves under pressure.</p>
         </div>
+
+        <section class="work-overview reveal">
+          <div class="work-overview-grid">
+            <div class="work-overview-card">
+              <span class="work-overview-label">Core themes</span>
+              <p>Application security, tooling, automation, and hands-on systems work that makes abstract ideas more concrete.</p>
+            </div>
+            <div class="work-overview-card">
+              <span class="work-overview-label">What I optimize for</span>
+              <p>Projects that teach me something useful: better reasoning, sharper debugging instincts, and stronger engineering judgment.</p>
+            </div>
+            <div class="work-overview-card">
+              <span class="work-overview-label">Typical stack</span>
+              <p>Mostly Python, web interfaces when needed, and just enough UI to make tools easier to use and inspect.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="work-featured reveal">
+          <div class="section-heading">
+            <span class="section-kicker">Flagship Projects</span>
+            <h2 class="section-title">The best proof of how I think</h2>
+            <p class="section-desc">Not just what I built, but why I built it and what kind of engineering or security instinct it reflects.</p>
+          </div>
+
+          <div class="case-study-list">
+            <article class="case-study-card">
+              <div class="case-study-header">
+                <div>
+                  <span class="case-study-meta">Security · Python</span>
+                  <h2 class="case-study-title">CLI Packet Analyzer</h2>
+                </div>
+                <a href="https://github.com/ashmithhmaddala/cli-packet-analyzer" target="_blank" rel="noreferrer" class="case-study-link">Repository &rarr;</a>
+              </div>
+              <p class="case-study-summary">A command-line packet analyzer for Kali Linux that captures traffic, parses PCAPs, and breaks down protocols like Ethernet, ARP, IPv4, TCP, UDP, ICMP, DNS, and HTTP.</p>
+              <div class="case-study-grid">
+                <div class="case-study-block">
+                  <span class="case-study-label">Problem</span>
+                  <p>I wanted to get closer to what is actually happening on the wire instead of treating networking as a black box hidden behind tooling.</p>
+                </div>
+                <div class="case-study-block">
+                  <span class="case-study-label">Approach</span>
+                  <p>Built a CLI-first analyzer focused on live capture and readable protocol inspection, so lower-level traffic becomes easier to reason about quickly.</p>
+                </div>
+                <div class="case-study-block wide">
+                  <span class="case-study-label">Why it matters</span>
+                  <p>This is the kind of project that strengthens security judgment. It forces you to move from theory to actual packets, actual parsing, and actual protocol behavior.</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="case-study-card">
+              <div class="case-study-header">
+                <div>
+                  <span class="case-study-meta">Security · ML · Python</span>
+                  <h2 class="case-study-title">AI Vulnerability Scanner</h2>
+                </div>
+                <a href="https://github.com/ashmithhmaddala/ai-vulnerability-scanner" target="_blank" rel="noreferrer" class="case-study-link">Repository &rarr;</a>
+              </div>
+              <p class="case-study-summary">An experiment in using machine-learning-assisted logic and code pattern detection to flag risky areas in a codebase faster.</p>
+              <div class="case-study-grid">
+                <div class="case-study-block">
+                  <span class="case-study-label">Problem</span>
+                  <p>Security reviews can become repetitive and slow when every pass starts from zero. I wanted to explore how tooling could surface likely hotspots earlier.</p>
+                </div>
+                <div class="case-study-block">
+                  <span class="case-study-label">Approach</span>
+                  <p>Combined code scanning ideas with ML-style pattern recognition to experiment with faster first-pass triage and vulnerability discovery workflows.</p>
+                </div>
+                <div class="case-study-block wide">
+                  <span class="case-study-label">Why it matters</span>
+                  <p>It sits at the overlap I care about most right now: application security, automation, and building tools that help humans make sharper decisions sooner.</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="case-study-card">
+              <div class="case-study-header">
+                <div>
+                  <span class="case-study-meta">Security · Web</span>
+                  <h2 class="case-study-title">Red vs Blue CTF Platform</h2>
+                </div>
+                <a href="https://github.com/ashmithhmaddala/Red-vs-Blue-CTF-Platform" target="_blank" rel="noreferrer" class="case-study-link">Repository &rarr;</a>
+              </div>
+              <p class="case-study-summary">A CTF platform designed around attack-and-defend scenarios, giving players a more structured way to learn through competition and simulated pressure.</p>
+              <div class="case-study-grid">
+                <div class="case-study-block">
+                  <span class="case-study-label">Problem</span>
+                  <p>A lot of security learning feels fragmented. I wanted something that made offensive and defensive thinking feel connected, not separate tracks.</p>
+                </div>
+                <div class="case-study-block">
+                  <span class="case-study-label">Approach</span>
+                  <p>Built a training environment around scenario-driven learning, with red-team versus blue-team framing and more realistic challenge flow.</p>
+                </div>
+                <div class="case-study-block wide">
+                  <span class="case-study-label">Why it matters</span>
+                  <p>It reflects how I like to learn and build: create systems where tension, iteration, and feedback sharpen understanding faster than passive reading does.</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="work-archive reveal">
+          <div class="section-heading compact">
+            <span class="section-kicker">Archive</span>
+            <h2 class="section-title">Everything else I've shipped</h2>
+          </div>
 
         <!-- Filter -->
         <div class="project-filter reveal">
@@ -158,6 +266,7 @@
           </a>
 
         </div>
+        </section>
       </div>
 
       <!-- Footer -->
