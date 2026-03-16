@@ -9,6 +9,8 @@
   const RESUME_PATH = "public/resume.pdf";
   const VISUAL_STATE_KEY = "portfolio.visualState";
   const REDUCED_MOTION_STYLE_ID = "terminal-reduced-motion-style";
+  const HEMAL_STYLE_ID = "hemal-easter-egg-style";
+  const HEMAL_OVERLAY_ID = "hemal-easter-egg-overlay";
   const VISUAL_PRESETS = {
     mars: {
       accent: "#ff3b3b",
@@ -48,6 +50,19 @@
       borderHover: "#45608c",
       navBg: "rgba(15, 22, 36, 0.85)",
       label: "Frost Byte",
+    },
+    pink: {
+      accent: "#ff4fa3",
+      accentHover: "#ff7fbd",
+      bg: "#1a0f17",
+      bgElevated: "#241522",
+      bgCard: "#241522",
+      bgMuted: "#332036",
+      border: "#5a2f54",
+      borderSubtle: "#2a1a2b",
+      borderHover: "#7a4380",
+      navBg: "rgba(26, 15, 23, 0.85)",
+      label: "Pink Nebula",
     },
   };
   const PROFILE_LINKS = {
@@ -137,7 +152,7 @@
   };
   const MAN_PAGES = {
     help: "help\nList built-in commands and discover what the terminal can do.",
-    theme: "theme <mars|neon|frost>\nSwitch the website color preset in real time.",
+    theme: "theme <mars|neon|frost|pink>\nSwitch the website color preset in real time.",
     accent: "accent <hex>\nSet a custom accent color. Example: accent #ff3b3b",
     fx: "fx <particles|scanlines|motion> <on|off>\nToggle visual effects and animation behavior.",
     ui: "ui\nShow current visual theme, accent, and effect states.",
@@ -616,6 +631,8 @@ Nice work! You have the curiosity of a true hacker.
 
     "sudo hire ashmith": () => "__HIRE_MODE__",
 
+    hemal: () => "__HEMAL_MODE__",
+
     "cat /etc/passwd": () =>
       `<span class="t-muted">Nice try 😏 — this is a portfolio, not a server.</span>`,
 
@@ -743,7 +760,7 @@ style.css   terminal.js   work.html   writing.html`,
     const normalizedTheme = (themeName || "").toLowerCase();
 
     if (!VISUAL_PRESETS[normalizedTheme]) {
-      return `<span class="t-muted">theme: unknown preset '${escapeHtml(themeName)}'. Try mars, neon, or frost.</span>`;
+      return `<span class="t-muted">theme: unknown preset '${escapeHtml(themeName)}'. Try mars, neon, frost, or pink.</span>`;
     }
 
     visualState.theme = normalizedTheme;
@@ -858,6 +875,98 @@ style.css   terminal.js   work.html   writing.html`,
 
     rows.push(`<span class="t-muted">Wake up, visitor. The payload is usually in plain sight.</span>`);
     return rows.join("\n");
+  }
+
+  function startHemalMode() {
+    const message = pickRandom([
+      "hemal mode activated: pink nebula online.",
+      "secret unlocked: this terminal has a soft side.",
+      "for hemal: sparkle protocol loaded.",
+    ]);
+
+    setTheme("pink");
+
+    if (!document.getElementById(HEMAL_STYLE_ID)) {
+      const style = document.createElement("style");
+      style.id = HEMAL_STYLE_ID;
+      style.textContent = [
+        "#hemal-easter-egg-overlay {",
+        "  position: fixed;",
+        "  inset: 0;",
+        "  pointer-events: none;",
+        "  z-index: 9998;",
+        "  opacity: 0;",
+        "  transition: opacity 0.45s ease;",
+        "  background: radial-gradient(circle at 50% 35%, rgba(255, 79, 163, 0.2), rgba(17, 19, 26, 0.82));",
+        "}",
+        "#hemal-easter-egg-overlay.visible { opacity: 1; }",
+        "#hemal-easter-egg-overlay .hemal-badge {",
+        "  position: absolute;",
+        "  top: 50%;",
+        "  left: 50%;",
+        "  transform: translate(-50%, -50%);",
+        "  border: 1px solid rgba(255, 79, 163, 0.85);",
+        "  color: #ffd1ea;",
+        "  background: rgba(36, 21, 34, 0.88);",
+        "  padding: 0.75rem 1rem;",
+        "  border-radius: 999px;",
+        "  font: 600 0.85rem/1 var(--font-display);",
+        "  letter-spacing: 0.08em;",
+        "  text-transform: uppercase;",
+        "  box-shadow: 0 0 0 1px rgba(255, 79, 163, 0.15), 0 8px 30px rgba(255, 79, 163, 0.26);",
+        "}",
+        "#hemal-easter-egg-overlay .hemal-spark {",
+        "  position: absolute;",
+        "  width: 6px;",
+        "  height: 6px;",
+        "  border-radius: 999px;",
+        "  background: rgba(255, 182, 221, 0.95);",
+        "  box-shadow: 0 0 8px rgba(255, 127, 189, 0.9);",
+        "  animation: hemalSparkle 1.8s ease-in-out infinite;",
+        "}",
+        "@keyframes hemalSparkle {",
+        "  0%, 100% { transform: scale(0.45); opacity: 0.35; }",
+        "  50% { transform: scale(1.1); opacity: 1; }",
+        "}",
+      ].join("\n");
+      document.head.appendChild(style);
+    }
+
+    const oldOverlay = document.getElementById(HEMAL_OVERLAY_ID);
+    if (oldOverlay) {
+      oldOverlay.remove();
+    }
+
+    const overlay = document.createElement("div");
+    overlay.id = HEMAL_OVERLAY_ID;
+
+    const badge = document.createElement("div");
+    badge.className = "hemal-badge";
+    badge.textContent = "Hemal Mode";
+    overlay.appendChild(badge);
+
+    for (let index = 0; index < 24; index++) {
+      const spark = document.createElement("span");
+      spark.className = "hemal-spark";
+      spark.style.left = `${Math.floor(Math.random() * 100)}%`;
+      spark.style.top = `${Math.floor(Math.random() * 100)}%`;
+      spark.style.animationDelay = `${(Math.random() * 1.6).toFixed(2)}s`;
+      overlay.appendChild(spark);
+    }
+
+    document.body.appendChild(overlay);
+    window.requestAnimationFrame(function () {
+      overlay.classList.add("visible");
+    });
+
+    window.setTimeout(function () {
+      overlay.classList.remove("visible");
+      window.setTimeout(function () {
+        overlay.remove();
+      }, 500);
+    }, 4200);
+
+    printLine(`<pre class="terminal-response"><span class="t-accent">[secret]</span> ${message}\n<span class="t-muted">Try: theme pink, accent #ff4fa3, fx scanlines on</span></pre>`);
   }
 
   function randomGlyphRow() {
@@ -1091,6 +1200,11 @@ PORT      STATE    SERVICE
       return;
     }
 
+    if (result === "__HEMAL_MODE__") {
+      startHemalMode();
+      return;
+    }
+
     if (result) {
       printLine(`<pre class="terminal-response">${result}</pre>`);
       return;
@@ -1264,7 +1378,7 @@ Ashmith will get back to you at <span class="t-accent">${escapeHtml(hireMode.ema
 
   // Welcome message
   COMMANDS.theme = function () {
-    return `<span class="t-green">$ theme</span>\n\n<span class="t-muted">Usage:</span> theme <mars|neon|frost>\nCurrent: <span class="t-accent">${VISUAL_PRESETS[visualState.theme].label}</span>`;
+    return `<span class="t-green">$ theme</span>\n\n<span class="t-muted">Usage:</span> theme <mars|neon|frost|pink>\nCurrent: <span class="t-accent">${VISUAL_PRESETS[visualState.theme].label}</span>`;
   };
 
   COMMANDS.accent = function () {
