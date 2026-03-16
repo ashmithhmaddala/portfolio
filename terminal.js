@@ -11,6 +11,7 @@
   const REDUCED_MOTION_STYLE_ID = "terminal-reduced-motion-style";
   const HEMAL_STYLE_ID = "hemal-easter-egg-style";
   const HEMAL_OVERLAY_ID = "hemal-easter-egg-overlay";
+  const HEMAL_GREETING_ID = "hemal-greeting-overlay";
   const VISUAL_PRESETS = {
     mars: {
       accent: "#ff3b3b",
@@ -884,7 +885,97 @@ style.css   terminal.js   work.html   writing.html`,
       "for hemal: sparkle protocol loaded.",
     ]);
 
+    playHemalGreeting(function () {
+      runHemalSequence(message);
+    });
+  }
+
+  function playHemalGreeting(onComplete) {
+    const existingGreeting = document.getElementById(HEMAL_GREETING_ID);
+    if (existingGreeting) {
+      existingGreeting.remove();
+    }
+
+    const greetingOverlay = document.createElement("div");
+    greetingOverlay.id = HEMAL_GREETING_ID;
+    greetingOverlay.className = "intro";
+
+    const greetingWord = document.createElement("span");
+    greetingWord.className = "intro-word";
+    greetingOverlay.appendChild(greetingWord);
+
+    document.body.appendChild(greetingOverlay);
+    document.body.classList.add("intro-active");
+
+    const greetings = [
+      { text: "Hello Hemal", duration: 620 },
+      { text: "Hola Hemal", duration: 170 },
+      { text: "Bonjour Hemal", duration: 160 },
+      { text: "Ciao Hemal", duration: 150 },
+      { text: "Hallo Hemal", duration: 150 },
+      { text: "Ola Hemal", duration: 140 },
+      { text: "Namaste Hemal", duration: 140 },
+      { text: "Merhaba Hemal", duration: 140 },
+      { text: "Konnichiwa Hemal", duration: 150 },
+      { text: "Annyeong Hemal", duration: 150 },
+      { text: "Hello Hemal", duration: 500 },
+    ];
+    let index = 0;
+    const fadeGap = 60;
+
+    function slideUp() {
+      greetingOverlay.classList.add("done");
+      document.body.classList.remove("intro-active");
+      let completed = false;
+
+      function finishGreeting() {
+        if (completed) {
+          return;
+        }
+
+        completed = true;
+        greetingOverlay.remove();
+        if (typeof onComplete === "function") {
+          onComplete();
+        }
+      }
+
+      greetingOverlay.addEventListener("transitionend", finishGreeting, { once: true });
+      window.setTimeout(finishGreeting, 900);
+    }
+
+    function showNextGreeting() {
+      if (index >= greetings.length) {
+        window.setTimeout(slideUp, 200);
+        return;
+      }
+
+      greetingWord.classList.remove("visible");
+
+      window.setTimeout(function () {
+        greetingWord.textContent = greetings[index].text;
+        greetingWord.classList.add("visible");
+        const stay = greetings[index].duration;
+        index += 1;
+        window.setTimeout(showNextGreeting, stay);
+      }, fadeGap);
+    }
+
+    showNextGreeting();
+  }
+
+  function runHemalSequence(message) {
+    const previousFxState = {
+      particles: visualState.particles,
+      scanlines: visualState.scanlines,
+      motion: visualState.motion,
+    };
+
     setTheme("pink");
+    setParticles(true);
+    setScanlines(false);
+    setMotion(true);
+    saveVisualState();
 
     if (!document.getElementById(HEMAL_STYLE_ID)) {
       const style = document.createElement("style");
@@ -913,6 +1004,7 @@ style.css   terminal.js   work.html   writing.html`,
         "  font: 600 0.85rem/1 var(--font-display);",
         "  letter-spacing: 0.08em;",
         "  text-transform: uppercase;",
+        "  animation: hemalPulse 1.2s ease-in-out infinite;",
         "  box-shadow: 0 0 0 1px rgba(255, 79, 163, 0.15), 0 8px 30px rgba(255, 79, 163, 0.26);",
         "}",
         "#hemal-easter-egg-overlay .hemal-spark {",
@@ -924,9 +1016,25 @@ style.css   terminal.js   work.html   writing.html`,
         "  box-shadow: 0 0 8px rgba(255, 127, 189, 0.9);",
         "  animation: hemalSparkle 1.8s ease-in-out infinite;",
         "}",
+        "#hemal-easter-egg-overlay .hemal-trail {",
+        "  position: absolute;",
+        "  width: 2px;",
+        "  height: 40px;",
+        "  opacity: 0.8;",
+        "  background: linear-gradient(180deg, rgba(255, 143, 199, 0), rgba(255, 143, 199, 0.95), rgba(255, 143, 199, 0));",
+        "  animation: hemalDrift linear infinite;",
+        "}",
+        "@keyframes hemalPulse {",
+        "  0%, 100% { transform: translate(-50%, -50%) scale(1); }",
+        "  50% { transform: translate(-50%, -50%) scale(1.06); }",
+        "}",
         "@keyframes hemalSparkle {",
         "  0%, 100% { transform: scale(0.45); opacity: 0.35; }",
         "  50% { transform: scale(1.1); opacity: 1; }",
+        "}",
+        "@keyframes hemalDrift {",
+        "  from { transform: translateY(-20vh); }",
+        "  to { transform: translateY(120vh); }",
         "}",
       ].join("\n");
       document.head.appendChild(style);
@@ -942,10 +1050,10 @@ style.css   terminal.js   work.html   writing.html`,
 
     const badge = document.createElement("div");
     badge.className = "hemal-badge";
-    badge.textContent = "Hemal Mode";
+    badge.textContent = "Hemal Mode // Secret Channel";
     overlay.appendChild(badge);
 
-    for (let index = 0; index < 24; index++) {
+    for (let index = 0; index < 34; index++) {
       const spark = document.createElement("span");
       spark.className = "hemal-spark";
       spark.style.left = `${Math.floor(Math.random() * 100)}%`;
@@ -954,10 +1062,35 @@ style.css   terminal.js   work.html   writing.html`,
       overlay.appendChild(spark);
     }
 
+    for (let index = 0; index < 14; index++) {
+      const trail = document.createElement("span");
+      trail.className = "hemal-trail";
+      trail.style.left = `${Math.floor(Math.random() * 100)}%`;
+      trail.style.top = `${Math.floor(Math.random() * 40) - 40}%`;
+      trail.style.animationDuration = `${(2.2 + Math.random() * 2.6).toFixed(2)}s`;
+      trail.style.animationDelay = `${(Math.random() * 0.9).toFixed(2)}s`;
+      overlay.appendChild(trail);
+    }
+
     document.body.appendChild(overlay);
     window.requestAnimationFrame(function () {
       overlay.classList.add("visible");
     });
+
+    const accentPulse = ["#ff4fa3", "#ff74bc", "#ff9fd4", "#ff74bc"];
+    let pulseIndex = 0;
+    const pulseTimer = window.setInterval(function () {
+      visualState.accent = accentPulse[pulseIndex % accentPulse.length];
+      applyThemeVariables(visualState.theme);
+      pulseIndex += 1;
+    }, 280);
+
+    window.setTimeout(function () {
+      window.clearInterval(pulseTimer);
+      visualState.accent = "#ff4fa3";
+      applyThemeVariables(visualState.theme);
+      saveVisualState();
+    }, 3600);
 
     window.setTimeout(function () {
       overlay.classList.remove("visible");
@@ -967,6 +1100,22 @@ style.css   terminal.js   work.html   writing.html`,
     }, 4200);
 
     printLine(`<pre class="terminal-response"><span class="t-accent">[secret]</span> ${message}\n<span class="t-muted">Try: theme pink, accent #ff4fa3, fx scanlines on</span></pre>`);
+
+    window.setTimeout(function () {
+      printLine(`<pre class="terminal-response"><span class="t-accent">[hemal]</span> loading constellations... done.</pre>`);
+    }, 500);
+
+    window.setTimeout(function () {
+      printLine(`<pre class="terminal-response"><span class="t-accent">[hemal]</span> this page now glows a little brighter.</pre>`);
+    }, 1200);
+
+    window.setTimeout(function () {
+      setParticles(previousFxState.particles);
+      setScanlines(previousFxState.scanlines);
+      setMotion(previousFxState.motion);
+      saveVisualState();
+      printLine(`<pre class="terminal-response"><span class="t-muted">visual effects restored. pink nebula stays active.</span></pre>`);
+    }, 4600);
   }
 
   function randomGlyphRow() {
