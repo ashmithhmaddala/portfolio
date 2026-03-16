@@ -7,6 +7,49 @@
 
   const PROMPT = "visitor@ashmith.sec:~$ ";
   const RESUME_PATH = "public/resume.pdf";
+  const VISUAL_STATE_KEY = "portfolio.visualState";
+  const REDUCED_MOTION_STYLE_ID = "terminal-reduced-motion-style";
+  const VISUAL_PRESETS = {
+    mars: {
+      accent: "#ff3b3b",
+      accentHover: "#ff6666",
+      bg: "#11131a",
+      bgElevated: "#171a22",
+      bgCard: "#171a22",
+      bgMuted: "#1f2330",
+      border: "#2a3040",
+      borderSubtle: "#1a1f2b",
+      borderHover: "#3a4259",
+      navBg: "rgba(17, 19, 26, 0.85)",
+      label: "Mars Red",
+    },
+    neon: {
+      accent: "#00ff88",
+      accentHover: "#4dffad",
+      bg: "#0d1110",
+      bgElevated: "#141a18",
+      bgCard: "#141a18",
+      bgMuted: "#1b2623",
+      border: "#234036",
+      borderSubtle: "#182620",
+      borderHover: "#2f5e4f",
+      navBg: "rgba(13, 17, 16, 0.85)",
+      label: "Neon Grid",
+    },
+    frost: {
+      accent: "#5ad7ff",
+      accentHover: "#8be5ff",
+      bg: "#0f1624",
+      bgElevated: "#182132",
+      bgCard: "#182132",
+      bgMuted: "#212d42",
+      border: "#324565",
+      borderSubtle: "#202c40",
+      borderHover: "#45608c",
+      navBg: "rgba(15, 22, 36, 0.85)",
+      label: "Frost Byte",
+    },
+  };
   const PROFILE_LINKS = {
     github: "https://github.com/ashmithhmaddala",
     linkedin: "https://www.linkedin.com/in/ashmith-maddala/",
@@ -94,6 +137,10 @@
   };
   const MAN_PAGES = {
     help: "help\nList built-in commands and discover what the terminal can do.",
+    theme: "theme <mars|neon|frost>\nSwitch the website color preset in real time.",
+    accent: "accent <hex>\nSet a custom accent color. Example: accent #ff3b3b",
+    fx: "fx <particles|scanlines|motion> <on|off>\nToggle visual effects and animation behavior.",
+    ui: "ui\nShow current visual theme, accent, and effect states.",
     open: "open <target>\nOpen pages or profiles like 'open github', 'open work', or 'open resume'.",
     cat: "cat <target>\nRead a built-in file or inspect a project with 'cat project portfolio'.",
     search: "search <query>\nSearch across commands, projects, and topics in the terminal.",
@@ -610,6 +657,179 @@ style.css   terminal.js   work.html   writing.html`,
 
   const history = [];
   let historyIndex = -1;
+  const visualState = {
+    theme: "mars",
+    accent: null,
+    particles: true,
+    scanlines: true,
+    motion: true,
+  };
+
+  function normalizeHexColor(rawValue) {
+    if (!rawValue) {
+      return null;
+    }
+
+    const trimmed = rawValue.trim();
+    const prefixed = trimmed.startsWith("#") ? trimmed : `#${trimmed}`;
+    const valid = /^#([\da-f]{3}|[\da-f]{6})$/i.test(prefixed);
+
+    return valid ? prefixed.toLowerCase() : null;
+  }
+
+  function saveVisualState() {
+    try {
+      localStorage.setItem(VISUAL_STATE_KEY, JSON.stringify(visualState));
+    } catch (error) {
+      // Ignore storage failures in privacy modes.
+    }
+  }
+
+  function applyThemeVariables(themeName) {
+    const preset = VISUAL_PRESETS[themeName] || VISUAL_PRESETS.mars;
+    const root = document.documentElement;
+    const activeAccent = visualState.accent || preset.accent;
+
+    root.style.setProperty("--bg", preset.bg);
+    root.style.setProperty("--bg-elevated", preset.bgElevated);
+    root.style.setProperty("--bg-card", preset.bgCard);
+    root.style.setProperty("--bg-muted", preset.bgMuted);
+    root.style.setProperty("--border", preset.border);
+    root.style.setProperty("--border-subtle", preset.borderSubtle);
+    root.style.setProperty("--border-hover", preset.borderHover);
+    root.style.setProperty("--nav-bg", preset.navBg);
+    root.style.setProperty("--accent", activeAccent);
+    root.style.setProperty("--accent-hover", visualState.accent ? activeAccent : preset.accentHover);
+  }
+
+  function setParticles(enabled) {
+    const canvas = document.getElementById("particle-canvas");
+
+    if (canvas) {
+      canvas.style.display = enabled ? "block" : "none";
+    }
+
+    visualState.particles = enabled;
+  }
+
+  function setScanlines(enabled) {
+    const overlay = document.querySelector(".scanline-overlay");
+
+    if (overlay) {
+      overlay.style.display = enabled ? "block" : "none";
+    }
+
+    visualState.scanlines = enabled;
+  }
+
+  function setMotion(enabled) {
+    const existingStyle = document.getElementById(REDUCED_MOTION_STYLE_ID);
+
+    if (!enabled && !existingStyle) {
+      const style = document.createElement("style");
+      style.id = REDUCED_MOTION_STYLE_ID;
+      style.textContent = "*, *::before, *::after { animation: none !important; transition: none !important; } html { scroll-behavior: auto !important; }";
+      document.head.appendChild(style);
+    }
+
+    if (enabled && existingStyle) {
+      existingStyle.remove();
+    }
+
+    visualState.motion = enabled;
+  }
+
+  function setTheme(themeName) {
+    const normalizedTheme = (themeName || "").toLowerCase();
+
+    if (!VISUAL_PRESETS[normalizedTheme]) {
+      return `<span class="t-muted">theme: unknown preset '${escapeHtml(themeName)}'. Try mars, neon, or frost.</span>`;
+    }
+
+    visualState.theme = normalizedTheme;
+    visualState.accent = null;
+    applyThemeVariables(visualState.theme);
+    saveVisualState();
+
+    return `<span class="t-green">Theme switched:</span> <span class="t-accent">${VISUAL_PRESETS[normalizedTheme].label}</span>\n<span class="t-muted">Tip:</span> use 'accent #hex' for a custom highlight color.`;
+  }
+
+  function setAccent(colorToken) {
+    const normalized = normalizeHexColor(colorToken);
+
+    if (!normalized) {
+      return `<span class="t-muted">accent: invalid color. Use hex like #ff3b3b or ff3b3b.</span>`;
+    }
+
+    visualState.accent = normalized;
+    applyThemeVariables(visualState.theme);
+    saveVisualState();
+
+    return `<span class="t-green">Accent updated:</span> <span class="t-accent">${escapeHtml(normalized)}</span>`;
+  }
+
+  function setVisualEffect(effectName, stateToken) {
+    const effect = (effectName || "").toLowerCase();
+    const normalizedState = (stateToken || "").toLowerCase();
+
+    if (!["on", "off"].includes(normalizedState)) {
+      return `<span class="t-muted">fx: state must be 'on' or 'off'. Example: fx particles off</span>`;
+    }
+
+    const enabled = normalizedState === "on";
+
+    if (effect === "particles") {
+      setParticles(enabled);
+    } else if (effect === "scanlines") {
+      setScanlines(enabled);
+    } else if (effect === "motion") {
+      setMotion(enabled);
+    } else {
+      return `<span class="t-muted">fx: unknown effect '${escapeHtml(effectName)}'. Try particles, scanlines, or motion.</span>`;
+    }
+
+    saveVisualState();
+    return `<span class="t-green">${escapeHtml(effect)}:</span> ${enabled ? "on" : "off"}`;
+  }
+
+  function renderUiState() {
+    const preset = VISUAL_PRESETS[visualState.theme] || VISUAL_PRESETS.mars;
+    const accentValue = visualState.accent || preset.accent;
+
+    return `<span class="t-green">$ ui</span>\n\n<span class="t-accent">Theme</span>       ${preset.label.toLowerCase()}\n<span class="t-accent">Accent</span>      ${escapeHtml(accentValue)}\n<span class="t-accent">Particles</span>   ${visualState.particles ? "on" : "off"}\n<span class="t-accent">Scanlines</span>   ${visualState.scanlines ? "on" : "off"}\n<span class="t-accent">Motion</span>      ${visualState.motion ? "on" : "off"}`;
+  }
+
+  function initializeVisualState() {
+    try {
+      const stored = localStorage.getItem(VISUAL_STATE_KEY);
+
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (typeof parsed.theme === "string" && VISUAL_PRESETS[parsed.theme]) {
+          visualState.theme = parsed.theme;
+        }
+        if (typeof parsed.accent === "string" && normalizeHexColor(parsed.accent)) {
+          visualState.accent = normalizeHexColor(parsed.accent);
+        }
+        if (typeof parsed.particles === "boolean") {
+          visualState.particles = parsed.particles;
+        }
+        if (typeof parsed.scanlines === "boolean") {
+          visualState.scanlines = parsed.scanlines;
+        }
+        if (typeof parsed.motion === "boolean") {
+          visualState.motion = parsed.motion;
+        }
+      }
+    } catch (error) {
+      // Ignore parsing failures and use defaults.
+    }
+
+    applyThemeVariables(visualState.theme);
+    setParticles(visualState.particles);
+    setScanlines(visualState.scanlines);
+    setMotion(visualState.motion);
+  }
 
   function pickRandom(items) {
     return items[Math.floor(Math.random() * items.length)];
@@ -844,6 +1064,19 @@ PORT      STATE    SERVICE
       return renderTraceroute(trimmed.slice(11).trim());
     }
 
+    if (trimmed.startsWith("theme ")) {
+      return setTheme(trimmed.slice(6).trim());
+    }
+
+    if (trimmed.startsWith("accent ")) {
+      return setAccent(trimmed.slice(7).trim());
+    }
+
+    if (trimmed.startsWith("fx ")) {
+      const parts = trimmed.split(/\s+/);
+      return setVisualEffect(parts[1], parts[2]);
+    }
+
     return null;
   }
 
@@ -1030,6 +1263,32 @@ Ashmith will get back to you at <span class="t-accent">${escapeHtml(hireMode.ema
   }
 
   // Welcome message
+  COMMANDS.theme = function () {
+    return `<span class="t-green">$ theme</span>\n\n<span class="t-muted">Usage:</span> theme <mars|neon|frost>\nCurrent: <span class="t-accent">${VISUAL_PRESETS[visualState.theme].label}</span>`;
+  };
+
+  COMMANDS.accent = function () {
+    return `<span class="t-green">$ accent</span>\n\n<span class="t-muted">Usage:</span> accent <hex>\nExample: accent #ff3b3b\nCurrent: <span class="t-accent">${escapeHtml(visualState.accent || VISUAL_PRESETS[visualState.theme].accent)}</span>`;
+  };
+
+  COMMANDS.fx = function () {
+    return `<span class="t-green">$ fx</span>\n\n<span class="t-muted">Usage:</span> fx <particles|scanlines|motion> <on|off>`;
+  };
+
+  COMMANDS.ui = function () {
+    return renderUiState();
+  };
+
+  const originalHelp = COMMANDS.help;
+  COMMANDS.help = function () {
+    return `${originalHelp().replace(
+      "  matrix        Enter the matrix\\n",
+      "  matrix        Enter the matrix\\n  theme         Switch visual color preset\\n  accent        Set custom accent color\\n  fx            Toggle particles/scanlines/motion\\n  ui            Show current visual state\\n"
+    )}`;
+  };
+
+  initializeVisualState();
+
   printLine(`<pre class="terminal-response"><span class="t-green">Welcome to Ashmith's terminal.</span>
 Type <span class="t-accent">'help'</span> to see available commands.</pre>`);
 
