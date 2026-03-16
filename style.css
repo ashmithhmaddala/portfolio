@@ -14,21 +14,21 @@
   --font-display: 'Space Grotesk', 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
-  --bg: #09090b;
-  --bg-elevated: #18181b;
-  --bg-card: #18181b;
-  --bg-muted: #27272a;
-  --border: #27272a;
-  --border-subtle: #1e1e21;
-  --border-hover: #3f3f46;
+  --bg: #11131a;
+  --bg-elevated: #171a22;
+  --bg-card: #171a22;
+  --bg-muted: #1f2330;
+  --border: #2a3040;
+  --border-subtle: #1a1f2b;
+  --border-hover: #3a4259;
   --text: #fafafa;
   --text-secondary: #a1a1aa;
   --text-muted: #52525b;
-  --accent: #e8a849;
-  --accent-hover: #f0c06e;
+  --accent: #ff3b3b;
+  --accent-hover: #ff6666;
   --green: #00ff41;
   --green-soft: #4ade80;
-  --nav-bg: rgba(9, 9, 11, 0.85);
+  --nav-bg: rgba(17, 19, 26, 0.85);
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
@@ -155,7 +155,7 @@ img {
 }
 
 .navbar.scrolled {
-  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(232, 168, 73, 0.08);
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255, 59, 59, 0.08);
 }
 
 .nav-brand a {
@@ -375,7 +375,7 @@ img {
   display: inline-flex;
   align-items: center;
   padding: 0.35rem 0.7rem;
-  border: 1px solid rgba(232, 168, 73, 0.22);
+  border: 1px solid rgba(255, 59, 59, 0.22);
   border-radius: 999px;
   font-family: var(--font-mono);
   font-size: 0.7rem;
@@ -625,7 +625,7 @@ img {
   border: 1px solid var(--border);
   border-radius: 18px;
   background:
-    radial-gradient(circle at top right, rgba(232, 168, 73, 0.08), transparent 42%),
+    radial-gradient(circle at top right, rgba(255, 59, 59, 0.08), transparent 42%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
   transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
@@ -1228,7 +1228,7 @@ img {
   border: 1px solid var(--border);
   border-radius: 22px;
   background:
-    radial-gradient(circle at top right, rgba(232, 168, 73, 0.08), transparent 36%),
+    radial-gradient(circle at top right, rgba(255, 59, 59, 0.08), transparent 36%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
   box-shadow: var(--shadow-sm);
 }
