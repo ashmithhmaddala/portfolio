@@ -1,21 +1,51 @@
-import { copyFileSync } from "node:fs";
+import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 /*
- * GitHub Pages has no server-side rewrite, so a direct hit on /work/chess
- * would 404 before React ever loads. Pages serves 404.html for any unmatched
- * path, so shipping a byte-identical copy of index.html under that name makes
- * it the SPA fallback: the app boots, the router reads location.pathname, and
- * the URL is preserved.
+ * GitHub Pages has no server-side rewrite. An unknown path gets 404.html
+ * served with a 404 status.
+ *
+ * Copying index.html to 404.html renders the app correctly, but the response
+ * is still a 404, and search engines will not index a page served that way.
+ * Every case study would be invisible.
+ *
+ * So 404.html is a redirector instead: it rewrites /work/theriac to
+ * /?/work/theriac, which is a genuine 200 for index.html. A small script in
+ * index.html restores the real URL before the router reads it.
  */
+const REDIRECT_404 = `<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Ashmith Maddala</title>
+		<script>
+			// Fold the path into a query string and bounce to the root, which
+			// GitHub Pages serves as a 200. index.html unfolds it again.
+			var l = window.location;
+			l.replace(
+				l.protocol + "//" + l.hostname + (l.port ? ":" + l.port : "") +
+				"/?/" +
+				l.pathname.slice(1).replace(/&/g, "~and~") +
+				(l.search ? "&" + l.search.slice(1).replace(/&/g, "~and~") : "") +
+				l.hash
+			);
+		</script>
+	</head>
+	<body></body>
+</html>
+`;
+
 function githubPagesSpaFallback() {
 	return {
 		name: "gh-pages-spa-fallback",
 		closeBundle() {
-			const out = resolve(__dirname, "dist");
-			copyFileSync(resolve(out, "index.html"), resolve(out, "404.html"));
+			writeFileSync(
+				resolve(__dirname, "dist", "404.html"),
+				REDIRECT_404,
+				"utf8"
+			);
 		},
 	};
 }

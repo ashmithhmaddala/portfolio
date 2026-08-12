@@ -68,6 +68,35 @@
 			}
 		</script>
 
+		<!--
+			Decodes the path that 404.html stashed in the query string.
+
+			GitHub Pages answers an unknown path with 404.html and a 404
+			status. That renders the app fine, but search engines will not
+			index a page served with a 404, so every case study would be
+			invisible. 404.html instead redirects /work/theriac to
+			/?/work/theriac, which is a real 200, and this rewrites the URL
+			back before the router reads it.
+		-->
+		<script>
+			(function (l) {
+				if (l.search[1] === "/") {
+					var decoded = l.search
+						.slice(1)
+						.split("&")
+						.map(function (s) {
+							return s.replace(/~and~/g, "&");
+						})
+						.join("?");
+					window.history.replaceState(
+						null,
+						null,
+						l.pathname.slice(0, -1) + decoded + l.hash
+					);
+				}
+			})(window.location);
+		</script>
+
 		<!-- Resolve the theme before first paint so there is no flash. -->
 		<script>
 			(function () {
