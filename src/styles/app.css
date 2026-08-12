@@ -1,0 +1,21 @@
+/* Reading-progress rail pinned above the nav. */
+.scrollProgress {
+	position: fixed;
+	inset-inline: 0;
+	top: 0;
+	z-index: 150;
+	height: 2px;
+	transform-origin: 0 50%;
+	background: linear-gradient(
+		90deg,
+		var(--accent),
+		var(--accent-2),
+		var(--accent-3)
+	);
+}
+
+/* Sections sit above the hero's mesh so the grain wash doesn't wash them out. */
+main {
+	position: relative;
+	z-index: 2;
+}

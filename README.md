@@ -1,88 +1,78 @@
-# Ashmith Maddala – Personal Portfolio
+# ashmithmaddala.dev
 
-Welcome to my personal portfolio website! This site showcases my skills, projects, and ways to connect with me. Built using modern web technologies, it is fully responsive and easy to customize.
+Personal site of Ashmith Maddala — product security engineer at Vontier.
 
-[Live Demo](https://ashmithmaddala.dev/)
+Single-page React app, no router. Deployed to GitHub Pages behind a custom
+domain.
 
----
+## Stack
 
-## ✨ Features
+| | |
+|---|---|
+| Build | Vite 6 |
+| UI | React 18 |
+| Motion | Framer Motion |
+| Icons | lucide-react |
+| Host | GitHub Pages (`gh-pages` branch) |
 
-- Multi-page layout: Home, About, Projects, Articles, Contact
-- Fully responsive and mobile-friendly
-- Easy to configure and extend
-- SEO optimized for discoverability
-- Clean, modern design
-
----
-
-## 🚀 Getting Started
-
-**Clone this repository:**
-
-```bash
-git clone https://github.com/ashmithhmaddala/responsive-portfolio-website-Ashmith.git
-cd responsive-portfolio-website-Ashmith
-```
-
-**Install dependencies:**
+## Local development
 
 ```bash
 npm install
+npm run dev      # http://localhost:5173
+npm run build    # -> dist/
+npm run preview  # serve the production build locally
 ```
 
-**Run locally:**
+## Deploying
 
 ```bash
-npm start
+npm run deploy
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+That builds to `dist/` and pushes it to the `gh-pages` branch.
+`public/CNAME` is copied into the build, which is what keeps
+`ashmithmaddala.dev` bound across deploys — don't delete it.
 
----
+## Editing content
 
-## 🛠️ Customization
+**All copy lives in [`src/data/profile.js`](src/data/profile.js).** Components
+read from it; nothing is hard-coded in JSX. To change what the site says, that
+is the only file you need.
 
-All major content and configuration are in `/src/data/`:
+Structure:
 
-- `user.js`: Update your name, bio, skills, social links, and project info.
-- `articles.js`: Add articles or blog posts.
-- `seo.js`: Set SEO titles, descriptions, and keywords for each page.
-- `styles.css`: Change color scheme and fonts.
+- `PROFILE` — name, role, hero tagline, rotating phrases, long-form bio
+- `EXPERIENCE` — roles, newest first
+- `PROJECTS` — cards plus the `caseStudy` behind each one
+- `SKILLS` — grouped, `level` drives the meter width
+- `SOCIALS`, `NAV`, `STATS`, `INTERESTS`
 
-**Images:**  
-Place your images (profile, project screenshots, etc.) in the `/public` folder.
+### On project metrics
 
----
+Each project metric carries an `estimated` flag:
 
-## 📁 Folder Structure
-
-- `/public`: Static assets (images, favicon, resume, etc.)
-- `/src/components`: Reusable React components
-- `/src/data`: Site configuration and content
-- `/src/pages`: Main site pages (Home, About, Projects, etc.)
-
----
-
-## ⚙️ Deployment
-
-To build the app for production:
-
-```bash
-npm run build
+```js
+{ value: "40%", label: "engagement lift", estimated: true }
 ```
 
-Deploy the contents of the `build/` folder to your preferred hosting (GitHub Pages, Vercel, Netlify, etc.).
+`true` renders a visible `est.` marker with a tooltip explaining the number is
+self-reported rather than independently measured. When you can back a figure
+with a real measurement, set it to `false` and the marker disappears. Don't
+present an unmeasured number as fact — it's the first thing an interviewer
+pulls on.
 
----
+## Known follow-ups
 
-## 🙋‍♂️ About Me
+- `public/og.jpg` — 1200×630 social share card doesn't exist yet. The
+  `og:image` tags in `index.html` are commented out until it does.
+- The Vontier entry in `EXPERIENCE` has `placeholder: true` and generic scope
+  bullets. Replace them with real accomplishments.
 
-Hi! I’m Ashmith Maddala, a passionate developer eager to showcase my work and connect with collaborators and employers.  
-Feel free to reach out via the [Contact](#) page or connect with me on [GitHub](https://github.com/ashmithhmaddala) and [LinkedIn](#).
+## Accessibility & motion
 
----
-
-## 📝 License
-
-This project is open source under the [MIT License](LICENSE).
+- Every animation respects `prefers-reduced-motion`; the tilt and typewriter
+  disable entirely rather than degrade.
+- The card tilt is off for coarse pointers.
+- Theme follows the system by default, overridable and persisted, painted
+  before first frame to avoid a flash.
