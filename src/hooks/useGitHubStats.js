@@ -1,24 +1,21 @@
 import { useEffect, useState } from "react";
 import { GITHUB_USERNAME } from "../data/profile";
 
-const CACHE_KEY = "gh-stats-v1";
+const CACHE_KEY = "gh-v2";
 const CACHE_TTL = 1000 * 60 * 60 * 6; // 6h
 
 /*
- * Pulls public profile numbers from the unauthenticated GitHub API.
+ * Public profile numbers plus recent push activity.
  *
- * That endpoint is rate-limited to 60 requests/hour per IP, so this is
- * strictly a progressive enhancement: every consumer must render fine from
- * the static fallbacks in profile.js when `data` is null. Results are cached
- * in localStorage for 6h to keep a returning visitor from spending quota.
+ * The unauthenticated GitHub API is rate-limited to 60 requests/hour per IP,
+ * so this is strictly progressive enhancement: every consumer must render
+ * sensibly when `data` is null. Results are cached for six hours so a
+ * returning visitor doesn't spend quota.
  */
 export function useGitHubStats() {
 	const [data, setData] = useState(null);
 
 	useEffect(() => {
-		let cancelled = false;
-
-		// Serve from cache when it's fresh.
 		try {
 			const raw = localStorage.getItem(CACHE_KEY);
 			if (raw) {
@@ -33,21 +30,35 @@ export function useGitHubStats() {
 		}
 
 		const controller = new AbortController();
+		let cancelled = false;
 
-		fetch(`https://api.github.com/users/${GITHUB_USERNAME}`, {
-			signal: controller.signal,
-			headers: { Accept: "application/vnd.github+json" },
-		})
-			.then((res) => {
-				if (!res.ok) throw new Error(`GitHub responded ${res.status}`);
+		const get = (path) =>
+			fetch(`https://api.github.com/${path}`, {
+				signal: controller.signal,
+				headers: { Accept: "application/vnd.github+json" },
+			}).then((res) => {
+				if (!res.ok) throw new Error(String(res.status));
 				return res.json();
-			})
-			.then((json) => {
+			});
+
+		Promise.all([
+			get(`users/${GITHUB_USERNAME}`),
+			get(`users/${GITHUB_USERNAME}/repos?sort=pushed&per_page=6`),
+		])
+			.then(([user, repos]) => {
 				if (cancelled) return;
 				const next = {
-					repos: json.public_repos,
-					followers: json.followers,
-					avatar: json.avatar_url,
+					repos: user.public_repos,
+					recent: repos
+						// The site's own repo is not interesting activity.
+						.filter((r) => !r.fork && r.name !== "portfolio")
+						.slice(0, 4)
+						.map((r) => ({
+							name: r.name,
+							language: r.language,
+							pushedAt: r.pushed_at,
+							url: r.html_url,
+						})),
 				};
 				setData(next);
 				try {
@@ -60,8 +71,8 @@ export function useGitHubStats() {
 				}
 			})
 			.catch(() => {
-				// Offline, rate-limited, or blocked. Consumers keep their
-				// static fallbacks; nothing user-visible breaks.
+				// Offline, rate-limited or blocked. Consumers keep their
+				// static fallbacks and nothing user-visible breaks.
 			});
 
 		return () => {
@@ -71,4 +82,22 @@ export function useGitHubStats() {
 	}, []);
 
 	return data;
+}
+
+const RTF = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+const UNITS = [
+	["year", 31536000],
+	["month", 2592000],
+	["week", 604800],
+	["day", 86400],
+	["hour", 3600],
+	["minute", 60],
+];
+
+export function relativeTime(iso) {
+	const seconds = (Date.now() - new Date(iso).getTime()) / 1000;
+	for (const [unit, size] of UNITS) {
+		if (seconds >= size) return RTF.format(-Math.floor(seconds / size), unit);
+	}
+	return "just now";
 }

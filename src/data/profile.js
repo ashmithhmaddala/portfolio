@@ -28,11 +28,28 @@ export const PROFILE = {
 		{ key: "Degree", value: "B.E. Computer Science, NHCE, 2026" },
 	],
 
+	/*
+	 * Deliberately not a restatement of the home-page intro. That page says
+	 * what I do now. This one is about how I got here and what the tools have
+	 * in common.
+	 */
 	about: [
-		"I came to security from the backend. Four years of building services taught me that systems rarely fail at the clever part. They fail at the auth check someone skipped, the input nobody validated, the dependency pinned two years ago and never looked at since.",
-		"At Vontier that is most of the work. Connected devices, long support lifecycles, firmware that goes out to the field and stays there. Threat modelling before a design locks. Security review inside the development cycle. Handing findings back to the teams who own the code.",
-		"The rest of my time goes into tooling. Correlating log events into attack chains, turning reconnaissance output into a graph you can actually read, detecting automation from how a pointer moves. Most recently a static scanner for malicious instructions hidden in MCP tool descriptions, which is a genuinely new attack surface and one I expect to get worse before it gets better.",
+		"I build tools that read what people skim. Tool metadata, log lines, packet timing, the way a pointer moves across a screen. Each one is looking for signal somewhere nobody reads carefully, which turns out to be where a lot of it sits.",
+		"Before that I built backends, and that is still where the instincts come from. Four years of Flask and Node teaches you that systems rarely fail at the clever part. They fail at the auth check someone skipped, the input nobody validated, the dependency pinned two years ago and never looked at since.",
+		"The academic version of the same interest went into reinforcement learning for query optimisation during my final year. Teaching a planner to choose its own join order is a hard problem, it stayed hard, and that is most of why it held my attention.",
+		"There is a bias running through the tooling that took me four projects to notice. Every one of them would rather report its own limits than hand you a verdict. theriac states a miss rate instead of declaring a server clean. The beaconing detector shows you the jitter level where it stops working. A security tool that overclaims seems worse to me than no tool at all, because someone will trust it.",
 		"Away from a screen I lift, read more nutrition research than is strictly reasonable, and keep tinkering with chess engines.",
+	],
+
+	/*
+	 * Contact page only. Edit freely — this is a preference, and I inferred
+	 * it from what you build rather than from anything you told me.
+	 */
+	contactTopics: [
+		"Product security, especially on hardware with a long field life",
+		"Detection engineering and anything ATT&CK-shaped",
+		"MCP security, or telling me theriac got a server wrong",
+		"Query optimisation, join ordering, and planners that learn",
 	],
 
 	principles: [

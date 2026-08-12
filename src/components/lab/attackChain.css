@@ -1,0 +1,227 @@
+.ac {
+	border: 1px solid var(--rule);
+	transition: border-color var(--dur) var(--ease);
+}
+
+.ac.is-correlated {
+	border-color: var(--signal);
+}
+
+.ac__head {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: var(--sp-3);
+	padding: var(--sp-3) var(--sp-4);
+	border-bottom: 1px solid var(--rule);
+	font-size: var(--fs-micro);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--ink-3);
+}
+
+.ac.is-correlated .ac__head {
+	color: var(--signal);
+}
+
+.ac__source {
+	color: var(--ink-3);
+}
+
+/* ---------------------------------------------------------------- events */
+
+.ac__events {
+	padding: var(--sp-2) var(--sp-4);
+}
+
+.ac__event {
+	position: relative;
+	display: grid;
+	grid-template-columns: 4.5rem 1fr auto;
+	gap: var(--sp-3);
+	padding: var(--sp-3) 0 var(--sp-3) var(--sp-4);
+	opacity: 0;
+	transform: translateY(6px);
+	transition: opacity 380ms var(--ease), transform 380ms var(--ease);
+}
+
+.ac__event.is-in {
+	opacity: 1;
+	transform: none;
+}
+
+/*
+ * The rail is the correlation made visible: a dot per event while they're
+ * unrelated, joined into a continuous line once the chain is found.
+ */
+.ac__rail {
+	position: absolute;
+	left: 3px;
+	top: 0;
+	bottom: 0;
+	width: 1px;
+	background: transparent;
+}
+
+.ac__rail::before {
+	content: "";
+	position: absolute;
+	left: -3px;
+	top: 1.05rem;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--paper);
+	border: 1px solid var(--rule-2);
+	transition: border-color var(--dur) var(--ease),
+		background-color var(--dur) var(--ease);
+}
+
+.ac__event.is-linked .ac__rail {
+	background: var(--signal);
+}
+
+.ac__event.is-linked .ac__rail::before {
+	background: var(--signal);
+	border-color: var(--signal);
+}
+
+/* Don't run the rail past the first and last dots. */
+.ac__event:first-child .ac__rail {
+	top: 1.35rem;
+}
+
+.ac__event:last-child .ac__rail {
+	bottom: auto;
+	height: 1.35rem;
+}
+
+.ac__time {
+	font-size: var(--fs-micro);
+	color: var(--ink-3);
+	padding-top: 0.15rem;
+	font-variant-numeric: tabular-nums;
+}
+
+.ac__body {
+	display: grid;
+	gap: var(--sp-2);
+	min-width: 0;
+}
+
+.ac__line {
+	font-size: var(--fs-xs);
+	color: var(--ink-2);
+	overflow-wrap: anywhere;
+}
+
+.ac__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sp-2) var(--sp-3);
+	font-size: var(--fs-micro);
+	color: var(--ink-3);
+}
+
+.ac__tactic {
+	color: var(--signal);
+}
+
+.ac__technique {
+	color: var(--ink-3);
+}
+
+/* -------------------------------------------------------------- severity */
+
+.ac__sev {
+	height: fit-content;
+	padding: 0.1em 0.5em;
+	border: 1px solid currentColor;
+	font-size: var(--fs-micro);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	transition: color var(--dur) var(--ease);
+}
+
+.ac__sev--info,
+.ac__sev--low {
+	color: var(--ink-3);
+}
+
+.ac__sev--critical {
+	color: var(--signal);
+}
+
+/* -------------------------------------------------------- note + controls */
+
+.ac__note {
+	padding: var(--sp-4);
+	border-top: 1px solid var(--rule);
+	font-size: var(--fs-sm);
+	color: var(--ink-2);
+	/* Reserved so stepping doesn't move the controls under the cursor. */
+	min-height: 6rem;
+}
+
+.ac__controls {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-2);
+	padding: var(--sp-3) var(--sp-4);
+	border-top: 1px solid var(--rule);
+}
+
+.ac__btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45em;
+	padding: 0.4rem 0.6rem;
+	border: 1px solid var(--rule-2);
+	font-family: var(--font-mono);
+	font-size: var(--fs-micro);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--ink-2);
+	transition: color var(--dur-fast) var(--ease),
+		border-color var(--dur-fast) var(--ease),
+		background-color var(--dur-fast) var(--ease);
+}
+
+.ac__btn:hover:not(:disabled) {
+	color: var(--ink);
+	border-color: var(--ink-2);
+	background: var(--paper-2);
+}
+
+.ac__btn:disabled {
+	opacity: 0.35;
+	cursor: not-allowed;
+}
+
+.ac__btn--play {
+	padding-inline: 0.8rem;
+}
+
+.ac__progress {
+	margin-left: auto;
+	font-size: var(--fs-micro);
+	color: var(--ink-3);
+	font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 34rem) {
+	.ac__event {
+		grid-template-columns: 1fr auto;
+	}
+
+	.ac__time {
+		grid-column: 1 / -1;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ac__event {
+		opacity: 1;
+		transform: none;
+	}
+}

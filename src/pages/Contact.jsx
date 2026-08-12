@@ -58,6 +58,25 @@ export default function Contact() {
 					</button>
 				</p>
 
+				<section className="contact__topics">
+					<h2 className="label">
+						<span className="label__num">01</span>
+						<span>Worth writing about</span>
+						<span className="label__rule" aria-hidden="true" />
+					</h2>
+					<ul className="contact__topicList">
+						{PROFILE.contactTopics.map((topic) => (
+							<li key={topic}>{topic}</li>
+						))}
+					</ul>
+				</section>
+
+				<h2 className="label">
+					<span className="label__num">02</span>
+					<span>Elsewhere</span>
+					<span className="label__rule" aria-hidden="true" />
+				</h2>
+
 				<ul className="contact__links">
 					{SOCIALS.map((social) => {
 						const Icon = ICONS[social.id];

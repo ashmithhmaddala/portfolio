@@ -1,17 +1,22 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { EXPERIENCE, PROFILE, SOCIALS } from "../data/profile";
-import { FEATURED, PROJECTS } from "../data/projects";
+import { ArrowRight, ArrowUpRight, GitCommitHorizontal } from "lucide-react";
+import { PROFILE, SOCIALS } from "../data/profile";
+import { FEATURED } from "../data/projects";
+import { relativeTime, useGitHubStats } from "../hooks/useGitHubStats";
 import { usePageTitle } from "../hooks/usePage";
 import Reveal from "../components/Reveal";
 import "./home.css";
 
-// Lead with three; the rest are on /work.
+/*
+ * The landing page. Deliberately does not restate the role detail (that is
+ * /about), the full project metadata (/work) or the contact block
+ * (/contact). What it has that no other page does is live push activity.
+ */
 const LEAD = FEATURED.slice(0, 3);
 
 export default function Home() {
 	usePageTitle();
-	const current = EXPERIENCE.find((role) => role.current);
+	const github = useGitHubStats();
 	const [first, ...rest] = PROFILE.intro;
 
 	return (
@@ -61,47 +66,77 @@ export default function Home() {
 				</div>
 			</section>
 
-			{current && (
+			{/* ------------------------------------------- live activity */}
+			{github?.recent?.length > 0 && (
 				<section className="section">
 					<div className="wrap">
 						<h2 className="label">
 							<span className="label__num">01</span>
-							<span>Currently</span>
+							<span>Latest pushes</span>
 							<span className="label__rule" aria-hidden="true" />
 						</h2>
 
-						<p className="home__role">
-							{current.role}
-							<span className="dim">, </span>
-							<span className="home__company">
-								{current.company}
-							</span>
-							<span className="home__period mono">
-								{current.period}
-							</span>
-						</p>
-						<p className="home__context">{current.context}</p>
+						<ul className="activity">
+							{github.recent.map((repo, i) => (
+								<Reveal
+									as="li"
+									index={i}
+									className="activity__item"
+									key={repo.name}
+								>
+									<a
+										className="activity__link"
+										href={repo.url}
+										target="_blank"
+										rel="noreferrer"
+									>
+										<GitCommitHorizontal
+											size={14}
+											strokeWidth={1.6}
+											className="activity__icon"
+										/>
+										<span className="activity__name mono">
+											{repo.name}
+										</span>
+										{repo.language && (
+											<span className="activity__lang mono">
+												{repo.language}
+											</span>
+										)}
+										<span className="activity__when mono">
+											{relativeTime(repo.pushedAt)}
+										</span>
+									</a>
+								</Reveal>
+							))}
+						</ul>
+
 						<p className="home__more mono">
-							<Link className="link" to="/about">
-								Background and how I work
-								<ArrowRight size={11} strokeWidth={1.8} />
-							</Link>
+							Pulled live from the GitHub API.
 						</p>
 					</div>
 				</section>
 			)}
 
+			{/* ------------------------------------------- work pointers */}
 			<section className="section">
 				<div className="wrap">
 					<h2 className="label">
-						<span className="label__num">02</span>
-						<span>Selected work</span>
+						<span className="label__num">
+							{github?.recent?.length > 0 ? "02" : "01"}
+						</span>
+						<span>Start here</span>
 						<span className="label__rule" aria-hidden="true" />
 					</h2>
 
 					<ol className="teasers">
 						{LEAD.map((project, i) => (
-							<Reveal as="li" index={i} className="teaser" key={project.slug}>
+							<Reveal
+								as="li"
+								index={i}
+								className="teaser"
+								key={project.slug}
+							>
 								<Link
 									className="teaser__link"
 									to={`/work/${project.slug}`}
@@ -116,45 +151,20 @@ export default function Home() {
 										<span className="teaser__line">
 											{project.oneLiner}
 										</span>
-										<span className="teaser__tags mono">
-											{project.tags.join("  ·  ")}
-										</span>
 									</span>
-									<span className="teaser__period mono">
-										{project.period}
-									</span>
+									<ArrowRight
+										size={14}
+										strokeWidth={1.6}
+										className="teaser__arrow"
+									/>
 								</Link>
 							</Reveal>
 						))}
 					</ol>
 
 					<p className="home__more mono">
-						<Link className="link" to="/work">
-							All {PROJECTS.length} projects
-							<ArrowRight size={11} strokeWidth={1.8} />
-						</Link>
-					</p>
-				</div>
-			</section>
-
-			<section className="section">
-				<div className="wrap">
-					<h2 className="label">
-						<span className="label__num">03</span>
-						<span>Get in touch</span>
-						<span className="label__rule" aria-hidden="true" />
-					</h2>
-					<p className="home__cta">
-						<a
-							className="link"
-							href={`mailto:${PROFILE.email}`}
-						>
-							{PROFILE.email}
-						</a>
-					</p>
-					<p className="home__more mono">
-						<Link className="link" to="/contact">
-							Other ways to reach me
+						<Link className="link" to="/lab">
+							Or try them in the lab
 							<ArrowRight size={11} strokeWidth={1.8} />
 						</Link>
 					</p>

@@ -9,7 +9,7 @@ Personal site of Ashmith Maddala, product security engineer at Vontier.
 | `/` | Intro, spec block, current role, three featured projects |
 | `/work` | Four case studies plus the rest of the repos |
 | `/work/:slug` | Case study — diagram, architecture, decisions, known limits |
-| `/lab` | Three interactive demos of ideas from the work |
+| `/lab` | Four interactive demos, one per security project |
 | `/about` | Long-form background, principles, experience, stack |
 | `/contact` | Email and links |
 | `*` | Not found |
@@ -40,6 +40,22 @@ Short declarative sentences. State the thing and stop. No rhetorical
 questions, no "not just X but Y", no three-item lists for rhythm, no em-dash
 asides. If a sentence was written to sound good, cut it.
 
+## Page uniqueness
+
+Each route owns its content. Don't reintroduce overlap:
+
+- `/` — intro, spec block, **live GitHub push activity**, three project
+  pointers. Does not restate the role detail or the contact block.
+- `/work` — project index only, no biography.
+- `/lab` — demos only.
+- `/about` — how I got here, principles, the Vontier and education entries,
+  full stack. This is the only page carrying role detail.
+- `/contact` — email, topics worth writing about, links.
+
+The home intro and the about prose are deliberately different registers: the
+first says what I do now, the second how I got here and what the tools have in
+common.
+
 ## Diagrams
 
 Each case study carries a hand-authored SVG in
@@ -60,8 +76,8 @@ depends on seeing the picture.
 
 React 18, React Router 6, Vite 6, Lucide. No motion library, no CSS framework.
 Scroll behaviour is IntersectionObserver and a rAF-throttled scroll listener in
-[`useScroll.js`](src/hooks/useScroll.js). Production bundle is ~77 kB of JS
-gzipped and ~5.5 kB of CSS.
+[`useScroll.js`](src/hooks/useScroll.js). Production bundle is ~79 kB of JS
+gzipped and ~5.8 kB of CSS.
 
 ## Local development
 

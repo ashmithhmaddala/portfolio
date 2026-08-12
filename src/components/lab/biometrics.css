@@ -1,0 +1,211 @@
+.bio {
+	border: 1px solid var(--rule);
+}
+
+/* --------------------------------------------------------------- surface */
+
+.bio__surface {
+	position: relative;
+	background: var(--paper-2);
+	border-bottom: 1px solid var(--rule);
+	cursor: crosshair;
+	touch-action: none;
+}
+
+.bio__svg {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+.bio__trace {
+	fill: none;
+	stroke: var(--ink-2);
+	stroke-width: 1.5;
+	stroke-linejoin: round;
+	stroke-linecap: round;
+}
+
+.bio__trace.is-bot {
+	stroke: var(--signal);
+}
+
+.bio__head {
+	fill: var(--ink);
+}
+
+.bio__head.is-bot {
+	fill: var(--signal);
+}
+
+.bio__hint {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.55em;
+	font-size: var(--fs-xs);
+	color: var(--ink-3);
+	pointer-events: none;
+}
+
+/* -------------------------------------------------------------- controls */
+
+.bio__controls {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-2);
+	padding: var(--sp-3) var(--sp-4);
+	border-bottom: 1px solid var(--rule);
+}
+
+.bio__btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45em;
+	padding: 0.4rem 0.7rem;
+	border: 1px solid var(--rule-2);
+	font-family: var(--font-mono);
+	font-size: var(--fs-micro);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--ink-2);
+	transition: color var(--dur-fast) var(--ease),
+		border-color var(--dur-fast) var(--ease),
+		background-color var(--dur-fast) var(--ease);
+}
+
+.bio__btn:hover:not(:disabled) {
+	color: var(--ink);
+	border-color: var(--ink-2);
+	background: var(--paper-2);
+}
+
+.bio__btn:disabled {
+	opacity: 0.35;
+	cursor: not-allowed;
+}
+
+.bio__samples {
+	margin-left: auto;
+	font-size: var(--fs-micro);
+	color: var(--ink-3);
+	font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------- readout */
+
+.bio__readout {
+	padding: var(--sp-4);
+	border-bottom: 1px solid var(--rule);
+	/* Reserved so the panel doesn't jump when features start resolving. */
+	min-height: 11rem;
+}
+
+.bio__waiting {
+	font-size: var(--fs-xs);
+	color: var(--ink-3);
+}
+
+.bio__features {
+	display: grid;
+	gap: var(--sp-3);
+}
+
+.bio__feature {
+	display: grid;
+	grid-template-columns: 5.5rem 1fr;
+	align-items: center;
+	gap: var(--sp-3);
+}
+
+.bio__featureKey {
+	font-size: var(--fs-micro);
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	color: var(--ink-3);
+}
+
+.bio__meter {
+	display: block;
+	height: 6px;
+	background: var(--paper-3);
+	border: 1px solid var(--rule);
+}
+
+.bio__meterFill {
+	display: block;
+	height: 100%;
+	background: var(--ink-2);
+	transition: width 120ms linear;
+}
+
+.bio__meterFill.is-bot {
+	background: var(--signal);
+}
+
+.bio__featureLabel {
+	grid-column: 2;
+	font-size: var(--fs-micro);
+	color: var(--ink-3);
+	margin-top: -0.15rem;
+}
+
+.bio__verdict {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--sp-2) var(--sp-3);
+	margin-top: var(--sp-5);
+	padding-top: var(--sp-4);
+	border-top: 1px solid var(--rule);
+}
+
+.bio__score {
+	font-size: 1.5rem;
+	color: var(--ink);
+	font-variant-numeric: tabular-nums;
+}
+
+.bio__scoreLabel {
+	font-size: var(--fs-micro);
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	color: var(--ink-3);
+}
+
+.bio__badge {
+	margin-left: auto;
+	padding: 0.15em 0.6em;
+	border: 1px solid currentColor;
+	font-size: var(--fs-micro);
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+}
+
+.bio__badge.is-human {
+	color: var(--ink-2);
+}
+
+.bio__badge.is-bot {
+	color: var(--signal);
+}
+
+.bio__caveat {
+	padding: var(--sp-4);
+	font-size: var(--fs-micro);
+	line-height: 1.6;
+	color: var(--ink-3);
+}
+
+@media (max-width: 32rem) {
+	.bio__feature {
+		grid-template-columns: 1fr;
+		gap: var(--sp-1);
+	}
+
+	.bio__featureLabel {
+		grid-column: 1;
+	}
+}
