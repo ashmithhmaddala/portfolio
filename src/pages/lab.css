@@ -1,0 +1,30 @@
+.demo {
+	padding-block: var(--section-y);
+	border-top: 1px solid var(--rule);
+}
+
+.demo:first-of-type {
+	border-top: 0;
+	padding-top: 0;
+}
+
+.demo__blurb {
+	color: var(--ink-2);
+	max-width: 42rem;
+	margin-bottom: var(--sp-3);
+}
+
+.demo__link {
+	font-size: var(--fs-xs);
+	margin-bottom: var(--sp-5);
+}
+
+.demo__link a {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35em;
+}
+
+.demo__stage {
+	margin-top: var(--sp-5);
+}

@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { EXPERIENCE, PROFILE, PROJECTS, SOCIALS } from "../data/profile";
+import { EXPERIENCE, PROFILE, SOCIALS } from "../data/profile";
+import { FEATURED, PROJECTS } from "../data/projects";
 import { usePageTitle } from "../hooks/usePage";
+import Reveal from "../components/Reveal";
 import "./home.css";
 
-// The three the site should lead with. Everything is on /work.
-const FEATURED = PROJECTS.slice(0, 3);
+// Lead with three; the rest are on /work.
+const LEAD = FEATURED.slice(0, 3);
 
 export default function Home() {
 	usePageTitle();
@@ -98,8 +100,8 @@ export default function Home() {
 					</h2>
 
 					<ol className="teasers">
-						{FEATURED.map((project) => (
-							<li className="teaser" key={project.slug}>
+						{LEAD.map((project, i) => (
+							<Reveal as="li" index={i} className="teaser" key={project.slug}>
 								<Link
 									className="teaser__link"
 									to={`/work/${project.slug}`}
@@ -122,7 +124,7 @@ export default function Home() {
 										{project.period}
 									</span>
 								</Link>
-							</li>
+							</Reveal>
 						))}
 					</ol>
 

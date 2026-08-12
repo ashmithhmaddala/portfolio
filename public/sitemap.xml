@@ -2,10 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url><loc>https://ashmithmaddala.dev/</loc><priority>1.0</priority></url>
 	<url><loc>https://ashmithmaddala.dev/work</loc><priority>0.9</priority></url>
+	<url><loc>https://ashmithmaddala.dev/lab</loc><priority>0.9</priority></url>
 	<url><loc>https://ashmithmaddala.dev/about</loc><priority>0.8</priority></url>
 	<url><loc>https://ashmithmaddala.dev/contact</loc><priority>0.7</priority></url>
-	<url><loc>https://ashmithmaddala.dev/work/learnsmart-engineer</loc><priority>0.6</priority></url>
-	<url><loc>https://ashmithmaddala.dev/work/job-board-tracker</loc><priority>0.6</priority></url>
-	<url><loc>https://ashmithmaddala.dev/work/python-chess-engine</loc><priority>0.6</priority></url>
-	<url><loc>https://ashmithmaddala.dev/work/crime-rate-prediction</loc><priority>0.6</priority></url>
+	<url><loc>https://ashmithmaddala.dev/work/theriac</loc><priority>0.8</priority></url>
+	<url><loc>https://ashmithmaddala.dev/work/turing-defense</loc><priority>0.7</priority></url>
+	<url><loc>https://ashmithmaddala.dev/work/tactic</loc><priority>0.7</priority></url>
+	<url><loc>https://ashmithmaddala.dev/work/reconpilot</loc><priority>0.7</priority></url>
 </urlset>

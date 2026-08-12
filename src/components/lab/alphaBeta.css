@@ -1,0 +1,184 @@
+.ab {
+	border: 1px solid var(--rule);
+	background: var(--paper);
+}
+
+.ab__stage {
+	padding: var(--sp-4);
+	border-bottom: 1px solid var(--rule);
+	overflow-x: auto;
+	overscroll-behavior-x: contain;
+}
+
+.ab__svg {
+	display: block;
+	width: 100%;
+	/* Below this the node labels stop being legible; scroll instead. */
+	min-width: 32rem;
+	height: auto;
+}
+
+/* ------------------------------------------------------------------ edges */
+
+.ab__edge {
+	stroke: var(--rule-2);
+	transition: stroke var(--dur) var(--ease),
+		stroke-opacity var(--dur) var(--ease);
+}
+
+.ab__edge.is-cut {
+	stroke: var(--rule-2);
+	stroke-dasharray: 3 3;
+	stroke-opacity: 0.5;
+}
+
+/* ------------------------------------------------------------------ nodes */
+
+.ab__node circle {
+	fill: var(--paper-2);
+	stroke: var(--rule-2);
+	transition: fill var(--dur) var(--ease), stroke var(--dur) var(--ease);
+}
+
+.ab__node text,
+.ab__leaf text {
+	font-family: var(--font-mono);
+	font-size: 11px;
+	fill: var(--ink-3);
+	transition: fill var(--dur) var(--ease);
+}
+
+.ab__node.is-done circle {
+	stroke: var(--ink-2);
+}
+
+.ab__node.is-done text {
+	fill: var(--ink);
+}
+
+.ab__node.is-active circle {
+	fill: var(--signal-tint);
+	stroke: var(--signal);
+}
+
+.ab__node.is-active text {
+	fill: var(--signal);
+}
+
+/* ----------------------------------------------------------------- leaves */
+
+.ab__leaf rect {
+	fill: var(--paper-2);
+	stroke: var(--rule-2);
+	transition: fill var(--dur) var(--ease), stroke var(--dur) var(--ease);
+}
+
+.ab__leaf.is-seen rect {
+	stroke: var(--ink-2);
+}
+
+.ab__leaf.is-seen text {
+	fill: var(--ink);
+}
+
+.ab__leaf.is-active rect {
+	fill: var(--signal-tint);
+	stroke: var(--signal);
+}
+
+.ab__leaf.is-active text {
+	fill: var(--signal);
+}
+
+/* Pruned leaves stay in place, drawn as never-read rather than removed. */
+.ab__leaf.is-cut rect {
+	fill: none;
+	stroke: var(--rule-2);
+	stroke-dasharray: 3 3;
+}
+
+.ab__leaf.is-cut text {
+	fill: var(--ink-3);
+}
+
+/* --------------------------------------------------------------- readout */
+
+.ab__readout {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: var(--sp-3);
+	padding: var(--sp-3) var(--sp-4);
+	border-bottom: 1px solid var(--rule);
+	font-size: var(--fs-xs);
+	color: var(--ink-2);
+	font-variant-numeric: tabular-nums;
+}
+
+.ab__window {
+	transition: color var(--dur) var(--ease);
+}
+
+.ab__window.is-cutoff {
+	color: var(--signal);
+}
+
+.ab__count {
+	color: var(--ink-3);
+}
+
+.ab__note {
+	padding: var(--sp-4);
+	font-size: var(--fs-sm);
+	color: var(--ink-2);
+	border-bottom: 1px solid var(--rule);
+	/* Two lines reserved so stepping doesn't jog the controls. */
+	min-height: 4.4rem;
+}
+
+/* -------------------------------------------------------------- controls */
+
+.ab__controls {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-2);
+	padding: var(--sp-3) var(--sp-4);
+}
+
+.ab__btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45em;
+	padding: 0.4rem 0.6rem;
+	border: 1px solid var(--rule-2);
+	color: var(--ink-2);
+	font-family: var(--font-mono);
+	font-size: var(--fs-micro);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	transition: color var(--dur-fast) var(--ease),
+		border-color var(--dur-fast) var(--ease),
+		background-color var(--dur-fast) var(--ease);
+}
+
+.ab__btn:hover:not(:disabled) {
+	color: var(--ink);
+	border-color: var(--ink-2);
+	background: var(--paper-2);
+}
+
+.ab__btn:disabled {
+	opacity: 0.35;
+	cursor: not-allowed;
+}
+
+.ab__btn--play {
+	padding-inline: 0.85rem;
+}
+
+.ab__progress {
+	margin-left: auto;
+	font-size: var(--fs-micro);
+	color: var(--ink-3);
+	font-variant-numeric: tabular-nums;
+}

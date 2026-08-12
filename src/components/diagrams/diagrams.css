@@ -73,3 +73,28 @@
 	color: var(--ink-3);
 	max-width: 40rem;
 }
+
+/* --- graph nodes (ReconPilot) --- */
+
+.dgm__gnode circle {
+	fill: var(--paper-2);
+	stroke: var(--rule-2);
+}
+
+.dgm__gnode text {
+	font-size: 10px;
+	fill: var(--ink-2);
+}
+
+.dgm__gnode.is-svc circle {
+	fill: var(--paper-3);
+}
+
+.dgm__gnode.is-vuln circle {
+	fill: var(--signal-tint);
+	stroke: var(--signal);
+}
+
+.dgm__gnode.is-vuln text {
+	fill: var(--signal);
+}

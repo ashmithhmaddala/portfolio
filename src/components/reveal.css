@@ -1,0 +1,23 @@
+.reveal {
+	opacity: 0;
+	transform: translateY(10px);
+	transition: opacity 520ms var(--ease) var(--reveal-delay, 0ms),
+		transform 520ms var(--ease) var(--reveal-delay, 0ms);
+}
+
+.reveal.is-in {
+	opacity: 1;
+	transform: none;
+}
+
+/*
+ * With reduced motion the hook reports in-view immediately, so this only has
+ * to make sure nothing is left mid-transition.
+ */
+@media (prefers-reduced-motion: reduce) {
+	.reveal {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}

@@ -7,8 +7,9 @@ Personal site of Ashmith Maddala, product security engineer at Vontier.
 | Path | Page |
 |---|---|
 | `/` | Intro, spec block, current role, three featured projects |
-| `/work` | Full project index |
-| `/work/:slug` | Case study — diagram, architecture, decisions, retrospective |
+| `/work` | Four case studies plus the rest of the repos |
+| `/work/:slug` | Case study — diagram, architecture, decisions, known limits |
+| `/lab` | Three interactive demos of ideas from the work |
 | `/about` | Long-form background, principles, experience, stack |
 | `/contact` | Email and links |
 | `*` | Not found |
@@ -23,8 +24,11 @@ The system is austere on purpose. If you extend it, hold these:
 2. **Rules, not boxes.** Structure comes from hairlines and alignment. No
    cards, shadows, blur or glass.
 3. **Text is the interface.** The largest type is about 3x body size.
-4. **Motion is functional.** Hover states and a row tint. No scroll reveals,
-   count-ups, tilt or parallax.
+4. **Motion has to earn it.** Allowed: a one-shot entrance on first view, the
+   reading-progress bar on long case studies, hover states, and the stepped
+   demos in the lab where the motion *is* the explanation. Not allowed:
+   count-ups, tilt, parallax, anything that re-hides on scroll-up, or
+   animation applied to a page because it looked bare.
 5. **No skill percentage bars.** Nobody can defend "Python 92%" in an
    interview and the number tells the reader nothing.
 6. **Icons are functional.** Lucide, used for affordances (external link,
@@ -41,12 +45,11 @@ asides. If a sentence was written to sound good, cut it.
 Each case study carries a hand-authored SVG in
 [`Diagrams.jsx`](src/components/diagrams/Diagrams.jsx):
 
-- `coldStart` — where the recommender hands off from content-based to
-  collaborative filtering
-- `authBoundary` — per-view decorators failing open vs a blueprint guard
-  failing closed
-- `alphaBeta` — a minimax tree with a pruned subtree
-- `pipeline` — train/serve path with evaluation held outside the app
+- `trustGap` — theriac: what the MCP client shows vs what the model receives
+- `biometrics` — Turing Defense: capture to 56 features to classifier, with
+  the adversarial training loop
+- `attackChain` — TACTIC: isolated events vs the same events correlated
+- `attackGraph` — ReconPilot: assets as nodes, `has_vulnerability` as an edge
 
 They are inline SVG, not images, so they inherit the CSS custom properties and
 recolour correctly in both themes. Each has a `<title>` for the accessibility
@@ -56,7 +59,9 @@ depends on seeing the picture.
 ## Stack
 
 React 18, React Router 6, Vite 6, Lucide. No motion library, no CSS framework.
-Production bundle is ~69 kB of JS gzipped and ~3.7 kB of CSS.
+Scroll behaviour is IntersectionObserver and a rAF-throttled scroll listener in
+[`useScroll.js`](src/hooks/useScroll.js). Production bundle is ~77 kB of JS
+gzipped and ~5.5 kB of CSS.
 
 ## Local development
 
@@ -88,18 +93,22 @@ Two files in the build matter beyond the app itself:
 
 ## Editing content
 
-**All copy lives in [`src/data/profile.js`](src/data/profile.js).** Nothing is
-hard-coded in JSX.
+Copy lives in two files. Nothing is hard-coded in JSX.
 
-- `PROFILE` — intro, spec block, about text, principles
-- `EXPERIENCE` — roles, newest first
-- `PROJECTS` — index entries plus the full case study for each
-- `STACK` — grouped, unranked
-- `SOCIALS`, `NAV`
+**[`src/data/profile.js`](src/data/profile.js)** — `PROFILE` (intro, spec
+block, about, principles), `EXPERIENCE`, `STACK`, `SOCIALS`, `NAV`.
 
-Adding a project means adding one object to `PROJECTS`. Give it a `slug`
-(which becomes the URL), and set `diagram` to one of the keys in
-`Diagrams.jsx` or add a new one.
+**[`src/data/projects.js`](src/data/projects.js)** — written from the actual
+repositories, not the résumé. `featured: true` gives a project a case-study
+page at `/work/:slug`; everything else appears in the "Also built" list
+linking straight to GitHub.
+
+Adding a featured project means adding one object with a `slug` (which becomes
+the URL) and a `diagram` key matching one in `Diagrams.jsx`.
+
+Case-study fields are optional and render only when present. Where something
+isn't known — why a decision was made, what you'd change — the field is absent
+rather than invented. Fill it in and it appears.
 
 ### Project metrics
 
@@ -119,8 +128,9 @@ something you can demonstrate.
   `placeholder: true` and describes the shape of a product security role, not
   anything specific you did. Replace with real work and set the actual start
   month.
-- **No security project.** All four predate the role. One would close an
-  obvious gap for anyone who reads the job title first.
+- **Repos have no GitHub descriptions.** All sixteen are blank, so they read
+  as unlabelled on your profile page even though the READMEs are strong. One
+  line each would fix it.
 - **`public/og.jpg` does not exist.** The `og:image` tags in `index.html` are
   commented out until it does.
 - **Per-route meta tags.** Titles are set client-side, so crawlers that don't

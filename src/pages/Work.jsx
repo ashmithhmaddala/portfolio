@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight, Github } from "lucide-react";
-import { GITHUB_USERNAME, PROJECTS } from "../data/profile";
+import { GITHUB_USERNAME } from "../data/profile";
+import { FEATURED, OTHERS } from "../data/projects";
 import { useGitHubStats } from "../hooks/useGitHubStats";
 import { usePageTitle } from "../hooks/usePage";
+import Reveal from "../components/Reveal";
 import "./work.css";
 
 export default function Work() {
@@ -14,19 +16,21 @@ export default function Work() {
 			<div className="wrap">
 				<header className="page__head">
 					<h1 className="lead page__title">
-						Four projects, with the honest version of what was hard
-						about each.
+						Security tooling, mostly. Detection, reconnaissance,
+						and one scanner for an attack that did not exist two
+						years ago.
 					</h1>
 					<p className="page__lede">
-						Every one is a solo build with source on GitHub. The
-						case studies cover the architecture, the decisions I
-						would defend, and the ones I would change.
+						Everything here is a solo build with source on GitHub.
+						The four below have write-ups covering the
+						architecture, the decisions I would defend and the ones
+						I would change.
 					</p>
 				</header>
 
 				<ol className="index">
-					{PROJECTS.map((project) => (
-						<li className="index__item" key={project.slug}>
+					{FEATURED.map((project, i) => (
+						<Reveal as="li" index={i} className="index__item" key={project.slug}>
 							<Link
 								className="index__link"
 								to={`/work/${project.slug}`}
@@ -38,9 +42,14 @@ export default function Work() {
 								<span className="index__body">
 									<span className="index__title">
 										{project.title}
+										{project.status && (
+											<span className="index__status mono">
+												{project.status}
+											</span>
+										)}
 									</span>
 									<span className="index__summary">
-										{project.summary}
+										{project.oneLiner}
 									</span>
 									<span className="index__meta mono">
 										{project.stack
@@ -60,9 +69,56 @@ export default function Work() {
 									/>
 								</span>
 							</Link>
-						</li>
+						</Reveal>
 					))}
 				</ol>
+
+				{/* ------------------------------------------------ others */}
+				<section className="others">
+					<h2 className="label">
+						<span className="label__num">+</span>
+						<span>Also built</span>
+						<span className="label__rule" aria-hidden="true" />
+					</h2>
+
+					<ul className="others__list">
+						{OTHERS.map((project, i) => (
+							<Reveal
+								as="li"
+								index={i}
+								className="others__item"
+								key={project.slug}
+							>
+								<a
+									className="others__link"
+									href={project.source}
+									target="_blank"
+									rel="noreferrer"
+								>
+									<span className="others__head">
+										<span className="others__title">
+											{project.title}
+										</span>
+										<span className="others__stack mono">
+											{project.stackNames.join(" · ")}
+										</span>
+									</span>
+									<span className="others__line">
+										{project.oneLiner}
+									</span>
+									<span className="others__note">
+										{project.note}
+									</span>
+									<ArrowUpRight
+										size={14}
+										strokeWidth={1.6}
+										className="others__arrow"
+									/>
+								</a>
+							</Reveal>
+						))}
+					</ul>
+				</section>
 
 				<p className="work__more mono">
 					<a
@@ -73,7 +129,7 @@ export default function Work() {
 					>
 						<Github size={13} strokeWidth={1.6} />
 						{github?.repos
-							? `${github.repos} public repositories`
+							? `All ${github.repos} public repositories`
 							: "More on GitHub"}
 					</a>
 				</p>

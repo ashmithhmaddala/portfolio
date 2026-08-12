@@ -95,3 +95,90 @@
 		display: block;
 	}
 }
+
+/* Status pill on an actively-developed project. */
+.index__status {
+	display: inline-block;
+	margin-left: 0.6em;
+	padding: 0.1em 0.5em;
+	border: 1px solid var(--rule-2);
+	border-radius: 2px;
+	font-size: var(--fs-micro);
+	font-weight: 400;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var(--signal);
+	vertical-align: middle;
+}
+
+/* ----------------------------------------------------------- also built */
+
+.others {
+	padding-top: var(--section-y);
+}
+
+.others__list {
+	border-top: 1px solid var(--rule);
+}
+
+.others__item {
+	border-bottom: 1px solid var(--rule);
+}
+
+.others__link {
+	position: relative;
+	display: grid;
+	gap: var(--sp-2);
+	padding-block: var(--sp-4);
+	padding-right: 2rem;
+	transition: background-color var(--dur) var(--ease);
+}
+
+.others__link:hover {
+	background: var(--paper-2);
+	box-shadow: calc(-1 * var(--gutter)) 0 0 var(--paper-2),
+		var(--gutter) 0 0 var(--paper-2);
+}
+
+.others__head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--sp-2) var(--sp-4);
+}
+
+.others__title {
+	font-size: var(--fs-body);
+	font-weight: 600;
+	letter-spacing: -0.012em;
+}
+
+.others__stack {
+	font-size: var(--fs-micro);
+	color: var(--ink-3);
+}
+
+.others__line {
+	font-size: var(--fs-sm);
+	color: var(--ink-2);
+	max-width: 42rem;
+}
+
+.others__note {
+	font-size: var(--fs-xs);
+	color: var(--ink-3);
+	max-width: 42rem;
+}
+
+.others__arrow {
+	position: absolute;
+	top: var(--sp-4);
+	right: 0;
+	color: var(--ink-3);
+	transition: transform var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.others__link:hover .others__arrow {
+	transform: translate(2px, -2px);
+	color: var(--signal);
+}

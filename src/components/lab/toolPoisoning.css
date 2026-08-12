@@ -1,0 +1,210 @@
+.tp {
+	border: 1px solid var(--rule);
+}
+
+/* ------------------------------------------------------------------ tabs */
+
+.tp__tabs {
+	display: flex;
+	flex-wrap: wrap;
+	border-bottom: 1px solid var(--rule);
+}
+
+.tp__tab {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45em;
+	padding: var(--sp-3) var(--sp-4);
+	font-size: var(--fs-xs);
+	color: var(--ink-3);
+	border-right: 1px solid var(--rule);
+	border-bottom: 2px solid transparent;
+	transition: color var(--dur-fast) var(--ease),
+		background-color var(--dur-fast) var(--ease);
+}
+
+.tp__tab:hover {
+	color: var(--ink);
+	background: var(--paper-2);
+}
+
+.tp__tab.is-active {
+	color: var(--ink);
+	border-bottom-color: var(--signal);
+	background: var(--paper-2);
+}
+
+.tp__tabDot {
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background: var(--signal);
+}
+
+/* ----------------------------------------------------------------- panes */
+
+.tp__panes {
+	display: grid;
+	border-bottom: 1px solid var(--rule);
+}
+
+.tp__pane {
+	padding: var(--sp-4);
+}
+
+.tp__pane + .tp__pane {
+	border-top: 1px solid var(--rule);
+}
+
+.tp__paneHead {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	font-size: var(--fs-micro);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--ink-3);
+	margin-bottom: var(--sp-3);
+}
+
+.tp__toggle {
+	margin-left: auto;
+	font-family: var(--font-mono);
+	font-size: var(--fs-micro);
+	letter-spacing: 0.06em;
+	color: var(--signal);
+	border-bottom: 1px solid currentColor;
+}
+
+.tp__card {
+	border: 1px solid var(--rule-2);
+	background: var(--paper-2);
+	padding: var(--sp-3);
+	min-height: 6.5rem;
+}
+
+.tp__card--model {
+	border-color: var(--signal);
+}
+
+.tp__toolName {
+	font-size: var(--fs-xs);
+	color: var(--ink);
+	margin-bottom: var(--sp-2);
+}
+
+.tp__toolSummary,
+.tp__toolDesc {
+	font-size: var(--fs-xs);
+	line-height: 1.6;
+	color: var(--ink-2);
+}
+
+/*
+ * The injected span. Blocked out by default so the reveal lands, and marked
+ * in signal colour when shown.
+ */
+.tp__hidden {
+	color: var(--ink-3);
+	word-break: break-all;
+}
+
+.tp__hidden.is-revealed {
+	color: var(--signal);
+	background: var(--signal-tint);
+	box-shadow: 0 0 0 2px var(--signal-tint);
+	word-break: normal;
+}
+
+.tp__paneNote {
+	margin-top: var(--sp-2);
+	font-size: var(--fs-micro);
+	color: var(--ink-3);
+}
+
+/* -------------------------------------------------------------- findings */
+
+.tp__findings {
+	padding: var(--sp-4);
+	border-bottom: 1px solid var(--rule);
+}
+
+.tp__findingsHead {
+	font-size: var(--fs-micro);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--ink-3);
+	margin-bottom: var(--sp-3);
+}
+
+.tp__clean {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	font-size: var(--fs-xs);
+	color: var(--ink-2);
+}
+
+.tp__finding {
+	display: grid;
+	grid-template-columns: 5.5rem 8rem 1fr;
+	gap: var(--sp-3);
+	padding-block: var(--sp-3);
+	font-size: var(--fs-xs);
+}
+
+.tp__finding + .tp__finding {
+	border-top: 1px solid var(--rule);
+}
+
+.tp__sev {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35em;
+	font-size: var(--fs-micro);
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	height: fit-content;
+}
+
+.tp__sev--high {
+	color: var(--signal);
+}
+
+.tp__sev--medium {
+	color: var(--ink-2);
+}
+
+.tp__rule {
+	color: var(--ink-3);
+	font-size: var(--fs-micro);
+}
+
+.tp__findingText {
+	color: var(--ink-2);
+}
+
+.tp__caveat {
+	padding: var(--sp-4);
+	font-size: var(--fs-micro);
+	color: var(--ink-3);
+	line-height: 1.6;
+}
+
+@media (min-width: 44rem) {
+	.tp__panes {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.tp__pane + .tp__pane {
+		border-top: 0;
+		border-left: 1px solid var(--rule);
+	}
+}
+
+@media (max-width: 40rem) {
+	.tp__finding {
+		grid-template-columns: 1fr;
+		gap: var(--sp-1);
+	}
+}
