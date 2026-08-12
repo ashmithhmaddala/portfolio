@@ -1,4 +1,4 @@
-import { EXPERIENCE, PROFILE, STACK } from "../data/profile";
+import { CERTIFICATIONS, COMMUNITY, EXPERIENCE, PROFILE, STACK } from "../data/profile";
 import { usePageTitle } from "../hooks/usePage";
 import "./about.css";
 
@@ -96,10 +96,67 @@ export default function About() {
 					</ol>
 				</section>
 
-				{/* ----------------------------------------------- stack */}
+				{/* ------------------------------------------- community */}
 				<section className="about__section">
 					<h2 className="label">
 						<span className="label__num">03</span>
+						<span>Community</span>
+						<span className="label__rule" aria-hidden="true" />
+					</h2>
+
+					<ul className="community">
+						{COMMUNITY.map((item) => (
+							<li className="community__item" key={item.title}>
+								<div className="community__head">
+									<h3 className="community__title">
+										{item.title}
+									</h3>
+									<span className="community__role mono">
+										{item.role}
+									</span>
+								</div>
+								<p className="community__detail">
+									{item.detail}
+								</p>
+							</li>
+						))}
+					</ul>
+				</section>
+
+				{/* --------------------------------------- certifications */}
+				<section className="about__section">
+					<h2 className="label">
+						<span className="label__num">04</span>
+						<span>Certifications</span>
+						<span className="label__rule" aria-hidden="true" />
+					</h2>
+
+					<dl className="certs">
+						{CERTIFICATIONS.map((cert) => (
+							<div className="certs__row" key={cert.name}>
+								<dt className="certs__name">
+									{cert.name}
+									{cert.status === "pursuing" && (
+										<span className="certs__pursuing mono">
+											in progress
+										</span>
+									)}
+								</dt>
+								<dd className="certs__meta mono">
+									{cert.issuer}
+									<span className="certs__date">
+										{cert.date}
+									</span>
+								</dd>
+							</div>
+						))}
+					</dl>
+				</section>
+
+				{/* ----------------------------------------------- stack */}
+				<section className="about__section">
+					<h2 className="label">
+						<span className="label__num">05</span>
 						<span>Stack</span>
 						<span className="label__rule" aria-hidden="true" />
 					</h2>

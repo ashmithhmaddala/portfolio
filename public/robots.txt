@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ashmithmaddala.dev/sitemap.xml
+Sitemap: https://ashmithmaddala.com/sitemap.xml

@@ -9,23 +9,23 @@
 
 export const PROFILE = {
 	name: "Ashmith Maddala",
-	role: "Product Security Engineer",
+	role: "Junior Product Security Engineer",
 	company: "Vontier",
-	location: "Bangalore, India",
+	location: "Bengaluru, India",
 	email: "ashmith.maddala@gmail.com",
 	resumeUrl: "/resume.pdf",
 
 	intro: [
-		"I'm a product security engineer at Vontier, in Bangalore.",
-		"I work on the software inside connected fuel-retail and mobility hardware. Devices that sit at a forecourt for years, ship firmware to the field, and can't be patched on a whim. Most of the job is threat modelling and security review, early enough that the fix is still cheap.",
-		"Outside that I build security tooling. Detection engineering, reconnaissance, and most recently a scanner for a class of attack that only exists because models read documents people don't.",
+		"I'm a product security engineer at Vontier, in Bengaluru.",
+		"Vontier is the parent company of Gilbarco Veeder-Root, so the products are connected fuel-retail and mobility hardware. Long field lifecycles, firmware that ships and stays put. My work sits across cloud posture on AWS and Azure, STRIDE threat models for the product lines, and getting security scanning into the pipelines that build them.",
+		"Outside that I build security tooling. Detection engineering, forensic attribution for agent systems, and a scanner for a class of attack that only exists because models read documents people don't.",
 	],
 
 	spec: [
-		{ key: "Role", value: "Product Security Engineer, Vontier" },
-		{ key: "Location", value: "Bangalore, India" },
-		{ key: "Building", value: "Security tooling, detection engineering" },
-		{ key: "Degree", value: "B.E. Computer Science, NHCE, 2026" },
+		{ key: "Role", value: "Junior Product Security Engineer, Vontier" },
+		{ key: "Location", value: "Bengaluru, India" },
+		{ key: "Focus", value: "Cloud and product security, offensive security, AI/agent security" },
+		{ key: "Certified", value: "eJPT · HTB COAE in progress" },
 	],
 
 	/*
@@ -34,11 +34,11 @@ export const PROFILE = {
 	 * in common.
 	 */
 	about: [
-		"I build tools that read what people skim. Tool metadata, log lines, packet timing, the way a pointer moves across a screen. Each one is looking for signal somewhere nobody reads carefully, which turns out to be where a lot of it sits.",
-		"Before that I built backends, and that is still where the instincts come from. Four years of Flask and Node teaches you that systems rarely fail at the clever part. They fail at the auth check someone skipped, the input nobody validated, the dependency pinned two years ago and never looked at since.",
-		"The academic version of the same interest went into reinforcement learning for query optimisation during my final year. Teaching a planner to choose its own join order is a hard problem, it stayed hard, and that is most of why it held my attention.",
-		"There is a bias running through the tooling that took me four projects to notice. Every one of them would rather report its own limits than hand you a verdict. theriac states a miss rate instead of declaring a server clean. The beaconing detector shows you the jitter level where it stops working. A security tool that overclaims seems worse to me than no tool at all, because someone will trust it.",
-		"Away from a screen I lift, read more nutrition research than is strictly reasonable, and keep tinkering with chess engines.",
+		"I build tools that read what people skim. Tool manifests, log lines, packet timing, the way a pointer moves across a screen. Each one is looking for signal somewhere nobody reads carefully, which turns out to be where a lot of it sits.",
+		"Most of it started in competition. I ran the university's security club, played CTFs to a national top-fifteen finish, and organised one for a hundred and seventy people. Nearly every tool in the work section began as something I wanted at two in the morning during a competition and could not find.",
+		"Before any of that I built backends, and that is still where the instincts come from. Flask and Node teach you that systems rarely fail at the clever part. They fail at the auth check someone skipped, the input nobody validated, the dependency pinned two years ago and never looked at since.",
+		"There is a bias running through the tooling that took me four projects to notice. Every one of them would rather report its own limits than hand you a verdict. theriac publishes the recall figure it was actually measured at, including how bad the first version was. The beaconing detector shows you the jitter level where it stops working. A security tool that overclaims seems worse to me than no tool at all, because someone will trust it.",
+		"Away from a screen I run, I am slowly learning German, and I play too much Valorant.",
 	],
 
 	/*
@@ -71,7 +71,7 @@ export const PROFILE = {
 		},
 		{
 			title: "Evaluate against something you did not write",
-			body: "Testing a detector on your own examples measures how well it matches your own assumptions. An external benchmark is the only place the number starts to mean anything.",
+			body: "Testing a detector on your own examples measures how well it matches your own assumptions. An external benchmark is the only place the number starts to mean anything. theriac scored 8% the first time it met one.",
 		},
 		{
 			title: "Say what the result cannot support",
@@ -108,40 +108,88 @@ export const NAV = [
 	{ to: "/contact", label: "Contact" },
 ];
 
-/*
- * ⚠️ The Vontier entry describes the shape of a product security role, not
- * things I know you did. Replace `notes` with your own specifics and set the
- * real start month.
- */
 export const EXPERIENCE = [
 	{
-		id: "vontier",
+		id: "vontier-ft",
 		company: "Vontier",
-		role: "Product Security Engineer",
-		period: "2026 —", // TODO: real start month
+		role: "Junior Product Security Engineer",
+		period: "Jul 2026 –",
 		current: true,
 		context:
-			"Vontier builds the connected hardware and software behind fuel retail, vehicle repair and car-wash operations. Product security here means long support lifecycles and firmware that goes to the field and stays there.",
+			"Vontier is the parent company of Gilbarco Veeder-Root. The products are connected fuel-retail and mobility hardware, which means long support lifecycles and firmware that goes to the field and stays there. Converted from a twelve-month internship.",
 		notes: [
-			"Threat modelling and security review for connected products, through the development lifecycle.",
-			"Working with engineering teams to get security requirements into designs before implementation closes the door on them.",
-			"Vulnerability triage and remediation guidance across product software and its dependencies.",
+			"Cloud security posture management across AWS and Azure through Microsoft Defender for Cloud.",
+			"STRIDE threat modelling across more than ten product lines.",
+			"Rolled out GitHub Advanced Security across twenty-plus repositories.",
+			"Integrated SAST, DAST and SCA into build pipelines, so findings surface during development rather than after it.",
 		],
-		placeholder: true,
+	},
+	{
+		id: "vontier-intern",
+		company: "Vontier",
+		role: "Product Security Intern",
+		period: "Jul 2025 – Jul 2026",
+		current: false,
+		context:
+			"A twelve-month internship carrying ten academic credits, graded O. Converted to a full-time offer at the end of it.",
+		notes: [
+			"Same problem space as the full-time role, working into the product security function.",
+		],
 	},
 	{
 		id: "nhce",
 		company: "New Horizon College of Engineering",
 		role: "B.E. Computer Science & Engineering",
-		period: "2022 — 2026",
+		period: "2022 – 2026",
 		current: false,
 		context:
-			"Four years of computer science, with a final-year pull toward database internals and reinforcement learning.",
+			"VTU-affiliated, Bengaluru. Graduated May 2026 with a CGPA of 8.80.",
 		notes: [
+			"President of the Cybersecurity and Ethical Hacking Club.",
+			"Top-15 nationally in CTF competition.",
 			"Final-year research on reinforcement learning for SQL query optimisation, specifically adaptive policy-based join ordering.",
-			"Coursework depth in data structures, operating systems, DBMS and computer vision.",
-			"Most of the tooling in the work section was built alongside coursework rather than for it.",
 		],
+	},
+];
+
+export const CERTIFICATIONS = [
+	{ name: "eJPT", issuer: "INE Security", date: "Jun 2026", status: "held" },
+	{
+		name: "Certified Offensive AI Expert (COAE)",
+		issuer: "Hack The Box",
+		date: "In progress",
+		status: "pursuing",
+	},
+];
+
+/*
+ * Community work. Organising and teaching is the part of a security CV that
+ * usually goes missing, and it is the part that shows you can explain things.
+ */
+export const COMMUNITY = [
+	{
+		title: "Protocol Zero",
+		role: "Organiser",
+		detail:
+			"Ran a capture-the-flag competition for over 170 participants, from challenge design through to infrastructure and scoring.",
+	},
+	{
+		title: "GlobalCorp Breach",
+		role: "Room author, TryHackMe",
+		detail:
+			"An incident-response room built as a multi-stage virtual machine across three stages, with easter-egg flags for people who go looking.",
+	},
+	{
+		title: "Cybersecurity and Ethical Hacking Club, NHCE",
+		role: "President",
+		detail:
+			"Led the university's security club through sessions, competitions and recruitment.",
+	},
+	{
+		title: "Competitive CTF",
+		role: "Top 15 nationally",
+		detail:
+			"Placed inside the national top fifteen. Most of the tooling in the work section started as something I wanted during a competition.",
 	},
 ];
 

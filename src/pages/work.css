@@ -182,3 +182,19 @@
 	transform: translate(2px, -2px);
 	color: var(--signal);
 }
+
+/* Marks a project with no public repository. */
+.others__private {
+	padding: 0.05em 0.45em;
+	border: 1px solid var(--rule-2);
+	font-size: var(--fs-micro);
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var(--ink-3);
+}
+
+/* Non-link entries get no hover affordance. */
+div.others__link:hover {
+	background: transparent;
+	box-shadow: none;
+}

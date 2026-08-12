@@ -1,6 +1,6 @@
-# ashmithmaddala.dev
+# ashmithmaddala.com
 
-Personal site of Ashmith Maddala, product security engineer at Vontier.
+Personal site of Ashmith Maddala, junior product security engineer at Vontier.
 
 ## Routes
 
@@ -98,7 +98,7 @@ Builds to `dist/` and pushes it to the `gh-pages` branch.
 
 Two files in the build matter beyond the app itself:
 
-- **`CNAME`** comes from `public/` and keeps `ashmithmaddala.dev` bound across
+- **`CNAME`** comes from `public/` and keeps `ashmithmaddala.com` bound across
   deploys. Don't delete it.
 - **`404.html`** is written by a small plugin in
   [`vite.config.js`](vite.config.js) as a byte-identical copy of
@@ -140,10 +140,12 @@ something you can demonstrate.
 
 ## Outstanding
 
-- **Vontier bullets are placeholders.** `EXPERIENCE[0]` has
-  `placeholder: true` and describes the shape of a product security role, not
-  anything specific you did. Replace with real work and set the actual start
-  month.
+- **Four projects have no public source.** LOCARD, AIKEN, SENTINEL and
+  Fracture have `source: null`, so they render as index entries marked "not
+  public" with no link. Push them and set `source` to promote them.
+- **LOCARD and AIKEN deserve case studies.** They are strong enough to be
+  featured but I don't know the decisions behind them. Add `featured: true`
+  plus the case-study fields when you can describe the hard part.
 - **Repos have no GitHub descriptions.** All sixteen are blank, so they read
   as unlabelled on your profile page even though the READMEs are strong. One
   line each would fix it.
@@ -152,6 +154,14 @@ something you can demonstrate.
 - **Per-route meta tags.** Titles are set client-side, so crawlers that don't
   execute JS see the `index.html` description on every route. Fine for now;
   worth prerendering if search traffic matters.
+
+## What is deliberately not on the site
+
+Salary and contract terms, manager names, student ID, semester-by-semester
+grades, graduate-school applications, and immigration plans. Salary and visa
+intent invite discrimination during screening; a named manager is someone
+else's information; a rejection is a fact you don't control the reading of.
+The résumé PDF is the place for anything an employer specifically asks for.
 
 ## Accessibility
 

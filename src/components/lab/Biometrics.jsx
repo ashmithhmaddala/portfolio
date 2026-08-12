@@ -296,7 +296,7 @@ export default function Biometrics() {
 					</>
 				) : (
 					<p className="bio__waiting mono">
-						Collecting samples — {MIN_SAMPLES} needed before the
+						Collecting samples. {MIN_SAMPLES} needed before the
 						features mean anything.
 					</p>
 				)}

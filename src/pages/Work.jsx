@@ -82,41 +82,56 @@ export default function Work() {
 					</h2>
 
 					<ul className="others__list">
-						{OTHERS.map((project, i) => (
-							<Reveal
-								as="li"
-								index={i}
-								className="others__item"
-								key={project.slug}
-							>
-								<a
-									className="others__link"
-									href={project.source}
-									target="_blank"
-									rel="noreferrer"
+						{OTHERS.map((project, i) => {
+							// Projects without public source render as a
+							// static entry rather than a dead link.
+							const Tag = project.source ? "a" : "div";
+							const linkProps = project.source
+								? {
+										href: project.source,
+										target: "_blank",
+										rel: "noreferrer",
+								  }
+								: {};
+
+							return (
+								<Reveal
+									as="li"
+									index={i}
+									className="others__item"
+									key={project.slug}
 								>
-									<span className="others__head">
-										<span className="others__title">
-											{project.title}
+									<Tag className="others__link" {...linkProps}>
+										<span className="others__head">
+											<span className="others__title">
+												{project.title}
+											</span>
+											<span className="others__stack mono">
+												{project.stackNames.join(" · ")}
+											</span>
+											{!project.source && (
+												<span className="others__private mono">
+													not public
+												</span>
+											)}
 										</span>
-										<span className="others__stack mono">
-											{project.stackNames.join(" · ")}
+										<span className="others__line">
+											{project.oneLiner}
 										</span>
-									</span>
-									<span className="others__line">
-										{project.oneLiner}
-									</span>
-									<span className="others__note">
-										{project.note}
-									</span>
-									<ArrowUpRight
-										size={14}
-										strokeWidth={1.6}
-										className="others__arrow"
-									/>
-								</a>
-							</Reveal>
-						))}
+										<span className="others__note">
+											{project.note}
+										</span>
+										{project.source && (
+											<ArrowUpRight
+												size={14}
+												strokeWidth={1.6}
+												className="others__arrow"
+											/>
+										)}
+									</Tag>
+								</Reveal>
+							);
+						})}
 					</ul>
 				</section>
 

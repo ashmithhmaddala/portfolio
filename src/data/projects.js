@@ -17,7 +17,7 @@ export const PROJECTS = [
 		slug: "theriac",
 		num: "01",
 		title: "theriac",
-		period: "2026 — ongoing",
+		period: "2026 – ongoing",
 		role: "Solo build",
 		featured: true,
 		status: "Alpha, actively developed",
@@ -34,16 +34,17 @@ export const PROJECTS = [
 			{ name: "Python 3.11+", why: "Typing and tooling for a scanner meant to be run in CI." },
 			{ name: "Static analysis", why: "The scanner never invokes a tool. It reads metadata only." },
 			{ name: "MCP transports", why: "Live ingestion, exercised end to end against a real server in the test suite." },
+			{ name: "MCPTox", why: "External benchmark, with a dev and held-out split so the score is not self-graded." },
 		],
 		metrics: [
-			{ value: "5 in 6", label: "poisoned tools caught", estimated: false },
+			{ value: "84%", label: "recall, held-out", estimated: false },
+			{ value: "0%", label: "false positives, 118 tools", estimated: false },
 			{ value: "3", label: "detection layers", estimated: false },
-			{ value: "0", label: "tools ever invoked", estimated: false },
 		],
 		context:
 			"An MCP server advertises each tool with a name, a JSON schema and a natural-language description. The client shows the user the name and a short summary. The model receives the full description and treats it as context. These are two different documents, and only one of them is ever read by a person. A server author can put text in the description that the user never sees but the model acts on: instructions aimed at the model, references to files outside the tool's stated scope, directives to prefer this tool over one the user configured. The tool's own code never has to run.",
 		architecture:
-			"theriac ingests tool metadata statically and reports what a client would not surface. Three detection layers, a CLI, several reporting formats, live ingestion over both MCP transports, and an evaluation harness. It is defensive only: it generates no attacks and never invokes a tool. OWASP classifies this class of problem as tool poisoning and locates the cause in a trust gap between connect time and runtime. Nothing in the protocol re-validates a description after the user approves it, so a manifest that was clean when connected can change afterwards. That is the rug pull case, and it is why the scanner also snapshots.",
+			"Three detection layers, each catching what the others cannot. Structural pattern detection reads the prose for instructions aimed at the model. Schema validation checks the declared interface against what the description claims the tool does. Rug-pull diffing compares a recorded snapshot of a server's metadata against what it serves now. Around them sit a CLI, several reporting formats, live ingestion over both MCP transports, and an evaluation harness. It is defensive only: it generates no attacks and never invokes a tool. OWASP locates the cause of this attack class in a trust gap between connect time and runtime, because nothing in the protocol re-validates a description after the user approves it. A manifest that was clean when connected can change afterwards, which is exactly what the third layer exists to catch.",
 		decisions: [
 			{
 				title: "Never invoke a tool",
@@ -59,11 +60,11 @@ export const PROJECTS = [
 			},
 		],
 		hardPart:
-			"Judging natural language is unreliable and stays unreliable. Detection layers that reason about prose will always have a miss rate, and the honest framing of the result is that a clean scan is evidence rather than a guarantee. Against the external benchmark the default gate catches about five in six poisoned tools. The response was not to keep tuning the prose heuristics until the number looked better on a benchmark it was being tuned against. It was to build the snapshot and diff workflow alongside them, because comparing recorded metadata is a stronger guarantee than any amount of heuristic confidence.",
+			"The first time it met MCPTox it scored 8% recall. I had built it against my own idea of what a poisoned tool description looks like, and my idea was narrow. Eight percent is not a tuning problem, it is being wrong about the shape of the thing. Reading the cases it missed rebuilt the structural layer around what attackers actually write rather than what I had imagined, which took it to 65%. Getting to 84% came from the second layer, checking the declared schema against what the description claims, because a good fraction of the remaining misses were tools whose prose was innocent and whose interface was not. The discipline throughout was a dev and held-out split, so the number I report is from data the detector never saw during development.",
 		retrospective:
-			"The severities are considered defaults, not calibrated against the whole ecosystem. Calibrating them properly needs a much wider corpus of real servers than I have looked at, and until that exists the numbers should be read as a starting point rather than a verdict.",
+			"84% is a miss rate of roughly one in six, and no amount of further tuning against MCPTox will fix that honestly, because at some point you are fitting the benchmark instead of the problem. That is the argument for the third layer: rug-pull diffing compares recorded metadata against what a server serves now, which is not a judgement about prose and therefore has no miss rate of this kind. The severities are also considered defaults rather than calibrated against the whole ecosystem, and calibrating them needs a wider corpus of real servers than I have looked at.",
 		outcome:
-			"Alpha. All three detection layers, the reporting formats, the CLI, live ingestion and the evaluation harness are implemented and tested. Both live transports are exercised end to end against a real MCP server in the test suite.",
+			"84% recall on held-out MCPTox data, up from 8% at the first external evaluation. Zero false positives across 118 tools on 8 external servers. All three detection layers, the reporting formats, the CLI, live ingestion and the evaluation harness are implemented and tested, with both transports exercised end to end against a real MCP server.",
 	},
 
 	{
@@ -136,10 +137,10 @@ export const PROJECTS = [
 		stack: [
 			{ name: "Python", why: "Parsers, correlation engine and the chain model." },
 			{ name: "MITRE ATT&CK", why: "A shared vocabulary for what a chain actually represents." },
-			{ name: "Log parsing", why: "Linux auth, privilege escalation and process execution sources." },
+			{ name: "BETH dataset", why: "Real kernel-level host telemetry, so the evaluation is not against traffic I generated." },
 		],
 		metrics: [
-			{ value: "Chains", label: "not isolated events", estimated: false },
+			{ value: "86%", label: "recall on BETH", estimated: false },
 			{ value: "ATT&CK", label: "TTP mapped", estimated: false },
 		],
 		context:
@@ -159,7 +160,7 @@ export const PROJECTS = [
 		hardPart:
 			"Alert fatigue is the actual adversary. A detection system that produces more output than a human can read has not improved security, it has moved the failure somewhere less visible. Shifting from event-based to chain-based detection is a bet that fewer, richer alerts beat many thin ones, and that only pays off if the correlation is good enough that the chains it builds are real. A correlation engine that links unrelated events produces confident fiction, which is worse than noise.",
 		outcome:
-			"A working pipeline from raw Linux logs through parsers and primitives to correlated, ATT&CK-mapped attack chains.",
+			"86% recall on the BETH dataset, which is real kernel-level host telemetry rather than traffic I generated for the purpose. The pipeline runs end to end from raw Linux logs through parsers and primitives to correlated, ATT&CK-mapped attack chains.",
 	},
 
 	{
@@ -213,11 +214,63 @@ export const PROJECTS = [
 	},
 
 	/* ------------------------------------------------------------------
-	 * Index-only. Real repositories with real READMEs, but I don't know
-	 * enough about the decisions behind them to write a case study that
-	 * isn't invented. Add `featured: true` and the case-study fields to
-	 * promote one.
+	 * Index-only. Real projects, but I don't know enough about the decisions
+	 * behind them to write a case study that isn't invented. Add
+	 * `featured: true` plus the case-study fields to promote one.
+	 *
+	 * ⚠️ The four below are not public on GitHub. `source: null` renders
+	 * them without a link. Push them, or set `source` if they live
+	 * somewhere else.
 	 * ------------------------------------------------------------------ */
+
+	{
+		slug: "locard",
+		title: "LOCARD",
+		period: "2026",
+		featured: false,
+		oneLiner:
+			"A forensic attribution engine for multi-agent LLM systems. Works out which agent in a chain was responsible for an outcome.",
+		tags: ["AI security", "Forensics"],
+		stackNames: ["Python", "66 passing tests"],
+		source: null,
+		note: "Attribution is the hard problem in multi-agent systems: when several models hand work to each other, the audit trail of who caused what is not something the architecture gives you for free.",
+	},
+	{
+		slug: "aiken",
+		title: "AIKEN",
+		period: "2026",
+		featured: false,
+		oneLiner:
+			"An autonomous AI penetration testing platform, built in phases, with a dark security-operations interface.",
+		tags: ["Offensive security", "AI agents"],
+		stackNames: ["Python", "OpenAI"],
+		source: null,
+		note: "Where the offensive security interest and the agent-security interest meet. Pluggable model providers, so the reasoning layer is not tied to one vendor.",
+	},
+	{
+		slug: "sentinel",
+		title: "SENTINEL",
+		period: "2025",
+		featured: false,
+		oneLiner:
+			"A BiLSTM-based intrusion detection system. Sequence modelling applied to network intrusion rather than hand-written rules.",
+		tags: ["Machine learning", "Detection"],
+		stackNames: ["Python", "BiLSTM"],
+		source: null,
+		note: "Academic project. The bidirectional layer matters here because intrusion signatures are often only recognisable given what came after them, not just before.",
+	},
+	{
+		slug: "fracture",
+		title: "Fracture",
+		period: "2026",
+		featured: false,
+		oneLiner:
+			"Valorant match analytics, built because I wanted better stats than the game gives you.",
+		tags: ["Full-stack", "Not security"],
+		stackNames: ["React", "shadcn/ui", "Henrik Dev API"],
+		source: null,
+		note: "Here for range rather than depth. Not everything has to be a security tool.",
+	},
 
 	{
 		slug: "ai-vulnerability-scanner",
