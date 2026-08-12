@@ -1,50 +1,61 @@
-import { writeFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 /*
- * GitHub Pages has no server-side rewrite. An unknown path gets 404.html
- * served with a 404 status.
+ * GitHub Pages has no server-side rewrite, and serves 404.html with a 404
+ * status for any path it has no file for.
  *
- * Copying index.html to 404.html renders the app correctly, but the response
- * is still a 404, and search engines will not index a page served that way.
- * Every case study would be invisible.
+ * The usual workaround is to copy index.html to 404.html. The app then renders
+ * correctly, but every route except / answers with a 404 status, and search
+ * engines will not index a page served that way. All six case studies would be
+ * invisible.
  *
- * So 404.html is a redirector instead: it rewrites /work/theriac to
- * /?/work/theriac, which is a genuine 200 for index.html. A small script in
- * index.html restores the real URL before the router reads it.
+ * A JavaScript bounce off 404.html does not fix that either, because the first
+ * response is still a 404 and that is what a crawler records.
+ *
+ * So instead every known route gets a real file: dist/work/theriac/index.html
+ * and so on. Pages serves those as genuine 200s. 404.html stays a copy of the
+ * app so an unknown path still renders the in-app not-found page, which is the
+ * one case where a 404 status is the correct answer.
  */
-const REDIRECT_404 = `<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<title>Ashmith Maddala</title>
-		<script>
-			// Fold the path into a query string and bounce to the root, which
-			// GitHub Pages serves as a 200. index.html unfolds it again.
-			var l = window.location;
-			l.replace(
-				l.protocol + "//" + l.hostname + (l.port ? ":" + l.port : "") +
-				"/?/" +
-				l.pathname.slice(1).replace(/&/g, "~and~") +
-				(l.search ? "&" + l.search.slice(1).replace(/&/g, "~and~") : "") +
-				l.hash
-			);
-		</script>
-	</head>
-	<body></body>
-</html>
-`;
+async function staticRouteShells() {
+	// Read the project slugs from the same data the app uses, so a new
+	// featured project cannot silently lose its static shell.
+	const { FEATURED } = await import("./src/data/projects.js");
 
-function githubPagesSpaFallback() {
+	return [
+		"work",
+		"lab",
+		"about",
+		"contact",
+		...FEATURED.map((p) => `work/${p.slug}`),
+	];
+}
+
+function githubPagesRoutes() {
 	return {
-		name: "gh-pages-spa-fallback",
-		closeBundle() {
-			writeFileSync(
-				resolve(__dirname, "dist", "404.html"),
-				REDIRECT_404,
-				"utf8"
+		name: "gh-pages-static-routes",
+		async closeBundle() {
+			const out = resolve(__dirname, "dist");
+			const indexPath = resolve(out, "index.html");
+			const html = readFileSync(indexPath, "utf8");
+			const routes = await staticRouteShells();
+
+			routes.forEach((route) => {
+				const dir = resolve(out, route);
+				mkdirSync(dir, { recursive: true });
+				writeFileSync(resolve(dir, "index.html"), html, "utf8");
+			});
+
+			// Genuinely unknown paths: render the app's not-found page, and
+			// let the 404 status stand because here it is accurate.
+			copyFileSync(indexPath, resolve(out, "404.html"));
+
+			// eslint-disable-next-line no-console
+			console.log(
+				`\n  static route shells: ${routes.length} written (${routes.join(", ")})`
 			);
 		},
 	};
@@ -54,7 +65,7 @@ export default defineConfig({
 	// Apex of a custom domain, so assets resolve from the root.
 	// public/CNAME is copied into dist/ and keeps the domain bound.
 	base: "/",
-	plugins: [react(), githubPagesSpaFallback()],
+	plugins: [react(), githubPagesRoutes()],
 	build: {
 		outDir: "dist",
 		target: "es2020",
