@@ -213,40 +213,127 @@ export const PROJECTS = [
 			"A working reconnaissance pipeline producing an interactive attack graph as a single shareable HTML dashboard.",
 	},
 
-	/* ------------------------------------------------------------------
-	 * Index-only. Real projects, but I don't know enough about the decisions
-	 * behind them to write a case study that isn't invented. Add
-	 * `featured: true` plus the case-study fields to promote one.
-	 *
-	 * ⚠️ The four below are not public on GitHub. `source: null` renders
-	 * them without a link. Push them, or set `source` if they live
-	 * somewhere else.
-	 * ------------------------------------------------------------------ */
-
 	{
 		slug: "locard",
+		num: "05",
 		title: "LOCARD",
 		period: "2026",
-		featured: false,
+		role: "Solo build",
+		featured: true,
+		status: "Research, not public",
 		oneLiner:
-			"A forensic attribution engine for multi-agent LLM systems. Works out which agent in a chain was responsible for an outcome.",
-		tags: ["AI security", "Forensics"],
-		stackNames: ["Python", "66 passing tests"],
+			"Forensic attribution for multi-agent LLM systems. Given a fragmented log and one bad output, work backwards to which agent was patient zero.",
+		summary:
+			"Named after Edmond Locard, whose Exchange Principle says every contact leaves a trace. Applied to agent systems: every agent that touches a malicious instruction leaves evidence in the log, even when the log is split across trust domains and events are missing.",
+		tags: ["AI security", "Forensics", "Research"],
+		diagram: "attribution",
+		diagramCaption:
+			"Backward taint walk across a domain boundary. Phantom nodes stand in for events the log never captured, and three signals rank the surviving candidates.",
 		source: null,
-		note: "Attribution is the hard problem in multi-agent systems: when several models hand work to each other, the audit trail of who caused what is not something the architecture gives you for free.",
+		stack: [
+			{ name: "NetworkX", why: "The provenance graph, with phantom nodes for events the log is missing." },
+			{ name: "Pure-Python PageRank", why: "Power iteration by hand, because scipy was not available in the target environment." },
+			{ name: "pytest", why: "84 tests, because attribution logic fails quietly and plausibly." },
+		],
+		metrics: [
+			{ value: "3", label: "independent signals", estimated: false },
+			{ value: "84", label: "passing tests", estimated: false },
+			{ value: "0", label: "model internals needed", estimated: false },
+		],
+		context:
+			"When several LLM agents hand work to each other and something malicious comes out the far end, the architecture gives you no answer to who started it. Worse, the evidence is spread across channels that output-only auditing never sees: inter-agent messages, tool arguments, shared memory. Logs are also fragmented, because different agents belong to different trust domains and nobody has the whole picture. The question is forensic, not preventive: after the fact, from an incomplete record, which agent was patient zero?",
+		architecture:
+			"Events form a provenance graph, with parent links preserving causality across five channel types. A backward breadth-first taint walk from the suspected bad event finds every agent that could have influenced it, with a time-window heuristic bridging gaps where the log is fragmented. Three independent signals then rank the candidates: Jaccard similarity between payloads, timing earliness on the assumption that patient zero comes first, and PageRank centrality in the graph. Missing events become phantom nodes rather than silently breaking the chain, so a gap in the record is visible instead of invisible.",
+		decisions: [
+			{
+				title: "Log-only, no model internals",
+				body: "Attribution requires no access to weights, activations or runtime state. That is what makes it usable across a trust boundary, where you will never be given the other party's model.",
+			},
+			{
+				title: "Exclude the bad event from its own similarity score",
+				body: "Comparing an event to itself returns a perfect match and poisons the ranking with a circular result. Small detail, and it invalidates everything downstream if you miss it.",
+			},
+			{
+				title: "Phantom nodes for missing events",
+				body: "A fragmented log has holes. Representing a hole explicitly keeps the chain connected and, more importantly, keeps the gap visible in the output rather than quietly absorbed into a confident answer.",
+			},
+			{
+				title: "Ground truth kept outside the event stream",
+				body: "The harness records patient zero separately from the trace, so the attribution engine cannot read the answer off its own input. An evaluation that can see the label is not an evaluation.",
+			},
+		],
+		hardPart:
+			"The limitation is structural and cannot be engineered away. LOCARD can only see influence that manifested as explicit payload content. An agent that was semantically steered without the instruction appearing in any logged text is invisible to it, and no amount of better scoring changes that. The result carries a flag, attribution_bounded_by_payload_visibility, which is always true. Shipping a permanently-on limitation notice felt like admitting the tool is incomplete. It is more accurate to say that is the honest boundary of log-based forensics, and a version without that flag would just be the same tool lying about its reach.",
+		retrospective:
+			"The harness generates traces from a fixed coordinator-worker topology across two domains. Real deployments use richer topologies, and propagation behaviour almost certainly changes with shape. Evaluating against star, chain and tree arrangements is the obvious next step, and I expect the timing-earliness signal to be the one that degrades first.",
+		outcome:
+			"A working attribution package: provenance graph, taint walk, three-signal scorer and a public API that takes an event log and a suspected bad event and returns a chain of custody with ranked origins. A separate harness generates traces, fragments them across domains, injects propagating payloads and scores results at precision, recall and top-k accuracy. Design is grounded in AgentLeak, MultiAgentBench, Prompt Infection and the OWASP Top 10 for Agentic Applications.",
 	},
+
 	{
 		slug: "aiken",
+		num: "06",
 		title: "AIKEN",
 		period: "2026",
-		featured: false,
+		role: "Solo build",
+		featured: true,
+		status: "Research, not public",
 		oneLiner:
-			"An autonomous AI penetration testing platform, built in phases, with a dark security-operations interface.",
-		tags: ["Offensive security", "AI agents"],
-		stackNames: ["Python", "OpenAI"],
+			"An autonomous penetration testing platform. Maps attack surface, forms hypotheses, validates them with probes, and writes the report.",
+		summary:
+			"Benchmarked against the XBOW validation suite through six weeks of iteration, from zero flags captured to 65.8% full solve. The benchmark record is the interesting part, including the entry where I corrected my own headline number downwards.",
+		tags: ["Offensive security", "AI agents", "Benchmarked"],
+		diagram: "pentestLoop",
+		diagramCaption:
+			"The phase pipeline. Exploitation is deliberately bounded, and attempt history feeds back into hypothesis generation so a failed probe narrows the next one.",
 		source: null,
-		note: "Where the offensive security interest and the agent-security interest meet. Pluggable model providers, so the reasoning layer is not tied to one vendor.",
+		stack: [
+			{ name: "Python", why: "Backend, worker and the playbook layer." },
+			{ name: "Docker", why: "Benchmarks run as isolated containers, one target per run." },
+			{ name: "OpenAI", why: "Provider-pluggable, so the reasoning layer is not tied to one vendor." },
+			{ name: "XBOW benchmarks", why: "104 published CTF-style challenges I did not write." },
+		],
+		metrics: [
+			{ value: "65.8%", label: "full solve, 38 targeted", estimated: false },
+			{ value: "81.6%", label: "any formal finding", estimated: false },
+			{ value: "0%", label: "where it started", estimated: false },
+		],
+		context:
+			"Penetration testing has a large repetitive middle: enumerate the surface, form a hypothesis about what might be wrong, test it, and write it up. The first and last of those are close to mechanical. I wanted to know how much of the middle an agent could carry, and the only way to answer that honestly is against a benchmark somebody else wrote.",
+		architecture:
+			"A phased pipeline. Reconnaissance maps the attack surface. A deterministic probe layer establishes reachability before anything speculative runs. Hypothesis generation proposes what class of vulnerability might be present. A bounded exploitation phase tests those hypotheses, with adaptive attempt history so a failed probe narrows the next one rather than repeating it. Reporting produces formal findings. Bounding exploitation matters: an unbounded agent with exploit tooling explores forever and produces no report, which is worse than useless during an engagement.",
+		decisions: [
+			{
+				title: "Deterministic probes before speculative ones",
+				body: "Reachability is a fact, not a hypothesis. Establishing it deterministically first means the model is never reasoning about whether a host is up, which is both wasteful and a reliable source of confident nonsense.",
+			},
+			{
+				title: "Bound the exploitation phase",
+				body: "An agent that can attempt exploits will attempt them indefinitely. The bound is what turns an interesting demo into something that finishes and hands you a report.",
+			},
+			{
+				title: "Adaptive attempt history",
+				body: "Feeding failed attempts back into hypothesis generation is the difference between search and thrashing. Without it the agent re-runs the same three payloads against the same endpoint.",
+			},
+			{
+				title: "Benchmark against a suite I did not write",
+				body: "XBOW publishes 104 CTF-style challenges. Testing against my own targets would have measured how well AIKEN matches my idea of a vulnerable application.",
+			},
+		],
+		hardPart:
+			"Some of the benchmarks were broken. Their Dockerfiles did not build, so those runs recorded infrastructure errors and were excluded from the score. Repairing them was optional, and it was going to make my numbers worse, because a benchmark that becomes runnable is a benchmark that can now be failed. I repaired them. Newly runnable targets immediately exposed real misses in IDOR, XXE, pickle deserialisation, GraphQL SQL injection and authentication bypass. The headline dropped from 82.8% to 65.8%, and the stats file says so in as many words: the old number was stale, and it excluded the failures the repairs revealed. A scorecard that only moves upward is a scorecard measuring the wrong thing.",
+		retrospective:
+			"Against the full 104-challenge suite rather than the targeted subset, the honest figure is far lower, somewhere around 5 to 10%, and that gap is a scope mismatch rather than a bug. XBOW is built for flag-capture agents that inject payloads and exfiltrate. AIKEN is a detection and reporting tool that happens to capture flags when the path is short. Reporting one number without that context would be the more flattering choice and the less true one.",
+		outcome:
+			"25 PASS, 6 PARTIAL and 7 FAIL across 38 runnable targeted benchmarks: 65.8% full solve and 81.6% producing at least a formal finding. Six weeks earlier the same platform captured zero flags and produced a formal finding on 9.1% of runnable targets. Every run is dated in a living scorecard, including the corrections.",
 	},
+
+	/* ------------------------------------------------------------------
+	 * Index-only. Real projects, but I don't know enough about the
+	 * decisions behind them to write a case study that isn't invented.
+	 * Add `featured: true` plus the case-study fields to promote one.
+	 * ------------------------------------------------------------------ */
+
 	{
 		slug: "sentinel",
 		title: "SENTINEL",

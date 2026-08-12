@@ -98,3 +98,44 @@
 .dgm__gnode.is-vuln text {
 	fill: var(--signal);
 }
+
+/* --- attribution nodes (LOCARD) --- */
+
+.dgm__anode circle {
+	fill: var(--paper-2);
+	stroke: var(--rule-2);
+}
+
+.dgm__anode text {
+	font-size: 11px;
+	fill: var(--ink-2);
+}
+
+.dgm__anode.is-origin circle {
+	fill: var(--signal-tint);
+	stroke: var(--signal);
+}
+
+.dgm__anode.is-origin text {
+	fill: var(--signal);
+}
+
+/* An event the log never captured: present in the chain, drawn as absent. */
+.dgm__anode.is-phantom circle {
+	fill: none;
+	stroke: var(--rule-2);
+	stroke-dasharray: 4 3;
+}
+
+.dgm__anode.is-phantom text {
+	fill: var(--ink-3);
+}
+
+.dgm__anode.is-bad circle {
+	fill: var(--paper-3);
+	stroke: var(--ink-2);
+}
+
+.dgm__anode.is-bad text {
+	fill: var(--ink);
+}

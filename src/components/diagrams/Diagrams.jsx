@@ -427,11 +427,198 @@ function AttackGraph() {
 	);
 }
 
+/* ------------------------------------------- 05 · LOCARD, taint attribution */
+
+function Attribution() {
+	const chain = [
+		{ x: 60, label: "A-1", sub: "patient zero", kind: "origin" },
+		{ x: 168, label: "A-2", sub: "relay", kind: "seen" },
+		{ x: 276, label: "?", sub: "not logged", kind: "phantom" },
+		{ x: 420, label: "B-1", sub: "relay", kind: "seen" },
+		{ x: 528, label: "B-2", sub: "bad output", kind: "bad" },
+	];
+
+	return (
+		<svg
+			className="dgm"
+			viewBox="0 0 640 250"
+			role="img"
+			aria-labelledby="dgm-attr-title"
+		>
+			<title id="dgm-attr-title">
+				A taint chain running across a trust-domain boundary, with a
+				phantom node standing in for an event the log never captured,
+				and three signals ranking the candidate origins.
+			</title>
+			<defs>
+				<Arrow id="ar-attr" />
+				<Arrow id="ar-attr-sig" color="var(--signal)" />
+			</defs>
+
+			{/* domain bands */}
+			<line x1="348" y1="18" x2="348" y2="168" stroke="var(--rule-2)" strokeDasharray="4 4" />
+			<text className="dgm__n" x="20" y="30">
+				Domain A
+			</text>
+			<text className="dgm__n" x="360" y="30">
+				Domain B  ·  different operator, partial log
+			</text>
+
+			{/* forward propagation */}
+			{chain.slice(0, -1).map((n, i) => (
+				<line
+					key={`f-${n.x}`}
+					x1={n.x + 26}
+					y1="96"
+					x2={chain[i + 1].x - 26}
+					y2="96"
+					stroke="var(--rule-2)"
+					markerEnd="url(#ar-attr)"
+				/>
+			))}
+
+			{/* nodes */}
+			{chain.map((n) => (
+				<g key={n.x} className={`dgm__anode is-${n.kind}`}>
+					<circle cx={n.x} cy="96" r="24" />
+					<text x={n.x} y="100" textAnchor="middle">
+						{n.label}
+					</text>
+					<text className="dgm__n" x={n.x} y="140" textAnchor="middle">
+						{n.sub}
+					</text>
+				</g>
+			))}
+
+			{/* backward taint walk */}
+			<path
+				d="M528 60 C 460 24, 140 24, 62 60"
+				fill="none"
+				stroke="var(--signal)"
+				strokeDasharray="4 3"
+				markerEnd="url(#ar-attr-sig)"
+			/>
+			<text className="dgm__sig" x="238" y="34">
+				backward taint walk
+			</text>
+
+			{/* signals */}
+			<line x1="14" y1="178" x2="626" y2="178" stroke="var(--rule)" />
+			<text className="dgm__h" x="14" y="200">
+				Ranked by three signals
+			</text>
+			<text className="dgm__t" x="14" y="222">
+				payload similarity
+			</text>
+			<text className="dgm__t" x="176" y="222">
+				timing earliness
+			</text>
+			<text className="dgm__t" x="330" y="222">
+				graph centrality
+			</text>
+			<text className="dgm__n" x="470" y="222">
+				→ A-1 ranked first
+			</text>
+		</svg>
+	);
+}
+
+/* ------------------------------------------------ 06 · AIKEN, pentest loop */
+
+function PentestLoop() {
+	const phases = [
+		{ x: 14, label: "Recon", sub: "map surface" },
+		{ x: 138, label: "Probe", sub: "deterministic" },
+		{ x: 262, label: "Hypothesis", sub: "what's wrong?" },
+		{ x: 386, label: "Exploit", sub: "bounded" },
+		{ x: 510, label: "Report", sub: "formal finding" },
+	];
+
+	return (
+		<svg
+			className="dgm"
+			viewBox="0 0 640 250"
+			role="img"
+			aria-labelledby="dgm-pentest-title"
+		>
+			<title id="dgm-pentest-title">
+				The phase pipeline, with a bounded exploitation stage and
+				attempt history feeding back into hypothesis generation.
+			</title>
+			<defs>
+				<Arrow id="ar-pen" />
+				<Arrow id="ar-pen-sig" color="var(--signal)" />
+			</defs>
+
+			{phases.map((p, i) => (
+				<g key={p.label}>
+					<rect
+						x={p.x}
+						y="46"
+						width="102"
+						height="52"
+						fill="var(--paper-2)"
+						stroke={i === 3 ? "var(--signal)" : "var(--rule-2)"}
+					/>
+					<text className="dgm__h" x={p.x + 51} y="70" textAnchor="middle">
+						{p.label}
+					</text>
+					<text className="dgm__n" x={p.x + 51} y="86" textAnchor="middle">
+						{p.sub}
+					</text>
+					{i < phases.length - 1 && (
+						<line
+							x1={p.x + 102}
+							y1="72"
+							x2={p.x + 134}
+							y2="72"
+							stroke="var(--ink-3)"
+							markerEnd="url(#ar-pen)"
+						/>
+					)}
+				</g>
+			))}
+
+			{/* attempt-history feedback */}
+			<path
+				d="M437 98 L437 132 L313 132 L313 102"
+				fill="none"
+				stroke="var(--signal)"
+				strokeDasharray="4 3"
+				markerEnd="url(#ar-pen-sig)"
+			/>
+			<text className="dgm__sig" x="330" y="148">
+				attempt history narrows the next hypothesis
+			</text>
+
+			{/* outcomes */}
+			<line x1="14" y1="172" x2="626" y2="172" stroke="var(--rule)" />
+			<text className="dgm__h" x="14" y="194">
+				Scored against 38 runnable XBOW benchmarks
+			</text>
+			<text className="dgm__t" x="14" y="216">
+				25 PASS
+			</text>
+			<text className="dgm__t" x="118" y="216">
+				6 PARTIAL
+			</text>
+			<text className="dgm__t" x="232" y="216">
+				7 FAIL
+			</text>
+			<text className="dgm__sig" x="330" y="216">
+				headline corrected 82.8% → 65.8% after repairing the harness
+			</text>
+		</svg>
+	);
+}
+
 const DIAGRAMS = {
 	trustGap: TrustGap,
 	biometrics: Biometrics,
 	attackChain: AttackChain,
 	attackGraph: AttackGraph,
+	attribution: Attribution,
+	pentestLoop: PentestLoop,
 };
 
 export default function Diagram({ id, caption }) {
