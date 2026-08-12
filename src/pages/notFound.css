@@ -1,0 +1,24 @@
+.nf__code {
+	font-size: var(--fs-micro);
+	letter-spacing: 0.14em;
+	color: var(--signal);
+	margin-bottom: var(--sp-4);
+}
+
+.nf__title {
+	max-width: 20ch;
+	margin-bottom: var(--sp-6);
+}
+
+.nf__links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sp-5);
+	font-size: var(--fs-xs);
+}
+
+.nf__links a {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4em;
+}

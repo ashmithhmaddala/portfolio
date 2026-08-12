@@ -80,6 +80,7 @@
 	--sp-6: 2rem;
 	--sp-7: 3rem;
 	--sp-8: 4.5rem;
+	--sp-9: 6rem;
 	--section-y: clamp(3.25rem, 2rem + 5vw, 5.5rem);
 
 	/* --- measure ---

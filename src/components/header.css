@@ -21,12 +21,9 @@
 	white-space: nowrap;
 }
 
-/*
- * Section links are hidden on narrow screens rather than collapsed into a
- * burger. The page is one column and short; scrolling is the navigation.
- */
 .header__nav {
-	display: none;
+	display: flex;
+	align-items: center;
 	gap: var(--sp-5);
 	font-size: var(--fs-micro);
 	letter-spacing: 0.06em;
@@ -51,9 +48,8 @@
 }
 
 .header__theme {
-	font-size: var(--fs-micro);
-	letter-spacing: 0.06em;
-	text-transform: uppercase;
+	display: grid;
+	place-items: center;
 	color: var(--ink-3);
 	transition: color var(--dur-fast) var(--ease);
 }
@@ -62,8 +58,8 @@
 	color: var(--ink);
 }
 
-@media (min-width: 44rem) {
+@media (max-width: 26rem) {
 	.header__nav {
-		display: flex;
+		gap: var(--sp-4);
 	}
 }

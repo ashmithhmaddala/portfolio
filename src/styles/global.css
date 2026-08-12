@@ -33,6 +33,17 @@ img {
 	max-width: 100%;
 }
 
+/* Column layout so the footer sits at the bottom on short pages (404). */
+#root {
+	display: flex;
+	flex-direction: column;
+	min-height: 100svh;
+}
+
+#root > main {
+	flex: 1;
+}
+
 button {
 	font: inherit;
 	color: inherit;
@@ -114,6 +125,29 @@ ol {
 .section {
 	padding-block: var(--section-y);
 	border-top: 1px solid var(--rule);
+}
+
+/*
+ * Standard inner-page shell. The home page opens with its own intro block
+ * instead, so it doesn't use this.
+ */
+.page {
+	padding-block: clamp(2.5rem, 1.5rem + 4vw, 4rem) var(--sp-9, 5rem);
+}
+
+.page__head {
+	margin-bottom: var(--sp-7);
+}
+
+.page__title {
+	max-width: 26ch;
+	margin-bottom: var(--sp-4);
+}
+
+.page__lede {
+	color: var(--ink-2);
+	font-size: var(--fs-sm);
+	max-width: 42rem;
 }
 
 /*

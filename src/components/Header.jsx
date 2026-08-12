@@ -1,64 +1,49 @@
-import { useEffect, useState } from "react";
-import { PROFILE, SECTIONS } from "../data/profile";
+import { Link, NavLink } from "react-router-dom";
+import { Moon, Sun } from "lucide-react";
+import { NAV, PROFILE } from "../data/profile";
 import { useTheme } from "../hooks/useTheme";
 import "./header.css";
 
 export default function Header() {
 	const { theme, toggle } = useTheme();
-	const [active, setActive] = useState("");
-
-	// Track whichever section owns the upper part of the viewport.
-	useEffect(() => {
-		const observer = new IntersectionObserver(
-			(entries) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) setActive(entry.target.id);
-				});
-			},
-			{ rootMargin: "-15% 0px -70% 0px" }
-		);
-
-		SECTIONS.forEach(({ id }) => {
-			const el = document.getElementById(id);
-			if (el) observer.observe(el);
-		});
-
-		return () => observer.disconnect();
-	}, []);
 
 	return (
 		<header className="header">
 			<div className="header__inner wrap">
-				<a href="#top" className="header__name">
+				<Link to="/" className="header__name">
 					{PROFILE.name}
-				</a>
+				</Link>
 
-				<nav className="header__nav mono" aria-label="Sections">
-					{SECTIONS.map((section) => (
-						<a
-							key={section.id}
-							href={`#${section.id}`}
-							className={
-								active === section.id
+				<nav className="header__nav mono" aria-label="Primary">
+					{NAV.map((item) => (
+						<NavLink
+							key={item.to}
+							to={item.to}
+							className={({ isActive }) =>
+								isActive
 									? "header__link is-active"
 									: "header__link"
 							}
 						>
-							{section.label}
-						</a>
+							{item.label}
+						</NavLink>
 					))}
-				</nav>
 
-				<button
-					type="button"
-					className="header__theme mono"
-					onClick={toggle}
-					aria-label={`Switch to ${
-						theme === "dark" ? "light" : "dark"
-					} theme`}
-				>
-					{theme === "dark" ? "Light" : "Dark"}
-				</button>
+					<button
+						type="button"
+						className="header__theme"
+						onClick={toggle}
+						aria-label={`Switch to ${
+							theme === "dark" ? "light" : "dark"
+						} theme`}
+					>
+						{theme === "dark" ? (
+							<Sun size={15} strokeWidth={1.6} />
+						) : (
+							<Moon size={15} strokeWidth={1.6} />
+						)}
+					</button>
+				</nav>
 			</div>
 		</header>
 	);

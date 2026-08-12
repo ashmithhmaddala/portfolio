@@ -1,0 +1,201 @@
+/* ------------------------------------------------------------------ head */
+
+.about__head {
+	display: grid;
+	gap: var(--sp-6);
+	padding-bottom: var(--sp-7);
+}
+
+/* Specificity beats .prose p rather than reaching for !important. */
+.about__prose p.about__opening {
+	font-size: var(--fs-lead);
+	line-height: 1.38;
+	letter-spacing: -0.018em;
+	color: var(--ink);
+}
+
+.about__figure {
+	margin: 0;
+	max-width: 15rem;
+}
+
+.about__figure img {
+	width: 100%;
+	height: auto;
+	aspect-ratio: 4 / 5;
+	object-fit: cover;
+	border: 1px solid var(--rule);
+	/*
+	 * Desaturated so a colour photograph doesn't become the loudest thing on
+	 * an otherwise monochrome page. Restored on hover.
+	 */
+	filter: grayscale(1) contrast(1.04);
+	transition: filter var(--dur) var(--ease);
+}
+
+.about__figure:hover img {
+	filter: grayscale(0) contrast(1);
+}
+
+.about__figure figcaption {
+	margin-top: var(--sp-2);
+	font-size: var(--fs-micro);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--ink-3);
+}
+
+.about__section {
+	padding-block: var(--section-y);
+	border-top: 1px solid var(--rule);
+}
+
+/* ------------------------------------------------------------ principles */
+
+.principles {
+	display: grid;
+	gap: var(--sp-5);
+}
+
+.principle {
+	display: grid;
+	grid-template-columns: 1.75rem 1fr;
+	gap: var(--sp-3);
+}
+
+.principle__num {
+	font-size: var(--fs-xs);
+	color: var(--signal);
+	padding-top: 0.2em;
+	font-variant-numeric: tabular-nums;
+}
+
+.principle__title {
+	font-size: var(--fs-body);
+	font-weight: 600;
+	letter-spacing: -0.012em;
+	margin-bottom: var(--sp-1);
+}
+
+.principle p {
+	font-size: var(--fs-sm);
+	color: var(--ink-2);
+	max-width: 40rem;
+}
+
+/* ------------------------------------------------------------------ roles */
+
+.role + .role {
+	margin-top: var(--sp-6);
+	padding-top: var(--sp-6);
+	border-top: 1px solid var(--rule);
+}
+
+.role__head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: var(--sp-2) var(--sp-4);
+	margin-bottom: var(--sp-3);
+}
+
+.role__title {
+	font-size: var(--fs-title);
+	font-weight: 600;
+	letter-spacing: -0.018em;
+	line-height: 1.25;
+}
+
+.role__company {
+	color: var(--ink-2);
+	font-weight: 400;
+}
+
+.role__period {
+	font-size: var(--fs-xs);
+	color: var(--ink-3);
+	white-space: nowrap;
+	font-variant-numeric: tabular-nums;
+}
+
+.role__context {
+	font-size: var(--fs-sm);
+	color: var(--ink-2);
+	max-width: 42rem;
+	margin-bottom: var(--sp-4);
+}
+
+.role__notes {
+	display: grid;
+	gap: var(--sp-3);
+	max-width: 42rem;
+}
+
+/* Hanging dash keeps the text block's left edge flush. */
+.role__notes li {
+	position: relative;
+	padding-left: 1.25rem;
+	font-size: var(--fs-sm);
+	color: var(--ink-2);
+}
+
+.role__notes li::before {
+	content: "—";
+	position: absolute;
+	left: 0;
+	color: var(--ink-3);
+}
+
+/* ------------------------------------------------------------------ stack */
+
+.stack {
+	border-top: 1px solid var(--rule);
+}
+
+.stack__row {
+	display: grid;
+	grid-template-columns: 10rem 1fr;
+	gap: var(--sp-4);
+	padding-block: var(--sp-4);
+	border-bottom: 1px solid var(--rule);
+}
+
+.stack__group {
+	font-size: var(--fs-micro);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--ink-3);
+	padding-top: 0.2em;
+}
+
+.stack__note {
+	display: block;
+	margin-top: 0.35rem;
+	font-family: var(--font-sans);
+	font-size: var(--fs-xs);
+	letter-spacing: 0;
+	text-transform: none;
+	color: var(--ink-3);
+}
+
+.stack__items {
+	margin: 0;
+	font-size: var(--fs-sm);
+	color: var(--ink-2);
+}
+
+@media (min-width: 44rem) {
+	.about__head {
+		grid-template-columns: 1fr 15rem;
+		gap: var(--sp-7);
+		align-items: start;
+	}
+}
+
+@media (max-width: 34rem) {
+	.stack__row {
+		grid-template-columns: 1fr;
+		gap: var(--sp-2);
+	}
+}

@@ -2,25 +2,33 @@
 
 Personal site of Ashmith Maddala, product security engineer at Vontier.
 
-One page, one column, no router. Deployed to GitHub Pages behind a custom
-domain.
+## Routes
+
+| Path | Page |
+|---|---|
+| `/` | Intro, spec block, current role, three featured projects |
+| `/work` | Full project index |
+| `/work/:slug` | Case study — diagram, architecture, decisions, retrospective |
+| `/about` | Long-form background, principles, experience, stack |
+| `/contact` | Email and links |
+| `*` | Not found |
 
 ## Design rules
 
-The site is deliberately austere. If you extend it, hold these:
+The system is austere on purpose. If you extend it, hold these:
 
 1. **Near-monochrome.** Ink on paper plus one signal colour (oxide orange),
    used sparingly. There are no gradient tokens in
-   [`tokens.css`](src/styles/tokens.css) on purpose. A component wanting a
-   gradient is a component that is wrong.
+   [`tokens.css`](src/styles/tokens.css) and there should not be.
 2. **Rules, not boxes.** Structure comes from hairlines and alignment. No
-   cards, no shadows, no blur, no glass.
-3. **Text is the interface.** The largest type on the page is about 3x the
-   body size. Nothing shouts.
-4. **Motion is functional.** The only animation is the project row expanding.
-   No scroll reveals, no count-ups, no tilt, no parallax.
+   cards, shadows, blur or glass.
+3. **Text is the interface.** The largest type is about 3x body size.
+4. **Motion is functional.** Hover states and a row tint. No scroll reveals,
+   count-ups, tilt or parallax.
 5. **No skill percentage bars.** Nobody can defend "Python 92%" in an
    interview and the number tells the reader nothing.
+6. **Icons are functional.** Lucide, used for affordances (external link,
+   direction, copy state). Never decorative.
 
 ## Copy rules
 
@@ -28,14 +36,27 @@ Short declarative sentences. State the thing and stop. No rhetorical
 questions, no "not just X but Y", no three-item lists for rhythm, no em-dash
 asides. If a sentence was written to sound good, cut it.
 
+## Diagrams
+
+Each case study carries a hand-authored SVG in
+[`Diagrams.jsx`](src/components/diagrams/Diagrams.jsx):
+
+- `coldStart` — where the recommender hands off from content-based to
+  collaborative filtering
+- `authBoundary` — per-view decorators failing open vs a blueprint guard
+  failing closed
+- `alphaBeta` — a minimax tree with a pruned subtree
+- `pipeline` — train/serve path with evaluation held outside the app
+
+They are inline SVG, not images, so they inherit the CSS custom properties and
+recolour correctly in both themes. Each has a `<title>` for the accessibility
+tree, and the surrounding prose always states the same point, so nothing
+depends on seeing the picture.
+
 ## Stack
 
-React 18 and Vite 6. That is the entire dependency list — no motion library,
-no icon library, no CSS framework. The accordion is `grid-template-rows`
-`0fr → 1fr`; the icons are typographic characters.
-
-Production bundle: ~53 kB of JS gzipped (almost all of it React) and ~2.9 kB
-of CSS.
+React 18, React Router 6, Vite 6, Lucide. No motion library, no CSS framework.
+Production bundle is ~69 kB of JS gzipped and ~3.7 kB of CSS.
 
 ## Local development
 
@@ -52,20 +73,33 @@ npm run preview  # serve the production build
 npm run deploy
 ```
 
-Builds to `dist/` and pushes it to the `gh-pages` branch. `public/CNAME` is
-copied into the build and is what keeps `ashmithmaddala.dev` bound across
-deploys. Don't delete it.
+Builds to `dist/` and pushes it to the `gh-pages` branch.
+
+Two files in the build matter beyond the app itself:
+
+- **`CNAME`** comes from `public/` and keeps `ashmithmaddala.dev` bound across
+  deploys. Don't delete it.
+- **`404.html`** is written by a small plugin in
+  [`vite.config.js`](vite.config.js) as a byte-identical copy of
+  `index.html`. GitHub Pages has no server-side rewrite, so a direct hit on
+  `/work/python-chess-engine` would 404 before React loads. Pages serves
+  `404.html` for unmatched paths, which boots the app and lets the router read
+  the URL. Remove that plugin and every deep link breaks on refresh.
 
 ## Editing content
 
 **All copy lives in [`src/data/profile.js`](src/data/profile.js).** Nothing is
 hard-coded in JSX.
 
-- `PROFILE` — intro paragraphs, the spec block, the about text
+- `PROFILE` — intro, spec block, about text, principles
 - `EXPERIENCE` — roles, newest first
-- `PROJECTS` — index rows plus the notes that expand under each
+- `PROJECTS` — index entries plus the full case study for each
 - `STACK` — grouped, unranked
-- `SOCIALS`, `SECTIONS`
+- `SOCIALS`, `NAV`
+
+Adding a project means adding one object to `PROJECTS`. Give it a `slug`
+(which becomes the URL), and set `diagram` to one of the keys in
+`Diagrams.jsx` or add a new one.
 
 ### Project metrics
 
@@ -77,7 +111,7 @@ Each metric carries an `estimated` flag:
 
 `true` renders a visible `est.` qualifier with a tooltip saying the figure is
 self-reported rather than independently measured. Set it to `false` only for
-something you can actually demonstrate.
+something you can demonstrate.
 
 ## Outstanding
 
@@ -85,15 +119,18 @@ something you can actually demonstrate.
   `placeholder: true` and describes the shape of a product security role, not
   anything specific you did. Replace with real work and set the actual start
   month.
-- **No security project.** Every project predates the role. One would close an
-  obvious gap for anyone reading the job title first.
+- **No security project.** All four predate the role. One would close an
+  obvious gap for anyone who reads the job title first.
 - **`public/og.jpg` does not exist.** The `og:image` tags in `index.html` are
   commented out until it does.
+- **Per-route meta tags.** Titles are set client-side, so crawlers that don't
+  execute JS see the `index.html` description on every route. Fine for now;
+  worth prerendering if search traffic matters.
 
 ## Accessibility
 
-- Collapsed project panels are removed from the tab order and the
-  accessibility tree via `visibility: hidden`, not just clipped.
-- `prefers-reduced-motion` removes the one remaining transition.
-- Theme follows the system, is overridable, persists, and is resolved before
+- Every diagram has a `<title>` and is described in the surrounding prose.
+- `prefers-reduced-motion` removes the remaining transitions.
+- Theme follows the system, is overridable, persists, and resolves before
   first paint so there is no flash.
+- Skip link, visible focus rings, and `aria-label` on every icon-only control.

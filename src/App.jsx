@@ -1,13 +1,18 @@
+import { Route, Routes, useLocation } from "react-router-dom";
 import Header from "./components/Header";
-import Intro from "./components/Intro";
-import Experience from "./components/Experience";
-import Projects from "./components/Projects";
-import Stack from "./components/Stack";
-import About from "./components/About";
-import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import Work from "./pages/Work";
+import WorkDetail from "./pages/WorkDetail";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import NotFound from "./pages/NotFound";
+import { useScrollToTop } from "./hooks/usePage";
 
 export default function App() {
+	const { pathname } = useLocation();
+	useScrollToTop(pathname);
+
 	return (
 		<>
 			<a className="skip-link" href="#main">
@@ -17,12 +22,14 @@ export default function App() {
 			<Header />
 
 			<main id="main">
-				<Intro />
-				<Experience />
-				<Projects />
-				<Stack />
-				<About />
-				<Contact />
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/work" element={<Work />} />
+					<Route path="/work/:slug" element={<WorkDetail />} />
+					<Route path="/about" element={<About />} />
+					<Route path="/contact" element={<Contact />} />
+					<Route path="*" element={<NotFound />} />
+				</Routes>
 			</main>
 
 			<Footer />

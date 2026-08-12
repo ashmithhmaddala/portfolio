@@ -1,0 +1,75 @@
+.dgm__figure {
+	margin: 0 0 var(--sp-7);
+}
+
+/*
+ * The frame scrolls horizontally rather than letting the diagram shrink past
+ * legibility. Below ~34rem the labels would be unreadable at fit-width.
+ */
+.dgm__frame {
+	border: 1px solid var(--rule);
+	background: var(--paper);
+	padding: var(--sp-4);
+	overflow-x: auto;
+	overscroll-behavior-x: contain;
+}
+
+.dgm {
+	display: block;
+	width: 100%;
+	min-width: 34rem;
+	height: auto;
+}
+
+/* --- diagram type ---
+ * All labels are mono, set small and tight. Sizes are in viewBox units, so
+ * they scale with the drawing rather than with the page.
+ */
+.dgm text {
+	font-family: var(--font-mono);
+	fill: var(--ink-2);
+}
+
+/* box heading */
+.dgm__h {
+	font-size: 12px;
+	font-weight: 500;
+	fill: var(--ink);
+}
+
+/* body label */
+.dgm__t {
+	font-size: 11px;
+}
+
+/* annotation / footnote */
+.dgm__n {
+	font-size: 10px;
+	fill: var(--ink-3);
+}
+
+/* the one thing the diagram is actually about */
+.dgm__sig {
+	font-size: 10px;
+	font-weight: 500;
+	fill: var(--signal);
+}
+
+/* node values */
+.dgm__v {
+	font-size: 11px;
+	fill: var(--ink);
+}
+
+.dgm__sigv {
+	font-size: 11px;
+	fill: var(--signal);
+}
+
+.dgm__caption {
+	margin-top: var(--sp-3);
+	font-size: var(--fs-micro);
+	line-height: 1.55;
+	color: var(--ink-3);
+	max-width: 40rem;
+}

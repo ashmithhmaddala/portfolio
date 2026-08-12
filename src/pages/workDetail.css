@@ -1,0 +1,223 @@
+.detail__back {
+	font-size: var(--fs-xs);
+	margin-bottom: var(--sp-6);
+}
+
+.detail__back a,
+.detail__source a {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45em;
+}
+
+/* ------------------------------------------------------------------ head */
+
+.detail__head {
+	margin-bottom: var(--sp-7);
+}
+
+.detail__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sp-4);
+	font-size: var(--fs-micro);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--ink-3);
+	margin-bottom: var(--sp-4);
+}
+
+.detail__num {
+	color: var(--signal);
+}
+
+.detail__title {
+	font-size: clamp(1.9rem, 1.4rem + 2.2vw, 2.9rem);
+	font-weight: 600;
+	letter-spacing: -0.03em;
+	line-height: 1.06;
+	margin-bottom: var(--sp-4);
+}
+
+.detail__lede {
+	font-size: var(--fs-lead);
+	line-height: 1.4;
+	letter-spacing: -0.015em;
+	color: var(--ink-2);
+	max-width: 34ch;
+	margin-bottom: var(--sp-6);
+}
+
+/* --------------------------------------------------------------- metrics */
+
+.detail__metrics {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sp-6);
+	padding-block: var(--sp-4);
+	border-block: 1px solid var(--rule);
+}
+
+.detail__metricValue {
+	font-size: 1.3rem;
+	font-weight: 500;
+	letter-spacing: -0.02em;
+	font-variant-numeric: tabular-nums;
+}
+
+.detail__est {
+	margin-left: 0.3em;
+	font-family: var(--font-sans);
+	font-size: 0.6rem;
+	color: var(--ink-3);
+	border-bottom: 1px dotted var(--ink-3);
+	cursor: help;
+}
+
+.detail__metricLabel {
+	margin: 0.2rem 0 0;
+	font-size: var(--fs-micro);
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	color: var(--ink-3);
+}
+
+/* ---------------------------------------------------------------- blocks */
+
+.block {
+	display: grid;
+	gap: var(--sp-3);
+	padding-block: var(--sp-6);
+	border-top: 1px solid var(--rule);
+}
+
+.block__label {
+	font-size: var(--fs-micro);
+	font-weight: 500;
+	letter-spacing: 0.11em;
+	text-transform: uppercase;
+	color: var(--ink-3);
+}
+
+.block__body p {
+	color: var(--ink-2);
+	max-width: 40rem;
+}
+
+/* On wide screens the label sits in the margin, like a printed sidenote. */
+@media (min-width: 52rem) {
+	.block {
+		grid-template-columns: 8rem 1fr;
+		gap: var(--sp-5);
+	}
+
+	.block__label {
+		padding-top: 0.35em;
+	}
+}
+
+/* ------------------------------------------------------------- decisions */
+
+.decisions {
+	display: grid;
+	gap: var(--sp-5);
+}
+
+.decision {
+	display: grid;
+	grid-template-columns: 1.75rem 1fr;
+	gap: var(--sp-3);
+}
+
+.decision__num {
+	font-size: var(--fs-xs);
+	color: var(--signal);
+	padding-top: 0.2em;
+	font-variant-numeric: tabular-nums;
+}
+
+.decision__title {
+	font-size: var(--fs-body);
+	font-weight: 600;
+	letter-spacing: -0.012em;
+	margin-bottom: var(--sp-1);
+}
+
+.decision p {
+	font-size: var(--fs-sm);
+	color: var(--ink-2);
+}
+
+/* ------------------------------------------------------------ stack table */
+
+.why__row {
+	display: grid;
+	grid-template-columns: 8rem 1fr;
+	gap: var(--sp-4);
+	padding-block: var(--sp-3);
+	border-bottom: 1px solid var(--rule);
+}
+
+.why__row:first-child {
+	border-top: 1px solid var(--rule);
+}
+
+.why__name {
+	font-size: var(--fs-xs);
+	padding-top: 0.15em;
+}
+
+.why__reason {
+	margin: 0;
+	font-size: var(--fs-sm);
+	color: var(--ink-2);
+}
+
+.detail__source {
+	font-size: var(--fs-xs);
+	padding-block: var(--sp-6);
+	border-top: 1px solid var(--rule);
+}
+
+/* ----------------------------------------------------------------- pager */
+
+.pager {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--sp-4);
+	padding-top: var(--sp-5);
+	border-top: 1px solid var(--rule);
+	font-size: var(--fs-xs);
+}
+
+.pager__link {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-3);
+	color: var(--ink-2);
+	transition: color var(--dur-fast) var(--ease);
+}
+
+.pager__link:hover {
+	color: var(--signal);
+}
+
+.pager__link--next {
+	text-align: right;
+	margin-left: auto;
+}
+
+.pager__dir {
+	display: block;
+	font-size: var(--fs-micro);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--ink-3);
+}
+
+@media (max-width: 34rem) {
+	.why__row {
+		grid-template-columns: 1fr;
+		gap: var(--sp-1);
+	}
+}

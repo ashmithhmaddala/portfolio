@@ -1,0 +1,96 @@
+.contact__title {
+	max-width: 22ch;
+	margin-bottom: var(--sp-6);
+}
+
+.contact__line {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--sp-4);
+	padding-bottom: var(--sp-6);
+	border-bottom: 1px solid var(--rule);
+	margin-bottom: var(--sp-6);
+}
+
+.contact__email {
+	font-size: var(--fs-lead);
+	letter-spacing: -0.018em;
+	overflow-wrap: anywhere;
+}
+
+.contact__copy {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4em;
+	font-size: var(--fs-micro);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--ink-3);
+	/* Reserve the wider label's width so the swap doesn't shift layout. */
+	min-width: 5rem;
+	transition: color var(--dur-fast) var(--ease);
+}
+
+.contact__copy:hover {
+	color: var(--ink);
+}
+
+/* ----------------------------------------------------------------- cards */
+
+.contact__links {
+	display: grid;
+	gap: 0;
+	border-top: 1px solid var(--rule);
+}
+
+.contact__card {
+	display: grid;
+	grid-template-columns: 9rem 1fr auto;
+	align-items: center;
+	gap: var(--sp-4);
+	padding-block: var(--sp-4);
+	border-bottom: 1px solid var(--rule);
+	transition: background-color var(--dur) var(--ease);
+}
+
+.contact__card:hover {
+	background: var(--paper-2);
+	box-shadow: calc(-1 * var(--gutter)) 0 0 var(--paper-2),
+		var(--gutter) 0 0 var(--paper-2);
+}
+
+.contact__cardLabel {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.55em;
+	font-size: var(--fs-sm);
+	font-weight: 500;
+}
+
+.contact__cardHandle {
+	font-size: var(--fs-xs);
+	color: var(--ink-3);
+	overflow-wrap: anywhere;
+}
+
+.contact__cardArrow {
+	color: var(--ink-3);
+	transition: transform var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.contact__card:hover .contact__cardArrow {
+	transform: translate(2px, -2px);
+	color: var(--signal);
+}
+
+@media (max-width: 32rem) {
+	.contact__card {
+		grid-template-columns: 1fr auto;
+		gap: var(--sp-2) var(--sp-3);
+	}
+
+	.contact__cardHandle {
+		grid-column: 1 / -1;
+	}
+}
