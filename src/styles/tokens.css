@@ -1,91 +1,75 @@
 /*
  * Design tokens.
- * Dark is the default surface; light is a first-class alternate, not an
- * afterthought. Every colour a component uses must come from here so the
- * two themes stay in lockstep.
+ *
+ * Near-monochrome by rule. Ink on paper, hairline rules, and exactly one
+ * signal colour used sparingly — an oxide orange, borrowed from safety
+ * markings on industrial equipment rather than from a SaaS gradient.
+ *
+ * There are no gradient tokens here on purpose. If a component wants one,
+ * the component is wrong.
  */
 
 :root,
-:root[data-theme="dark"] {
-	color-scheme: dark;
-
-	/* --- surfaces --- */
-	--bg: #08090c;
-	--bg-soft: #0b0d12;
-	--bg-elev: #0f1219;
-	--surface: rgba(255, 255, 255, 0.028);
-	--surface-hover: rgba(255, 255, 255, 0.055);
-	--border: rgba(255, 255, 255, 0.09);
-	--border-strong: rgba(255, 255, 255, 0.16);
-
-	/* --- type --- */
-	--text: #f3f4f7;
-	--text-muted: #a1a7b5;
-	--text-dim: #6c7280;
-
-	/* --- accents --- */
-	--accent: #7c5cff;
-	--accent-soft: #9b83ff;
-	--accent-2: #22d3ee;
-	--accent-3: #f472b6;
-	--accent-contrast: #ffffff;
-
-	/* --- semantic --- */
-	--ok: #34d399;
-	--warn: #fbbf24;
-
-	/* --- effects --- */
-	--glow: 0 0 0 1px rgba(124, 92, 255, 0.35), 0 8px 40px -8px rgba(124, 92, 255, 0.45);
-	--shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 40px -16px rgba(0, 0, 0, 0.7);
-	--mesh-opacity: 0.75;
-	--grain-opacity: 0.035;
-}
-
 :root[data-theme="light"] {
 	color-scheme: light;
 
-	--bg: #fcfcfd;
-	--bg-soft: #f6f7fa;
-	--bg-elev: #ffffff;
-	--surface: rgba(12, 14, 24, 0.022);
-	--surface-hover: rgba(12, 14, 24, 0.045);
-	--border: rgba(12, 14, 24, 0.1);
-	--border-strong: rgba(12, 14, 24, 0.2);
+	/* --- ground --- */
+	--paper: #fbfbf9;
+	--paper-2: #f4f4f0;
+	--paper-3: #ecece7;
 
-	--text: #0b0c11;
-	--text-muted: #4e5364;
-	--text-dim: #757b8c;
+	/* --- ink --- */
+	--ink: #17171a;
+	--ink-2: #56565d;
+	--ink-3: #8b8b93;
 
-	--accent: #6535f0;
-	--accent-soft: #7c5cff;
-	--accent-2: #0891b2;
-	--accent-3: #db2777;
-	--accent-contrast: #ffffff;
+	/* --- rules --- */
+	--rule: #e0e0da;
+	--rule-2: #c9c9c2;
 
-	--ok: #059669;
-	--warn: #b45309;
+	/* --- signal (use sparingly) --- */
+	--signal: #a8380f;
+	--signal-tint: #f7ece7;
+}
 
-	--glow: 0 0 0 1px rgba(101, 53, 240, 0.25), 0 8px 40px -12px rgba(101, 53, 240, 0.35);
-	--shadow-card: 0 1px 2px rgba(12, 14, 24, 0.06), 0 12px 32px -16px rgba(12, 14, 24, 0.2);
-	--mesh-opacity: 0.42;
-	--grain-opacity: 0.02;
+:root[data-theme="dark"] {
+	color-scheme: dark;
+
+	--paper: #0c0c0e;
+	--paper-2: #131315;
+	--paper-3: #1a1a1d;
+
+	--ink: #eceae5;
+	--ink-2: #9a9aa1;
+	--ink-3: #67676e;
+
+	--rule: #232326;
+	--rule-2: #35353a;
+
+	--signal: #e0703c;
+	--signal-tint: #241610;
 }
 
 :root {
-	/* --- typography --- */
-	--font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
-		sans-serif;
-	--font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo",
+	/* --- type ---
+	 * IBM Plex: drawn for an engineering company, and not the default that
+	 * every generated site reaches for.
+	 */
+	--font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system,
+		"Segoe UI", sans-serif;
+	--font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo,
 		monospace;
 
-	/* Fluid type ramp — clamps mean no per-breakpoint font-size overrides. */
-	--fs-display: clamp(2.6rem, 1.2rem + 6vw, 6rem);
-	--fs-h1: clamp(2rem, 1.2rem + 3.4vw, 3.4rem);
-	--fs-h2: clamp(1.5rem, 1.1rem + 1.7vw, 2.2rem);
-	--fs-h3: clamp(1.15rem, 1rem + 0.7vw, 1.45rem);
-	--fs-body: clamp(0.98rem, 0.94rem + 0.2vw, 1.06rem);
-	--fs-sm: 0.875rem;
-	--fs-xs: 0.775rem;
+	/*
+	 * A deliberately shallow ramp. The page is text, so the largest thing on
+	 * it is only about 3x the body size — nothing shouts.
+	 */
+	--fs-lead: clamp(1.25rem, 1.08rem + 0.85vw, 1.75rem);
+	--fs-title: clamp(1.35rem, 1.15rem + 0.95vw, 1.9rem);
+	--fs-body: 1rem;
+	--fs-sm: 0.9375rem;
+	--fs-xs: 0.8125rem;
+	--fs-micro: 0.6875rem;
 
 	/* --- space --- */
 	--sp-1: 0.25rem;
@@ -95,22 +79,23 @@
 	--sp-5: 1.5rem;
 	--sp-6: 2rem;
 	--sp-7: 3rem;
-	--sp-8: 4rem;
-	--sp-9: 6rem;
-	--section-y: clamp(4rem, 2rem + 9vw, 8.5rem);
+	--sp-8: 4.5rem;
+	--section-y: clamp(3.25rem, 2rem + 5vw, 5.5rem);
 
-	/* --- geometry --- */
-	--radius-sm: 8px;
-	--radius: 14px;
-	--radius-lg: 22px;
-	--radius-pill: 999px;
-	--maxw: 1180px;
-	--maxw-prose: 68ch;
+	/* --- measure ---
+	 * One column, one measure. No cards, no grid of tiles.
+	 */
+	--maxw: 46rem;
+	/*
+	 * Shared by .wrap's inline padding and by any full-bleed hover tint, so
+	 * the two always agree about where the gutter starts.
+	 */
+	--gutter: clamp(1.25rem, 0.5rem + 3vw, 2rem);
 
-	/* --- motion --- */
-	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-	--ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-	--dur-fast: 140ms;
-	--dur: 260ms;
-	--dur-slow: 620ms;
+	/* --- motion ---
+	 * Short and linear-ish. Nothing bounces.
+	 */
+	--ease: cubic-bezier(0.2, 0, 0, 1);
+	--dur-fast: 120ms;
+	--dur: 220ms;
 }

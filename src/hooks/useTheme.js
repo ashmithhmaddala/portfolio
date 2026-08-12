@@ -8,7 +8,7 @@ import { useCallback, useEffect, useState } from "react";
  */
 export function useTheme() {
 	const [theme, setTheme] = useState(
-		() => document.documentElement.dataset.theme || "dark"
+		() => document.documentElement.dataset.theme || "light"
 	);
 
 	useEffect(() => {

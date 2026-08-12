@@ -1,95 +1,55 @@
-import { useState } from "react";
-import { ArrowUpRight, Check, Copy } from "lucide-react";
-import { PROFILE, SOCIALS } from "../data/profile";
-import Reveal from "./ui/Reveal";
+import { useEffect, useState } from "react";
+import { PROFILE, SECTIONS, SOCIALS } from "../data/profile";
+import Section from "./Section";
 import "./contact.css";
+
+const META = SECTIONS.find((s) => s.id === "contact");
 
 export default function Contact() {
 	const [copied, setCopied] = useState(false);
 
-	const copyEmail = async () => {
+	useEffect(() => {
+		if (!copied) return;
+		const timer = setTimeout(() => setCopied(false), 1800);
+		return () => clearTimeout(timer);
+	}, [copied]);
+
+	const copy = async () => {
 		try {
 			await navigator.clipboard.writeText(PROFILE.email);
 			setCopied(true);
-			setTimeout(() => setCopied(false), 2000);
 		} catch {
-			// Clipboard blocked (insecure context or denied permission) —
-			// the mailto link beside this button still works.
+			// Clipboard unavailable or denied. The mailto link still works.
 		}
 	};
 
 	return (
-		<section className="section" id="contact">
-			<div className="container">
-				<Reveal className="contact">
-					<span className="contact__glow" aria-hidden="true" />
+		<Section id={META.id} num={META.num} label={META.label}>
+			<p className="contact__line">
+				<a className="link contact__email" href={`mailto:${PROFILE.email}`}>
+					{PROFILE.email}
+				</a>
+				<button type="button" className="contact__copy mono" onClick={copy}>
+					{copied ? "Copied" : "Copy"}
+				</button>
+			</p>
 
-					<div className="contact__inner">
-						<p className="eyebrow">Contact</p>
-						<h2 className="contact__title">
-							Got something worth building?
-						</h2>
-						<p className="contact__lede">
-							Security work, backend problems, or an argument
-							about query planners — all welcome. I read
-							everything and reply to anything that isn't a
-							recruiter template.
-						</p>
-
-						<div className="contact__actions">
-							<a
-								className="btn btn--primary"
-								href={`mailto:${PROFILE.email}`}
-							>
-								{PROFILE.email}
-								<ArrowUpRight size={16} />
-							</a>
-							<button
-								type="button"
-								className="btn btn--ghost"
-								onClick={copyEmail}
-							>
-								{copied ? (
-									<>
-										<Check size={15} /> Copied
-									</>
-								) : (
-									<>
-										<Copy size={15} /> Copy address
-									</>
-								)}
-							</button>
-						</div>
-
-						<div className="contact__grid">
-							{SOCIALS.map((social) => (
-								<a
-									key={social.id}
-									className="contactCard"
-									href={social.url}
-									target={
-										social.id === "mail"
-											? undefined
-											: "_blank"
-									}
-									rel="noreferrer"
-								>
-									<span className="contactCard__label">
-										{social.label}
-									</span>
-									<span className="contactCard__handle mono">
-										{social.handle}
-									</span>
-									<ArrowUpRight
-										size={15}
-										className="contactCard__arrow"
-									/>
-								</a>
-							))}
-						</div>
-					</div>
-				</Reveal>
-			</div>
-		</section>
+			<ul className="contact__links mono">
+				{SOCIALS.map((social) => (
+					<li key={social.id}>
+						<span className="contact__key">{social.label}</span>
+						<a
+							className="link"
+							href={social.url}
+							target="_blank"
+							rel="noreferrer"
+						>
+							{social.handle}
+							<span aria-hidden="true"> ↗</span>
+						</a>
+					</li>
+				))}
+			</ul>
+		</Section>
 	);
 }

@@ -1,207 +1,206 @@
-.pgrid {
+.projects {
+	border-top: 1px solid var(--rule);
+}
+
+.project {
+	border-bottom: 1px solid var(--rule);
+}
+
+/* ---------------------------------------------------------------- header */
+
+.project__toggle {
 	display: grid;
-	grid-template-columns: 1fr;
-	gap: clamp(1rem, 0.6rem + 1.4vw, 1.6rem);
+	grid-template-columns: 2rem 1fr auto;
+	gap: var(--sp-4);
+	width: 100%;
+	text-align: left;
+	padding-block: var(--sp-5);
+	transition: background-color var(--dur) var(--ease);
 }
 
-/* ------------------------------------------------------------------- card */
-
-.pcard {
-	position: relative;
-	height: 100%;
-	border: 1px solid var(--border);
-	border-radius: var(--radius-lg);
-	background: var(--bg-elev);
-	box-shadow: var(--shadow-card);
-	transition: border-color var(--dur) var(--ease-out),
-		box-shadow var(--dur) var(--ease-out);
+.project__toggle:hover {
+	background: var(--paper-2);
 	/*
-	 * Deliberately NOT `overflow: hidden` — that would force the parent's
-	 * `transform-style: preserve-3d` to compute as flat, killing the depth on
-	 * the tilt. Children that need clipping round their own corners instead.
+	 * Bleeds the tint across both gutters so the hovered row reads as a full
+	 * band, the way a highlighted line does in a printed table. Offsets use
+	 * the same token as .wrap's padding, so they always line up exactly.
 	 */
+	box-shadow: calc(-1 * var(--gutter)) 0 0 var(--paper-2),
+		var(--gutter) 0 0 var(--paper-2);
 }
 
-.pcard:hover {
-	border-color: var(--border-strong);
-	box-shadow: var(--shadow-card), 0 0 60px -22px var(--accent);
+.project__num {
+	font-size: var(--fs-xs);
+	color: var(--ink-3);
+	padding-top: 0.35em;
+	font-variant-numeric: tabular-nums;
 }
 
-/* Coloured wash bleeding down from the top edge, unique per project. */
-.pcard__wash {
-	position: absolute;
-	inset-inline: 0;
-	top: 0;
-	height: 180px;
-	/* Matches the card's own rounding, since the card can't clip it. */
-	border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-	opacity: 0.1;
-	mask-image: linear-gradient(to bottom, #000, transparent);
-	-webkit-mask-image: linear-gradient(to bottom, #000, transparent);
-	transition: opacity var(--dur) var(--ease-out);
-	pointer-events: none;
+.project.is-open .project__num {
+	color: var(--signal);
 }
 
-.pcard:hover .pcard__wash {
-	opacity: 0.2;
+.project__main {
+	display: grid;
+	gap: var(--sp-2);
+	min-width: 0;
 }
 
-.pcard__body {
-	position: relative;
-	z-index: 2;
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	padding: clamp(1.35rem, 1rem + 1.4vw, 2rem);
-	/* Lifts content out of the 3D plane so the tilt reads as depth. */
-	transform: translateZ(38px);
+.project__title {
+	font-size: var(--fs-title);
+	font-weight: 600;
+	letter-spacing: -0.018em;
+	line-height: 1.2;
 }
 
-.pcard__top {
+.project__summary {
+	font-size: var(--fs-sm);
+	color: var(--ink-2);
+	max-width: 38rem;
+}
+
+.project__stack {
+	font-size: var(--fs-micro);
+	color: var(--ink-3);
+	letter-spacing: 0.02em;
+}
+
+.project__aside {
 	display: flex;
 	align-items: flex-start;
-	justify-content: space-between;
-	gap: var(--sp-3);
-	margin-bottom: var(--sp-4);
+	gap: var(--sp-4);
+	padding-top: 0.35em;
 }
 
-.pcard__index {
+.project__period {
+	display: none;
 	font-size: var(--fs-xs);
-	font-weight: 700;
-	letter-spacing: 0.1em;
-	color: var(--accent);
+	color: var(--ink-3);
+	white-space: nowrap;
+	font-variant-numeric: tabular-nums;
 }
 
-.pcard__tags {
+.project__mark {
+	font-size: 1.1rem;
+	line-height: 1;
+	color: var(--ink-3);
+	transition: transform var(--dur) var(--ease),
+		color var(--dur) var(--ease);
+}
+
+.project.is-open .project__mark {
+	transform: rotate(45deg);
+	color: var(--signal);
+}
+
+/* ----------------------------------------------------------------- panel */
+
+.project__panel {
+	display: grid;
+	grid-template-rows: 0fr;
+	transition: grid-template-rows var(--dur) var(--ease);
+}
+
+.project.is-open .project__panel {
+	grid-template-rows: 1fr;
+}
+
+.project__panelInner {
+	overflow: hidden;
+	min-height: 0;
+	/* Keeps collapsed content out of the tab order and screen readers. */
+	visibility: hidden;
+	transition: visibility 0s linear var(--dur);
+}
+
+.project.is-open .project__panelInner {
+	visibility: visible;
+	transition-delay: 0s;
+}
+
+/* Indented to the same left edge as the title, not the ordinal. */
+.project__panelInner > * {
+	margin-left: calc(2rem + var(--sp-4));
+}
+
+.project__panelInner > *:last-child {
+	padding-bottom: var(--sp-6);
+}
+
+/* --------------------------------------------------------------- metrics */
+
+.project__metrics {
 	display: flex;
 	flex-wrap: wrap;
-	gap: var(--sp-2);
-	justify-content: flex-end;
+	gap: var(--sp-6);
+	padding-block: var(--sp-4) var(--sp-5);
+	border-top: 1px solid var(--rule);
 }
 
-.pcard__title {
-	font-size: var(--fs-h3);
+.project__metricValue {
+	font-size: 1.15rem;
+	font-weight: 500;
+	letter-spacing: -0.02em;
+	font-variant-numeric: tabular-nums;
+}
+
+.project__est {
+	margin-left: 0.3em;
+	font-family: var(--font-sans);
+	font-size: 0.6rem;
+	font-weight: 400;
+	color: var(--ink-3);
+	border-bottom: 1px dotted var(--ink-3);
+	cursor: help;
+}
+
+.project__metricLabel {
+	margin: 0.15rem 0 0;
+	font-size: var(--fs-micro);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--ink-3);
+}
+
+/* ----------------------------------------------------------------- notes */
+
+.project__note + .project__note {
+	margin-top: var(--sp-5);
+}
+
+.project__noteHead {
+	font-size: var(--fs-micro);
+	font-weight: 500;
+	letter-spacing: 0.11em;
+	text-transform: uppercase;
+	color: var(--ink-3);
 	margin-bottom: var(--sp-2);
 }
 
-.pcard__tagline {
-	color: var(--text);
-	font-weight: 500;
-	margin-bottom: var(--sp-3);
-	text-wrap: pretty;
-}
-
-.pcard__desc {
+.project__note p {
 	font-size: var(--fs-sm);
-	color: var(--text-muted);
-	margin-bottom: var(--sp-5);
+	color: var(--ink-2);
+	max-width: 40rem;
 }
 
-/* ---------------------------------------------------------------- metrics */
-
-.pcard__metrics {
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--sp-5);
-	padding-block: var(--sp-4);
-	border-top: 1px solid var(--border);
-	border-bottom: 1px solid var(--border);
-	margin-bottom: var(--sp-4);
-}
-
-.metric__value {
-	font-family: var(--font-mono);
-	font-size: 1.35rem;
-	font-weight: 700;
-	line-height: 1.1;
-	color: var(--text);
-	letter-spacing: -0.02em;
-}
-
-.metric__est {
-	margin-left: 0.2em;
-	font-family: var(--font-sans);
-	font-size: 0.5em;
-	font-weight: 500;
-	letter-spacing: 0.04em;
-	color: var(--text-dim);
-	cursor: help;
-	border-bottom: 1px dotted var(--text-dim);
-	vertical-align: super;
-}
-
-.metric__label {
+.project__source {
+	margin-top: var(--sp-5);
 	font-size: var(--fs-xs);
-	color: var(--text-dim);
-	margin-top: 0.2rem;
 }
 
-/* ------------------------------------------------------------------ stack */
-
-.pcard__stack {
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--sp-2) var(--sp-3);
-	margin-bottom: var(--sp-5);
-}
-
-.pcard__tech {
+.projects__more {
+	margin-top: var(--sp-5);
 	font-size: var(--fs-xs);
-	color: var(--text-dim);
 }
 
-.pcard__tech:not(:last-child)::after {
-	content: " /";
-	color: var(--border-strong);
+@media (min-width: 34rem) {
+	.project__period {
+		display: block;
+	}
 }
 
-/* ---------------------------------------------------------------- actions */
-
-.pcard__actions {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: var(--sp-3);
-	margin-top: auto;
-}
-
-.pcard__readMore {
-	display: inline-flex;
-	align-items: center;
-	gap: var(--sp-2);
-	padding: 0;
-	border: 0;
-	background: none;
-	cursor: pointer;
-	font-size: var(--fs-sm);
-	font-weight: 600;
-	color: var(--accent-soft);
-	transition: gap var(--dur-fast) var(--ease-out);
-}
-
-.pcard__readMore:hover {
-	gap: 0.7rem;
-}
-
-.pcard__source {
-	display: inline-grid;
-	place-items: center;
-	width: 2.2rem;
-	height: 2.2rem;
-	border-radius: var(--radius-pill);
-	border: 1px solid var(--border);
-	color: var(--text-muted);
-	transition: color var(--dur-fast) var(--ease-out),
-		border-color var(--dur-fast) var(--ease-out);
-}
-
-.pcard__source:hover {
-	color: var(--text);
-	border-color: var(--accent);
-}
-
-@media (min-width: 880px) {
-	.pgrid {
-		grid-template-columns: repeat(2, 1fr);
+@media (max-width: 34rem) {
+	.project__panelInner > * {
+		margin-left: 0;
 	}
 }

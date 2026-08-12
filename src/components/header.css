@@ -1,0 +1,69 @@
+.header {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	background: var(--paper);
+	border-bottom: 1px solid var(--rule);
+}
+
+.header__inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--sp-4);
+	height: 3.25rem;
+}
+
+.header__name {
+	font-size: var(--fs-sm);
+	font-weight: 600;
+	letter-spacing: -0.012em;
+	white-space: nowrap;
+}
+
+/*
+ * Section links are hidden on narrow screens rather than collapsed into a
+ * burger. The page is one column and short; scrolling is the navigation.
+ */
+.header__nav {
+	display: none;
+	gap: var(--sp-5);
+	font-size: var(--fs-micro);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.header__link {
+	color: var(--ink-3);
+	padding-block: 0.15rem;
+	border-bottom: 1px solid transparent;
+	transition: color var(--dur-fast) var(--ease),
+		border-color var(--dur-fast) var(--ease);
+}
+
+.header__link:hover {
+	color: var(--ink);
+}
+
+.header__link.is-active {
+	color: var(--ink);
+	border-bottom-color: var(--signal);
+}
+
+.header__theme {
+	font-size: var(--fs-micro);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--ink-3);
+	transition: color var(--dur-fast) var(--ease);
+}
+
+.header__theme:hover {
+	color: var(--ink);
+}
+
+@media (min-width: 44rem) {
+	.header__nav {
+		display: flex;
+	}
+}

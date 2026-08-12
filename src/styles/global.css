@@ -15,35 +15,31 @@
 html {
 	-webkit-text-size-adjust: 100%;
 	scroll-behavior: smooth;
-	/* Sticky header clearance for in-page anchor jumps. */
-	scroll-padding-top: 5.5rem;
+	scroll-padding-top: 4.5rem;
 }
 
 body {
-	background: var(--bg);
-	color: var(--text);
+	background: var(--paper);
+	color: var(--ink);
 	font-family: var(--font-sans);
 	font-size: var(--fs-body);
-	line-height: 1.65;
+	line-height: 1.6;
 	-webkit-font-smoothing: antialiased;
-	text-rendering: optimizeLegibility;
-	overflow-x: hidden;
-	transition: background-color var(--dur) var(--ease-out),
-		color var(--dur) var(--ease-out);
+	font-feature-settings: "kern", "liga";
 }
 
-img,
-svg,
-video {
+img {
 	display: block;
 	max-width: 100%;
 }
 
-button,
-input,
-textarea {
+button {
 	font: inherit;
 	color: inherit;
+	background: none;
+	border: 0;
+	padding: 0;
+	cursor: pointer;
 }
 
 a {
@@ -51,31 +47,32 @@ a {
 	text-decoration: none;
 }
 
+/* Headings carry structure, not styling. Every one is styled at its usage. */
 h1,
 h2,
 h3,
 h4 {
-	line-height: 1.12;
-	letter-spacing: -0.025em;
-	font-weight: 700;
-	text-wrap: balance;
+	font-size: inherit;
+	font-weight: inherit;
+	line-height: inherit;
 }
 
-p {
-	text-wrap: pretty;
+ul,
+ol {
+	list-style: none;
+	padding: 0;
 }
 
 ::selection {
-	background: var(--accent);
-	color: var(--accent-contrast);
+	background: var(--ink);
+	color: var(--paper);
 }
 
 /* --------------------------------------------------------- focus / a11y */
 
 :focus-visible {
-	outline: 2px solid var(--accent-soft);
-	outline-offset: 3px;
-	border-radius: 4px;
+	outline: 2px solid var(--signal);
+	outline-offset: 2px;
 }
 
 .sr-only {
@@ -95,116 +92,75 @@ p {
 	top: -100%;
 	left: var(--sp-4);
 	z-index: 200;
-	padding: var(--sp-3) var(--sp-5);
-	background: var(--accent);
-	color: var(--accent-contrast);
-	border-radius: var(--radius-sm);
-	font-weight: 600;
+	padding: var(--sp-2) var(--sp-4);
+	background: var(--ink);
+	color: var(--paper);
+	font-size: var(--fs-sm);
 }
 
 .skip-link:focus {
-	top: var(--sp-4);
-}
-
-/* ------------------------------------------------------------- scrollbar */
-
-::-webkit-scrollbar {
-	width: 10px;
-	height: 10px;
-}
-
-::-webkit-scrollbar-track {
-	background: var(--bg);
-}
-
-::-webkit-scrollbar-thumb {
-	background: var(--border-strong);
-	border-radius: var(--radius-pill);
-	border: 2px solid var(--bg);
-}
-
-::-webkit-scrollbar-thumb:hover {
-	background: var(--accent);
+	top: var(--sp-3);
 }
 
 /* ---------------------------------------------------------------- layout */
 
-.container {
+.wrap {
 	width: 100%;
 	max-width: var(--maxw);
 	margin-inline: auto;
-	padding-inline: clamp(1.15rem, 0.6rem + 2.6vw, 2.5rem);
+	padding-inline: var(--gutter);
 }
 
 .section {
-	position: relative;
 	padding-block: var(--section-y);
+	border-top: 1px solid var(--rule);
 }
 
-.section--tight {
-	padding-block: calc(var(--section-y) * 0.62);
-}
-
-/* Hairline divider that fades at both ends. */
-.section + .section::before {
-	content: "";
-	position: absolute;
-	inset-inline: 0;
-	top: 0;
-	height: 1px;
-	background: linear-gradient(
-		90deg,
-		transparent,
-		var(--border) 22%,
-		var(--border) 78%,
-		transparent
-	);
-}
-
-/* -------------------------------------------------------- shared pieces */
-
-.eyebrow {
-	display: inline-flex;
-	align-items: center;
-	gap: var(--sp-2);
+/*
+ * Section label: small mono caps with its ordinal, sitting above the content
+ * like a heading on a datasheet.
+ */
+.label {
+	display: flex;
+	align-items: baseline;
+	gap: var(--sp-3);
 	font-family: var(--font-mono);
-	font-size: var(--fs-xs);
+	font-size: var(--fs-micro);
 	font-weight: 500;
-	letter-spacing: 0.16em;
+	letter-spacing: 0.11em;
 	text-transform: uppercase;
-	color: var(--text-dim);
-	margin-bottom: var(--sp-4);
+	color: var(--ink-3);
+	margin-bottom: var(--sp-6);
 }
 
-.eyebrow::before {
-	content: "";
-	width: 1.75rem;
+.label__num {
+	color: var(--signal);
+}
+
+.label__rule {
+	flex: 1;
 	height: 1px;
-	background: linear-gradient(90deg, var(--accent), transparent);
+	background: var(--rule);
+	/* Optical: sits on the cap-height line rather than the baseline. */
+	transform: translateY(-0.28em);
 }
 
-.section-title {
-	font-size: var(--fs-h2);
-	margin-bottom: var(--sp-3);
+/* ------------------------------------------------------------------ type */
+
+.lead {
+	font-size: var(--fs-lead);
+	line-height: 1.38;
+	letter-spacing: -0.018em;
+	text-wrap: pretty;
 }
 
-.section-lede {
-	color: var(--text-muted);
-	max-width: 56ch;
-	margin-bottom: var(--sp-7);
+.prose p {
+	color: var(--ink-2);
+	max-width: 42rem;
 }
 
-.gradient-text {
-	background: linear-gradient(
-		100deg,
-		var(--text) 0%,
-		var(--text) 30%,
-		var(--accent-soft) 62%,
-		var(--accent-2) 100%
-	);
-	-webkit-background-clip: text;
-	background-clip: text;
-	color: transparent;
+.prose p + p {
+	margin-top: var(--sp-4);
 }
 
 .mono {
@@ -212,81 +168,21 @@ p {
 	font-variant-ligatures: none;
 }
 
-/* --------------------------------------------------------------- buttons */
-
-.btn {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	gap: var(--sp-2);
-	padding: 0.72rem 1.3rem;
-	border-radius: var(--radius-pill);
-	border: 1px solid transparent;
-	font-size: var(--fs-sm);
-	font-weight: 600;
-	cursor: pointer;
-	white-space: nowrap;
-	background: none;
-	transition: transform var(--dur-fast) var(--ease-out),
-		background-color var(--dur) var(--ease-out),
-		border-color var(--dur) var(--ease-out),
-		box-shadow var(--dur) var(--ease-out), color var(--dur) var(--ease-out);
+.dim {
+	color: var(--ink-3);
 }
 
-.btn:active {
-	transform: translateY(1px) scale(0.985);
+/* Inline text link: underline is the affordance, colour is not. */
+.link {
+	color: var(--ink);
+	border-bottom: 1px solid var(--rule-2);
+	transition: border-color var(--dur-fast) var(--ease),
+		color var(--dur-fast) var(--ease);
 }
 
-.btn--primary {
-	background: linear-gradient(135deg, var(--accent), var(--accent-2));
-	color: #fff;
-	box-shadow: 0 6px 24px -8px rgba(124, 92, 255, 0.75);
-}
-
-.btn--primary:hover {
-	box-shadow: 0 10px 34px -8px rgba(124, 92, 255, 0.95);
-	transform: translateY(-2px);
-}
-
-.btn--ghost {
-	border-color: var(--border-strong);
-	color: var(--text);
-	background: var(--surface);
-}
-
-.btn--ghost:hover {
-	background: var(--surface-hover);
-	border-color: var(--accent);
-	transform: translateY(-2px);
-}
-
-/* ----------------------------------------------------------------- chips */
-
-.chip {
-	display: inline-flex;
-	align-items: center;
-	gap: var(--sp-2);
-	padding: 0.28rem 0.7rem;
-	border: 1px solid var(--border);
-	border-radius: var(--radius-pill);
-	background: var(--surface);
-	font-family: var(--font-mono);
-	font-size: var(--fs-xs);
-	color: var(--text-muted);
-	white-space: nowrap;
-}
-
-/* ------------------------------------------------------- film grain wash */
-
-.grain {
-	position: fixed;
-	inset: 0;
-	/* Above page content, below the nav (100) and the modal (300). */
-	z-index: 50;
-	pointer-events: none;
-	opacity: var(--grain-opacity);
-	mix-blend-mode: overlay;
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+.link:hover {
+	color: var(--signal);
+	border-bottom-color: var(--signal);
 }
 
 /* --------------------------------------------------------- reduced motion */
@@ -300,8 +196,6 @@ p {
 	*::before,
 	*::after {
 		animation-duration: 0.001ms !important;
-		animation-iteration-count: 1 !important;
 		transition-duration: 0.001ms !important;
-		scroll-behavior: auto !important;
 	}
 }

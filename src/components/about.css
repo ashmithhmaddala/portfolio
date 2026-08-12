@@ -1,115 +1,52 @@
-.aboutGrid {
+.about {
 	display: grid;
-	grid-template-columns: 1fr;
-	gap: clamp(2rem, 1rem + 4vw, 4rem);
-	align-items: start;
+	gap: var(--sp-6);
 }
 
-/* ------------------------------------------------------------------ media */
-
-.about__media {
-	position: relative;
+.about__figure {
+	margin: 0;
+	max-width: 15rem;
 }
 
-.about__frame {
-	position: relative;
-	border-radius: var(--radius-lg);
-	overflow: hidden;
-	border: 1px solid var(--border);
-	background: var(--bg-elev);
-	aspect-ratio: 4 / 5;
-	max-width: 380px;
-}
-
-.about__frame img {
+.about__figure img {
 	width: 100%;
-	height: 100%;
+	height: auto;
+	aspect-ratio: 4 / 5;
 	object-fit: cover;
-	filter: saturate(0.92) contrast(1.03);
-	transition: transform var(--dur-slow) var(--ease-out),
-		filter var(--dur-slow) var(--ease-out);
+	border: 1px solid var(--rule);
+	/*
+	 * Slight desaturation so a colour photograph doesn't become the loudest
+	 * thing on an otherwise monochrome page.
+	 */
+	filter: grayscale(1) contrast(1.04);
+	transition: filter var(--dur) var(--ease);
 }
 
-.about__frame:hover img {
-	transform: scale(1.035);
-	filter: saturate(1.05) contrast(1.05);
+.about__figure:hover img {
+	filter: grayscale(0) contrast(1);
 }
 
-.about__frameGlow {
-	position: absolute;
-	inset: 0;
-	pointer-events: none;
-	background: linear-gradient(
-		145deg,
-		color-mix(in srgb, var(--accent) 22%, transparent),
-		transparent 55%
-	);
-	mix-blend-mode: overlay;
-}
-
-/* ------------------------------------------------------------------- meta */
-
-.about__meta {
-	margin-top: var(--sp-5);
-	max-width: 380px;
-	display: grid;
-	gap: var(--sp-1);
-}
-
-.about__metaRow {
-	display: flex;
-	align-items: baseline;
-	gap: var(--sp-4);
-	padding-block: var(--sp-3);
-	border-bottom: 1px solid var(--border);
-	font-size: var(--fs-sm);
-}
-
-.about__metaRow:last-child {
-	border-bottom: 0;
-}
-
-.about__metaKey {
-	flex: none;
-	width: 4.5rem;
-	font-size: var(--fs-xs);
-	letter-spacing: 0.1em;
+.about__figure figcaption {
+	margin-top: var(--sp-2);
+	font-size: var(--fs-micro);
+	letter-spacing: 0.06em;
 	text-transform: uppercase;
-	color: var(--text-dim);
+	color: var(--ink-3);
 }
 
-/* ------------------------------------------------------------------- body */
+@media (min-width: 40rem) {
+	.about {
+		grid-template-columns: 1fr 15rem;
+		gap: var(--sp-7);
+		align-items: start;
+	}
 
-.about__prose {
-	display: grid;
-	gap: var(--sp-4);
-	max-width: var(--maxw-prose);
-	color: var(--text-muted);
-	margin-bottom: var(--sp-7);
-}
+	/* Photograph sits to the right of the text, top-aligned with it. */
+	.about__prose {
+		order: 1;
+	}
 
-.about__prose p:first-child {
-	color: var(--text);
-	font-size: 1.1rem;
-}
-
-.about__subhead {
-	font-size: var(--fs-xs);
-	font-weight: 500;
-	letter-spacing: 0.14em;
-	text-transform: uppercase;
-	color: var(--text-dim);
-	margin-bottom: var(--sp-4);
-}
-
-.about__interests {
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--sp-2);
-}
-
-@media (min-width: 900px) {
-	.aboutGrid {
-		grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+	.about__figure {
+		order: 2;
 	}
 }

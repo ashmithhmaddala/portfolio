@@ -1,134 +1,130 @@
-import { useCallback, useState } from "react";
-import { ArrowUpRight, Github } from "lucide-react";
-import { PROJECTS } from "../data/profile";
-import Reveal from "./ui/Reveal";
-import TiltCard from "./ui/TiltCard";
-import ProjectModal from "./ProjectModal";
+import { useState } from "react";
+import { GITHUB_USERNAME, PROJECTS, SECTIONS } from "../data/profile";
+import { useGitHubStats } from "../hooks/useGitHubStats";
+import Section from "./Section";
 import "./projects.css";
 
-function Metric({ metric }) {
-	return (
-		<div className="metric">
-			<div className="metric__value">
-				{metric.value}
-				{metric.estimated && (
-					<sup
-						className="metric__est"
-						title="Self-reported estimate from the build period, not an independently measured figure."
-					>
-						est.
-					</sup>
-				)}
-			</div>
-			<div className="metric__label">{metric.label}</div>
-		</div>
-	);
-}
+const META = SECTIONS.find((s) => s.id === "projects");
 
-function ProjectCard({ project, index, onOpen }) {
-	const [from, to] = project.gradient;
+function Project({ project }) {
+	const [open, setOpen] = useState(false);
+	const panelId = `${project.id}-detail`;
 
 	return (
-		<Reveal delay={index * 0.08}>
-			<TiltCard className="pcard">
-				<span
-					className="pcard__wash"
-					aria-hidden="true"
-					style={{
-						background: `linear-gradient(135deg, ${from}, ${to})`,
-					}}
-				/>
+		<li className={open ? "project is-open" : "project"}>
+			<h3>
+				<button
+					type="button"
+					className="project__toggle"
+					aria-expanded={open}
+					aria-controls={panelId}
+					onClick={() => setOpen((v) => !v)}
+				>
+					<span className="project__num mono">{project.num}</span>
 
-				<div className="pcard__body">
-					<div className="pcard__top">
-						<span className="pcard__index mono">
-							{String(index + 1).padStart(2, "0")}
+					<span className="project__main">
+						<span className="project__title">{project.title}</span>
+						<span className="project__summary">
+							{project.summary}
 						</span>
-						<div className="pcard__tags">
-							{project.tags.map((tag) => (
-								<span className="chip" key={tag}>
-									{tag}
-								</span>
-							))}
-						</div>
-					</div>
+						<span className="project__stack mono">
+							{project.stack.join("  ·  ")}
+						</span>
+					</span>
 
-					<h3 className="pcard__title">{project.title}</h3>
-					<p className="pcard__tagline">{project.tagline}</p>
-					<p className="pcard__desc">{project.description}</p>
+					<span className="project__aside">
+						<span className="project__period mono">
+							{project.period}
+						</span>
+						{/* Rotates to × when open; purely typographic. */}
+						<span className="project__mark" aria-hidden="true">
+							+
+						</span>
+					</span>
+				</button>
+			</h3>
 
-					<div className="pcard__metrics">
+			{/*
+			 * 0fr → 1fr on a grid row animates to the content's natural
+			 * height without measuring it in JS. Deliberately not using the
+			 * `hidden` attribute — display:none can't be transitioned. The
+			 * collapsed panel is taken out of the tab order and the
+			 * accessibility tree via `visibility: hidden` in CSS instead.
+			 */}
+			<div className="project__panel" id={panelId}>
+				<div className="project__panelInner">
+					<dl className="project__metrics">
 						{project.metrics.map((m) => (
-							<Metric key={m.label} metric={m} />
+							<div className="project__metric" key={m.label}>
+								<dt className="project__metricValue mono">
+									{m.value}
+									{m.estimated && (
+										<span
+											className="project__est"
+											title="Self-reported estimate from the build period, not an independently measured figure."
+										>
+											est.
+										</span>
+									)}
+								</dt>
+								<dd className="project__metricLabel">
+									{m.label}
+								</dd>
+							</div>
 						))}
-					</div>
+					</dl>
 
-					<div className="pcard__stack">
-						{project.stack.map((tech) => (
-							<span className="pcard__tech mono" key={tech}>
-								{tech}
-							</span>
-						))}
-					</div>
+					{project.notes.map((note) => (
+						<div className="project__note" key={note.head}>
+							<h4 className="project__noteHead mono">
+								{note.head}
+							</h4>
+							<p>{note.body}</p>
+						</div>
+					))}
 
-					<div className="pcard__actions">
-						<button
-							type="button"
-							className="pcard__readMore"
-							onClick={() => onOpen(project)}
+					<p className="project__source">
+						<a
+							className="link mono"
+							href={project.source}
+							target="_blank"
+							rel="noreferrer"
 						>
-							Read the case study
-							<ArrowUpRight size={15} />
-						</button>
-
-						{project.links.source && (
-							<a
-								className="pcard__source"
-								href={project.links.source}
-								target="_blank"
-								rel="noreferrer"
-								aria-label={`${project.title} source on GitHub`}
-							>
-								<Github size={17} />
-							</a>
-						)}
-					</div>
+							Source on GitHub
+							<span aria-hidden="true"> ↗</span>
+						</a>
+					</p>
 				</div>
-			</TiltCard>
-		</Reveal>
+			</div>
+		</li>
 	);
 }
 
 export default function Projects() {
-	const [active, setActive] = useState(null);
-	// Stable identity — the modal keys its focus/scroll-lock effect off this.
-	const close = useCallback(() => setActive(null), []);
+	const github = useGitHubStats();
 
 	return (
-		<section className="section" id="projects">
-			<div className="container">
-				<Reveal>
-					<p className="eyebrow">Selected work</p>
-					<h2 className="section-title">Things I've built</h2>
-					<p className="section-lede">
-						Four projects, each with the honest version of what was
-						hard about it. Source is on GitHub for all of them.
-					</p>
-				</Reveal>
+		<Section id={META.id} num={META.num} label={META.label}>
+			<ol className="projects">
+				{PROJECTS.map((project) => (
+					<Project key={project.id} project={project} />
+				))}
+			</ol>
 
-				<div className="pgrid">
-					{PROJECTS.map((project, i) => (
-						<ProjectCard
-							key={project.id}
-							project={project}
-							index={i}
-							onOpen={setActive}
-						/>
-					))}
-				</div>
-			</div>
-
-			<ProjectModal project={active} onClose={close} />
-		</section>
+			<p className="projects__more mono">
+				<a
+					className="link"
+					href={`https://github.com/${GITHUB_USERNAME}`}
+					target="_blank"
+					rel="noreferrer"
+				>
+					{/* Live count when GitHub answers, plain label when not. */}
+					{github?.repos
+						? `${github.repos} public repositories`
+						: "More on GitHub"}
+					<span aria-hidden="true"> ↗</span>
+				</a>
+			</p>
+		</Section>
 	);
 }

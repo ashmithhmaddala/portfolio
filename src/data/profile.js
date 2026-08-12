@@ -1,330 +1,288 @@
 /*
- * Single source of truth for every word on the site.
- * Components read from here — never hard-code copy in a component.
+ * Every word on the site lives here. Components read from it; nothing is
+ * hard-coded in JSX.
  *
- * ─────────────────────────────────────────────────────────────────────────
- * NOTE ON NUMBERS: project impact figures came off the resume and are shown
- * with an `estimated: true` flag, which renders a visible "est." marker and a
- * tooltip. Anything you can measure for real, set `estimated: false` and the
- * marker disappears. Don't state an unmeasured number as fact — it is the
- * first thing an interviewer probes.
- * ─────────────────────────────────────────────────────────────────────────
+ * House style for the copy: short declarative sentences. State the thing and
+ * stop. No rhetorical questions, no "not just X but Y", no three-item lists
+ * for rhythm, no em-dash asides. If a sentence sounds like it was written to
+ * sound good, cut it.
+ *
+ * On numbers: metrics carried over from the resume are flagged
+ * `estimated: true` and render a visible "est." qualifier. Set it to false
+ * only for something you can actually show.
  */
 
 export const PROFILE = {
 	name: "Ashmith Maddala",
-	firstName: "Ashmith",
 	role: "Product Security Engineer",
 	company: "Vontier",
 	location: "Bangalore, India",
 	email: "ashmith.maddala@gmail.com",
 	resumeUrl: "/resume.pdf",
 
-	// Cycles in the hero headline.
-	rotatingRoles: [
-		"secure connected hardware",
-		"threat-model before code ships",
-		"build backends that hold up",
-		"teach models to make decisions",
+	intro: [
+		"I'm a product security engineer at Vontier, in Bangalore.",
+		"I work on the software inside connected fuel-retail and mobility hardware. Devices that sit at a forecourt for years, ship firmware to the field, and can't be patched on a whim. Most of the job is threat modelling and security review, early enough that the fix is still cheap.",
+		"Before this I built backends. That's still where most of my instincts come from.",
 	],
 
-	// One-liner under the headline. Short enough to read in the 8 seconds a
-	// recruiter actually gives a portfolio.
-	tagline:
-		"Product security engineer at Vontier. I work on the software inside connected fuel-retail and mobility hardware — the kind that has to stay trustworthy for a decade in the field, with no one watching it.",
-
-	// Longer form, About section.
-	bio: [
-		"I came into security from the backend. Four years of building Flask and Node services taught me where systems actually break — not in the clever algorithm, but in the auth check someone skipped, the input nobody validated, the dependency pinned in 2023 and never looked at again.",
-		"That's most of my job now. At Vontier I work on product security for connected devices in the mobility and fuel-retail space: hardware that sits at a forecourt for years, ships firmware to the field, and can't be casually patched on a Tuesday. Threat modelling before a design is locked, security review inside the SDLC, and pushing fixes upstream to the teams who own the code.",
-		"The other half of my head is still in machine learning — specifically reinforcement learning for database query optimisation, which is the research rabbit hole I fell into during my final year and haven't fully climbed out of. Teaching a planner to choose its own join order is a genuinely hard problem and I like that it stays hard.",
-		"Outside all of that: I lift, I read too much nutrition science for someone who is not a nutritionist, and I will talk about chess engines until you leave.",
+	// Rendered as a ruled spec block under the intro.
+	spec: [
+		{ key: "Role", value: "Product Security Engineer, Vontier" },
+		{ key: "Location", value: "Bangalore, India" },
+		{ key: "Focus", value: "Product security, backend, applied ML" },
+		{ key: "Degree", value: "B.E. Computer Science, NHCE, 2026" },
 	],
 
-	availability: {
-		open: true,
-		text: "Open to interesting conversations",
-	},
+	about: [
+		"I came to security from the backend. Four years of Flask and Node taught me that systems rarely fail at the clever part. They fail at the auth check someone skipped, the input nobody validated, the dependency pinned two years ago and never looked at since.",
+		"At Vontier that is most of the work. Connected devices, long support lifecycles, firmware that goes out to the field and stays there. Threat modelling before a design locks. Security review inside the development cycle. Handing findings back to the teams who own the code.",
+		"The other half of my attention is on reinforcement learning for database query optimisation. I picked it up in my final year and haven't put it down. Teaching a query planner to choose its own join order is a hard problem, and it has stayed hard.",
+		"Away from a screen I lift, read more nutrition research than is strictly reasonable, and keep tinkering with chess engines.",
+	],
 };
 
 export const SOCIALS = [
 	{
 		id: "github",
 		label: "GitHub",
-		handle: "@ashmithhmaddala",
+		handle: "ashmithhmaddala",
 		url: "https://github.com/ashmithhmaddala",
 	},
 	{
 		id: "linkedin",
 		label: "LinkedIn",
-		handle: "in/ashmith-maddala",
+		handle: "ashmith-maddala",
 		url: "https://www.linkedin.com/in/ashmith-maddala/",
 	},
 	{
 		id: "x",
 		label: "X",
-		handle: "@axmxtxh",
+		handle: "axmxtxh",
 		url: "https://x.com/axmxtxh",
 	},
-	{
-		id: "mail",
-		label: "Email",
-		handle: "ashmith.maddala@gmail.com",
-		url: "mailto:ashmith.maddala@gmail.com",
-	},
 ];
 
-export const NAV = [
-	{ id: "work", label: "Work" },
-	{ id: "projects", label: "Projects" },
-	{ id: "stack", label: "Stack" },
-	{ id: "about", label: "About" },
-	{ id: "contact", label: "Contact" },
+export const SECTIONS = [
+	{ id: "experience", num: "01", label: "Experience" },
+	{ id: "projects", num: "02", label: "Projects" },
+	{ id: "stack", num: "03", label: "Stack" },
+	{ id: "about", num: "04", label: "About" },
+	{ id: "contact", num: "05", label: "Contact" },
 ];
 
 /*
- * Stat tiles. `live: "repos"` is replaced at runtime by the real public repo
- * count from the GitHub API, falling back to `value` if the request fails or
- * gets rate-limited.
- */
-export const STATS = [
-	{ label: "Projects shipped", value: 4, suffix: "" },
-	{ label: "Public repos", value: 12, suffix: "", live: "repos" },
-	{ label: "Tools in rotation", value: 25, suffix: "+" },
-	{ label: "Years building", value: 4, suffix: "" },
-];
-
-/*
- * ⚠️ ACTION REQUIRED — the Vontier entry below describes the *scope* of a
- * product security role and Vontier's actual business domain. It deliberately
- * contains no specific accomplishments, because I don't know yours and will
- * not invent them. Replace the `highlights` array with 2–3 real things you
- * have done: a threat model you ran, a vuln class you eliminated, a control
- * you shipped, a process you changed. Add `startDate` too.
+ * ⚠️ The Vontier bullets below describe the shape of a product security role,
+ * not things I know you did. Replace them with your own specifics: a threat
+ * model you ran, a vulnerability class you closed, a control you shipped, a
+ * process you changed. Set the real start month while you're in here.
  */
 export const EXPERIENCE = [
 	{
 		id: "vontier",
 		company: "Vontier",
 		role: "Product Security Engineer",
-		location: "Bangalore, India",
-		period: "2026 — Present", // TODO: set your actual start month
+		period: "2026 —", // TODO: real start month
 		current: true,
-		summary:
-			"Vontier builds the connected hardware and software behind fuel retail, vehicle repair, and car-wash operations worldwide. Product security here means devices in the field, long support lifecycles, and firmware that can't be hot-patched on a whim.",
-		// TODO: replace with your own specifics.
-		highlights: [
-			"Security review and threat modelling for connected products across the development lifecycle.",
-			"Partnering with engineering teams to fold security requirements into design, before implementation locks them out.",
-			"Vulnerability triage and remediation guidance across product software and its dependency surface.",
+		notes: [
+			"Threat modelling and security review for connected products, through the development lifecycle.",
+			"Working with engineering teams to get security requirements into designs before implementation closes the door on them.",
+			"Vulnerability triage and remediation guidance across product software and its dependencies.",
 		],
 		placeholder: true,
-		stack: ["Threat Modelling", "Secure SDLC", "Vulnerability Management", "Python"],
 	},
 	{
 		id: "nhce",
 		company: "New Horizon College of Engineering",
 		role: "B.E. Computer Science & Engineering",
-		location: "Bangalore, India",
 		period: "2022 — 2026",
 		current: false,
-		summary:
-			"Four years of CS fundamentals, with a final-year pull toward database internals and reinforcement learning. Most of what's in the Projects section below was built alongside coursework rather than for it.",
-		highlights: [
-			"Research work on reinforcement learning for SQL query optimisation — adaptive, policy-based join ordering.",
-			"Coursework depth in data structures, OOP, DBMS, and computer vision.",
+		notes: [
+			"Final-year research on reinforcement learning for SQL query optimisation, specifically adaptive policy-based join ordering.",
+			"Everything in the projects section was built alongside coursework rather than for it.",
 		],
-		stack: ["Reinforcement Learning", "DBMS", "Computer Vision", "DSA"],
 	},
 ];
 
-/*
- * Projects. Ordered by what I'd want a hiring manager to read first.
- * `caseStudy` powers the expanded detail view — problem / approach / hard part
- * is the structure that makes a project readable to someone who wasn't there.
- */
 export const PROJECTS = [
 	{
 		id: "learnsmart",
+		num: "01",
 		title: "LearnSmart Engineer",
-		year: "2024",
 		period: "Jul — Dec 2024",
-		tagline: "A recommender that figures out what you're bad at, then tells you what to learn next.",
-		description:
-			"An AI-driven learning platform that reads a student's performance history and recommends the next skill worth their time — rather than serving the same generic syllabus to everyone.",
-		stack: ["Python", "Flask", "scikit-learn", "Pandas", "JavaScript"],
-		tags: ["Machine Learning", "Full-stack"],
-		gradient: ["#7c5cff", "#22d3ee"],
-		featured: true,
-		links: {
-			source: "https://github.com/ashmithhmaddala/learnsmart-engineer",
-		},
+		summary:
+			"A learning platform that recommends what to study next from per-skill performance, instead of from an aggregate score.",
+		stack: ["Python", "Flask", "scikit-learn", "Pandas"],
+		source: "https://github.com/ashmithhmaddala/learnsmart-engineer",
 		metrics: [
 			{ value: "40%", label: "engagement lift", estimated: true },
-			{ value: "30%", label: "retention improvement", estimated: true },
-			{ value: "5k", label: "active users", estimated: true },
+			{ value: "30%", label: "retention", estimated: true },
+			{ value: "5k", label: "users", estimated: true },
 		],
-		caseStudy: {
-			problem:
-				"Learning platforms tend to recommend what's popular, not what a specific student is weak at. A student who is fine at loops and lost at recursion gets the same next-module suggestion as everyone else, so the recommendation is noise.",
-			approach:
-				"I modelled each student as a skill-wise performance vector rather than a single aggregate score, then used collaborative filtering across that vector space to surface what similar learners studied next after showing the same weak spots. A Flask interface renders the per-skill breakdown so the recommendation is legible — you can see why it suggested what it did.",
-			hardPart:
-				"Cold start. A brand-new user has no history, so collaborative filtering has nothing to work with and returns garbage. I fell back to a content-based path driven by an onboarding questionnaire until enough interaction data accumulated to hand over to the collaborative model. Deciding where that handover threshold sits was more empirical than principled.",
-			result:
-				"A working end-to-end platform: questionnaire onboarding, skill-wise performance visualisation, and personalised path recommendations. The engagement and retention figures came from platform analytics during the pilot period and are best read as directional.",
-		},
+		notes: [
+			{
+				head: "Problem",
+				body: "Learning platforms recommend what is popular, not what a given student is weak at. Someone who is fine at loops and lost at recursion gets the same suggestion as everyone else, so the recommendation carries no information.",
+			},
+			{
+				head: "Build",
+				body: "Each student is modelled as a per-skill performance vector rather than one score. Collaborative filtering runs across that vector space and surfaces what similar learners studied next after showing the same weak spots. The Flask interface renders the per-skill breakdown, so you can see why a recommendation was made.",
+			},
+			{
+				head: "Hard part",
+				body: "Cold start. A new user has no history, collaborative filtering has nothing to compare against, and the output is noise. I fell back to a content-based path driven by an onboarding questionnaire until enough interaction data accumulated to hand over. Where that handover threshold sits was decided empirically, not from any principle.",
+			},
+			{
+				head: "Outcome",
+				body: "Questionnaire onboarding, per-skill visualisation, and personalised recommendations, working end to end. The engagement and retention figures came from platform analytics during the pilot and should be read as directional.",
+			},
+		],
 	},
 	{
 		id: "jobboard",
+		num: "02",
 		title: "Job Board Tracker",
-		year: "2025",
 		period: "Jan — Mar 2025",
-		tagline: "Aggregated tech hiring across three Indian metros, with an admin plane that doesn't leak.",
-		description:
-			"A Flask application tracking job postings from top companies across Bangalore, Hyderabad, and Mumbai — with authentication, role-separated admin dashboards, and multi-axis filtering over a live listing set.",
-		stack: ["Python", "Flask", "SQL", "Jinja", "Chart.js"],
-		tags: ["Full-stack", "Auth"],
-		gradient: ["#22d3ee", "#34d399"],
-		featured: true,
-		links: {
-			source: "https://github.com/ashmithhmaddala/job-board-app",
-		},
+		summary:
+			"Tech job postings across Bangalore, Hyderabad and Mumbai in one filterable index, with a separated admin plane.",
+		stack: ["Python", "Flask", "SQL", "Jinja"],
+		source: "https://github.com/ashmithhmaddala/job-board-app",
 		metrics: [
-			{ value: "1k+", label: "listings managed", estimated: false },
+			{ value: "1k+", label: "listings", estimated: false },
 			{ value: "40%", label: "less admin overhead", estimated: true },
-			{ value: "25%", label: "better match rate", estimated: true },
 		],
-		caseStudy: {
-			problem:
-				"Job hunting across multiple metros means the same search repeated on six sites, with no memory of what you already looked at. I wanted one filterable surface over company, category, and location, plus an admin view for curating what actually gets listed.",
-			approach:
-				"Flask backend with a normalised schema for listings, companies, and locations so filters compose instead of fighting each other. Session-based authentication with a hard separation between the user role and the admin role, and an admin dashboard with visualisations over listing volume and category distribution.",
-			hardPart:
-				"The auth boundary, in hindsight, is the most interesting part of this project and the part I'd build differently now. Role checks originally lived in the view functions — which means every new admin route is one forgotten decorator away from being public. I moved to a before-request guard on the admin blueprint so the default is deny and adding a route can't silently open a hole. That instinct is most of what I do professionally now.",
-			result:
-				"Handles 1,000+ active listings with composable filtering. The efficiency numbers are from usage during the build period rather than a controlled measurement.",
-		},
+		notes: [
+			{
+				head: "Problem",
+				body: "Searching across three cities meant repeating the same query on six sites, with no memory of what I had already seen. I wanted one surface I could filter by company, category and location, plus an admin view for curating what got listed.",
+			},
+			{
+				head: "Build",
+				body: "Flask backend over a normalised schema for listings, companies and locations, so filters compose instead of fighting each other. Session authentication with a hard split between the user role and the admin role, and a dashboard over listing volume and category distribution.",
+			},
+			{
+				head: "Hard part",
+				body: "The auth boundary, which is also the part I would build differently now. Role checks originally sat inside the view functions. That means every new admin route is one forgotten decorator away from being public. I moved them to a before-request guard on the admin blueprint, so the default is deny and adding a route cannot quietly open a hole. That instinct is most of what I do for a living now.",
+			},
+			{
+				head: "Outcome",
+				body: "Handles over a thousand active listings with composable filtering. The efficiency figure is from use during the build period, not a controlled measurement.",
+			},
+		],
 	},
 	{
 		id: "chess",
+		num: "03",
 		title: "Python Chess Engine",
-		year: "2025",
 		period: "2025",
-		tagline: "A UCI-speaking engine built to understand search, not to win tournaments.",
-		description:
-			"A chess engine implementing the Universal Chess Interface protocol, with minimax search, alpha-beta pruning, and a deliberately modular design so each layer can be swapped and measured independently.",
-		stack: ["Python", "UCI Protocol", "Minimax", "Alpha-Beta"],
-		tags: ["Systems", "Algorithms"],
-		gradient: ["#f472b6", "#7c5cff"],
-		featured: true,
-		links: {
-			source: "https://github.com/ashmithhmaddala/python-chess-engine",
-		},
+		summary:
+			"A UCI-compliant chess engine. Minimax with alpha-beta pruning over iterative deepening, built to be measured rather than to win.",
+		stack: ["Python", "UCI", "Minimax", "Alpha-beta"],
+		source: "https://github.com/ashmithhmaddala/python-chess-engine",
 		metrics: [
 			{ value: "UCI", label: "protocol compliant", estimated: false },
-			{ value: "GUI", label: "plays vs Cute Chess", estimated: false },
+			{ value: "Perft", label: "verified movegen", estimated: false },
 		],
-		caseStudy: {
-			problem:
-				"I wanted to understand game-tree search by building one, not by reading about one. The constraint I set was UCI compliance — speaking the protocol correctly means real GUIs and other engines will play against it, which is a much harder bar than a self-contained demo.",
-			approach:
-				"Clean separation between board representation, move generation, evaluation, and search, so I could change the evaluation function without touching search and actually attribute the difference. Minimax with alpha-beta pruning over an iterative deepening loop, and a UCI layer that handles the stdin/stdout handshake GUIs expect.",
-			hardPart:
-				"Move generation correctness. Search bugs are loud; move generation bugs are quiet and poison everything downstream. En passant, castling rights through check, and promotion edge cases each broke it in ways that only surfaced several plies deep. Perft testing — counting leaf nodes at fixed depth against known-correct values — was the only thing that actually found them.",
-			result:
-				"Plays legal, complete games against Cute Chess and other UCI engines. Not strong, and it isn't meant to be — it's a search sandbox where each component is independently measurable.",
-		},
+		notes: [
+			{
+				head: "Problem",
+				body: "I wanted to understand game tree search by building one rather than reading about one. The constraint I set was UCI compliance, because speaking the protocol properly means real GUIs and other engines will play against it. That is a much harder bar than a self-contained demo.",
+			},
+			{
+				head: "Build",
+				body: "Board representation, move generation, evaluation and search are kept separate, so I could change the evaluation function without touching search and still attribute the difference. Minimax with alpha-beta pruning runs inside an iterative deepening loop. A thin UCI layer handles the stdin and stdout handshake that GUIs expect.",
+			},
+			{
+				head: "Hard part",
+				body: "Move generation correctness. Search bugs announce themselves. Move generation bugs are silent and poison everything downstream of them. En passant, castling rights through check and promotion each broke it in ways that only surfaced several plies deep. Perft testing, which counts leaf nodes at a fixed depth against known-correct values, was the only thing that found them.",
+			},
+			{
+				head: "Outcome",
+				body: "Plays complete legal games against Cute Chess and other UCI engines. It is not strong and was never meant to be. It is a search sandbox where each component can be measured on its own.",
+			},
+		],
 	},
 	{
 		id: "crime",
+		num: "04",
 		title: "Crime Rate Prediction",
-		year: "2025",
 		period: "2025",
-		tagline: "Theft-pattern forecasting for Bengaluru, on a map you can actually interrogate.",
-		description:
-			"A machine-learning dashboard for predicting and analysing theft crime patterns across Bengaluru, combining model training, interactive analytics, and a geospatial view in a Streamlit app.",
-		stack: ["Python", "scikit-learn", "Streamlit", "Pandas", "Folium"],
-		tags: ["Machine Learning", "Data Viz"],
-		gradient: ["#fbbf24", "#f472b6"],
-		featured: false,
-		links: {
-			source: "https://github.com/ashmithhmaddala/crime-rate-prediction",
-		},
+		summary:
+			"Theft pattern analysis for Bengaluru, with a map-driven front end for filtering by area and time window.",
+		stack: ["Python", "scikit-learn", "Streamlit", "Folium"],
+		source: "https://github.com/ashmithhmaddala/crime-rate-prediction",
 		metrics: [
 			{ value: "Geo", label: "interactive mapping", estimated: false },
-			{ value: "E2E", label: "train → serve pipeline", estimated: false },
 		],
-		caseStudy: {
-			problem:
-				"Crime statistics are usually published as tables, which makes spatial patterns nearly invisible. Theft in particular clusters geographically and temporally, and a table hides both dimensions at once.",
-			approach:
-				"An end-to-end pipeline: cleaning and feature engineering over the dataset, model training with evaluation held separate from the app layer, then a Streamlit front-end with an interactive map so you can filter by area and time window and watch the distribution shift.",
-			hardPart:
-				"Being honest about what the model can and can't claim. Crime data reflects reporting patterns as much as underlying incidence — under-reported areas look safe. I kept the framing descriptive and exploratory rather than predictive-with-authority, because the alternative is a tool that confidently launders bias.",
-			result:
-				"A working analytics dashboard with map-driven exploration over real-world-inspired Bengaluru theft data.",
-		},
+		notes: [
+			{
+				head: "Problem",
+				body: "Crime statistics are usually published as tables, which hides the two dimensions that matter most for theft. It clusters geographically and it clusters in time, and a table shows neither.",
+			},
+			{
+				head: "Build",
+				body: "Cleaning and feature engineering over the dataset, model training with evaluation kept separate from the app layer, then a Streamlit front end with an interactive map. Filtering by area and time window shows the distribution shift directly.",
+			},
+			{
+				head: "Hard part",
+				body: "Being honest about what the model can claim. Crime data records reporting behaviour as much as incidence, so under-reported areas read as safe. I kept the framing descriptive and exploratory rather than predictive, because the confident version of this tool would mostly launder bias.",
+			},
+			{
+				head: "Outcome",
+				body: "A working analytics dashboard with map-driven exploration over Bengaluru theft data.",
+			},
+		],
 	},
 ];
 
 /*
- * Skill groups. Kept honest — `level` drives the meter width and should
- * reflect what you'd be comfortable being interviewed on, not aspiration.
+ * Grouped, unranked. Percentage bars on skills are a portfolio tell — nobody
+ * can defend "Python 92%" in an interview, and the number means nothing to
+ * the person reading it.
  */
-export const SKILLS = [
+export const STACK = [
 	{
 		group: "Security",
-		accent: "var(--accent)",
 		items: [
-			{ name: "Threat Modelling", level: 78 },
-			{ name: "Secure SDLC", level: 74 },
-			{ name: "Vulnerability Management", level: 72 },
-			{ name: "AppSec Review", level: 68 },
+			"Threat modelling",
+			"Secure SDLC",
+			"Vulnerability management",
+			"Application security review",
 		],
 	},
 	{
 		group: "Backend",
-		accent: "var(--accent-2)",
 		items: [
-			{ name: "Python", level: 92 },
-			{ name: "Flask", level: 86 },
-			{ name: "Node.js / Express", level: 80 },
-			{ name: "REST API Design", level: 84 },
-			{ name: "SQL / MongoDB", level: 78 },
+			"Python",
+			"Flask",
+			"Node.js",
+			"Express",
+			"REST APIs",
+			"SQL",
+			"MongoDB",
 		],
 	},
 	{
-		group: "ML & Research",
-		accent: "var(--accent-3)",
+		group: "ML and research",
 		items: [
-			{ name: "scikit-learn", level: 82 },
-			{ name: "Pandas / NumPy", level: 88 },
-			{ name: "Reinforcement Learning", level: 70 },
-			{ name: "OpenCV", level: 64 },
+			"scikit-learn",
+			"Pandas",
+			"NumPy",
+			"Reinforcement learning",
+			"Deep Q-networks",
+			"OpenCV",
 		],
 	},
 	{
-		group: "Foundations",
-		accent: "var(--ok)",
+		group: "Everything else",
 		items: [
-			{ name: "Data Structures & Algorithms", level: 85 },
-			{ name: "Git / GitHub", level: 88 },
-			{ name: "Docker", level: 58 },
-			{ name: "AWS / GCP concepts", level: 60 },
+			"Git",
+			"Docker",
+			"AWS and GCP concepts",
+			"Data structures and algorithms",
+			"Technical writing",
 		],
 	},
-];
-
-export const INTERESTS = [
-	"Database internals",
-	"Query optimisation",
-	"Embedded & device security",
-	"System design",
-	"Chess engines",
-	"Strength training",
-	"Nutrition science",
-	"Public speaking",
 ];
 
 export const GITHUB_USERNAME = "ashmithhmaddala";

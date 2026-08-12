@@ -1,72 +1,18 @@
 .footer {
-	border-top: 1px solid var(--border);
-	padding-block: var(--sp-6);
-	background: var(--bg-soft);
+	border-top: 1px solid var(--rule);
+	padding-block: var(--sp-5) var(--sp-7);
 }
 
 .footer__inner {
 	display: flex;
 	flex-wrap: wrap;
-	align-items: center;
 	justify-content: space-between;
-	gap: var(--sp-5);
-}
-
-.footer__name {
-	font-weight: 600;
-	font-size: var(--fs-sm);
+	gap: var(--sp-3) var(--sp-5);
+	font-size: var(--fs-micro);
+	letter-spacing: 0.04em;
+	color: var(--ink-3);
 }
 
 .footer__colophon {
-	font-size: var(--fs-xs);
-	color: var(--text-dim);
-	max-width: 42ch;
-	margin-top: 0.2rem;
-	line-height: 1.5;
-}
-
-.footer__links {
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--sp-5);
-	font-size: var(--fs-sm);
-	color: var(--text-muted);
-}
-
-.footer__links a {
-	transition: color var(--dur-fast) var(--ease-out);
-}
-
-.footer__links a:hover {
-	color: var(--accent-soft);
-}
-
-.footer__right {
-	display: flex;
-	align-items: center;
-	gap: var(--sp-4);
-}
-
-.footer__year {
-	font-size: var(--fs-xs);
-	color: var(--text-dim);
-}
-
-.footer__top {
-	display: grid;
-	place-items: center;
-	width: 2.2rem;
-	height: 2.2rem;
-	border-radius: var(--radius-pill);
-	border: 1px solid var(--border);
-	color: var(--text-muted);
-	transition: color var(--dur-fast) var(--ease-out),
-		border-color var(--dur-fast) var(--ease-out),
-		transform var(--dur-fast) var(--ease-out);
-}
-
-.footer__top:hover {
-	color: var(--text);
-	border-color: var(--accent);
-	transform: translateY(-2px);
+	max-width: 28rem;
 }

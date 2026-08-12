@@ -4,54 +4,35 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" href="/favicon.ico" sizes="any" />
-		<meta name="theme-color" content="#08090c" />
+		<meta name="theme-color" content="#fbfbf9" />
 
-		<title>Ashmith Maddala — Product Security Engineer</title>
+		<title>Ashmith Maddala</title>
 		<meta
 			name="description"
-			content="Product security engineer at Vontier. I secure connected hardware and the backends behind it — threat modelling, secure SDLC, and applied ML. Based in Bangalore, India."
+			content="Product security engineer at Vontier, in Bangalore. I work on the software inside connected fuel-retail and mobility hardware."
 		/>
 		<meta name="author" content="Ashmith Maddala" />
 		<link rel="canonical" href="https://ashmithmaddala.dev/" />
 
-		<!-- Open Graph -->
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content="https://ashmithmaddala.dev/" />
-		<meta
-			property="og:title"
-			content="Ashmith Maddala — Product Security Engineer"
-		/>
+		<meta property="og:title" content="Ashmith Maddala" />
 		<meta
 			property="og:description"
-			content="I secure connected hardware and the backends behind it. Product security engineer at Vontier, based in Bangalore."
+			content="Product security engineer at Vontier, in Bangalore."
 		/>
 		<!--
-			TODO: add a 1200x630 share card at public/og.jpg, then re-add:
-			  <meta property="og:image" content="https://ashmithmaddala.dev/og.jpg" />
-			  <meta property="og:image:width" content="1200" />
-			  <meta property="og:image:height" content="630" />
-			and switch twitter:card back to "summary_large_image".
-			Pointing at an image that 404s renders a broken preview, which is
-			worse than having none — so the tags stay out until the file exists.
+			TODO: add a 1200x630 card at public/og.jpg, then re-add og:image
+			and switch twitter:card to summary_large_image. Pointing at a
+			missing file renders a broken preview, so the tags stay out.
 		-->
-
-		<!-- Twitter -->
 		<meta name="twitter:card" content="summary" />
 		<meta name="twitter:creator" content="@axmxtxh" />
-		<meta
-			name="twitter:title"
-			content="Ashmith Maddala — Product Security Engineer"
-		/>
-		<meta
-			name="twitter:description"
-			content="I secure connected hardware and the backends behind it. Product security engineer at Vontier, based in Bangalore."
-		/>
 
-		<!-- Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+			href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
 			rel="stylesheet"
 		/>
 
@@ -80,20 +61,19 @@
 			}
 		</script>
 
-		<!-- Paint the correct theme before first frame to avoid a flash. -->
+		<!-- Resolve the theme before first paint so there is no flash. -->
 		<script>
 			(function () {
 				try {
 					var stored = localStorage.getItem("theme");
-					var theme =
+					document.documentElement.dataset.theme =
 						stored ||
-						(window.matchMedia("(prefers-color-scheme: light)")
+						(window.matchMedia("(prefers-color-scheme: dark)")
 							.matches
-							? "light"
-							: "dark");
-					document.documentElement.dataset.theme = theme;
+							? "dark"
+							: "light");
 				} catch (e) {
-					document.documentElement.dataset.theme = "dark";
+					document.documentElement.dataset.theme = "light";
 				}
 			})();
 		</script>
