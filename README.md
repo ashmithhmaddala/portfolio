@@ -100,12 +100,20 @@ Two files in the build matter beyond the app itself:
 
 - **`CNAME`** comes from `public/` and keeps `ashmithmaddala.com` bound across
   deploys. Don't delete it.
-- **`404.html`** is written by a small plugin in
-  [`vite.config.js`](vite.config.js) as a byte-identical copy of
-  `index.html`. GitHub Pages has no server-side rewrite, so a direct hit on
-  `/work/python-chess-engine` would 404 before React loads. Pages serves
-  `404.html` for unmatched paths, which boots the app and lets the router read
-  the URL. Remove that plugin and every deep link breaks on refresh.
+- **Static route shells.** A plugin in [`vite.config.js`](vite.config.js)
+  writes a real `index.html` for every known route, so
+  `/work/theriac/index.html` exists on disk and Pages serves it as a genuine
+  200. This matters: the usual trick of copying `index.html` to `404.html`
+  renders the app fine but answers with a **404 status**, and search engines
+  will not index a page served that way. A JavaScript bounce off `404.html`
+  does not help either, because the first response is still a 404.
+
+  The route list is derived from `FEATURED` in `projects.js`, so adding a
+  featured project cannot silently lose its shell. `404.html` remains a copy
+  of the app for genuinely unknown paths, where a 404 status is correct.
+
+  Pages 301s `/work` to `/work/`; the sitemap uses trailing slashes to skip
+  that hop.
 
 ## Editing content
 
@@ -151,9 +159,10 @@ something you can demonstrate.
   line each would fix it.
 - **`public/og.jpg` does not exist.** The `og:image` tags in `index.html` are
   commented out until it does.
-- **Per-route meta tags.** Titles are set client-side, so crawlers that don't
-  execute JS see the `index.html` description on every route. Fine for now;
-  worth prerendering if search traffic matters.
+- **Per-route meta tags.** Every route is now a real 200, but the shells all
+  carry the same `<title>` and description from `index.html`; the per-route
+  title is applied client-side. Google executes JS and will pick it up, but
+  writing the correct tags into each shell at build time would be better.
 
 ## What is deliberately not on the site
 
