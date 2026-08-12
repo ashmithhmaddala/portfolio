@@ -6,7 +6,7 @@ Personal site of Ashmith Maddala, product security engineer at Vontier.
 
 | Path | Page |
 |---|---|
-| `/` | Intro, spec block, current role, three featured projects |
+| `/` | Intro, spec block, live GitHub activity, three project pointers |
 | `/work` | Four case studies plus the rest of the repos |
 | `/work/:slug` | Case study — diagram, architecture, decisions, known limits |
 | `/lab` | Four interactive demos, one per security project |
